@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { client } from "@/config/client";
@@ -35,11 +36,7 @@ export function SiteHeader() {
           href="/"
           onClick={() => setMenuOpen(false)}
         >
-          <span className="wordmark-mark">J</span>
-          <span className="wordmark-text">
-            <strong>JEFFE</strong>
-            <span>PAINTING LLC</span>
-          </span>
+          <BrandLogo />
         </Link>
 
         <button
