@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { client } from "@/config/client";
 
 const navigation = [
@@ -13,9 +13,21 @@ const navigation = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateHeader = () => {
+      setIsScrolled(window.scrollY > 24);
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateHeader);
+  }, []);
 
   return (
-    <header className="site-header">
+    <header className={`site-header${isScrolled ? " is-compact" : ""}`}>
       <div className="site-header-inner">
         <Link
           aria-label={`${client.businessName} home`}
