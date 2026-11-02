@@ -1,3 +1,4 @@
+import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function ProjectsPage() {
           we have completed for local homeowners.
         </p>
         <Link className="text-link" href="/contact">
-          Have a project in mind? <span aria-hidden="true">↗</span>
+          Have a project in mind? <ActionIcon name="message" />
         </Link>
       </section>
       <section className="gallery-section">
@@ -62,9 +63,9 @@ export default function ProjectsPage() {
         </div>
         <div className="cta-actions">
           <Link className="button button-light" href="/contact">
-            Request a free estimate <span aria-hidden="true">↗</span>
+            Request a free estimate <ActionIcon name="estimate" />
           </Link>
-          <a href={client.phoneHref}>Prefer to talk? {client.phone}</a>
+          <a href={client.phoneHref}><ActionIcon name="phone" /> Prefer to talk? {client.phone}</a>
         </div>
       </section>
     </>

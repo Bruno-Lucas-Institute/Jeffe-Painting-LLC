@@ -1,3 +1,4 @@
+import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function ServicesPage() {
           we bring experience, careful prep, and pride in the details.
         </p>
         <Link className="button" href="/contact">
-          Tell us about your project <span aria-hidden="true">↗</span>
+          Tell us about your project <ActionIcon name="message" />
         </Link>
       </section>
 
@@ -61,7 +62,7 @@ export default function ServicesPage() {
                 ))}
               </ul>
               <Link className="text-link" href="/contact">
-                Get an estimate <span aria-hidden="true">↗</span>
+                Get an estimate <ActionIcon name="estimate" />
               </Link>
             </div>
           </article>
@@ -82,7 +83,7 @@ export default function ServicesPage() {
           </p>
           <p>{client.serviceTowns.join(" · ")}</p>
           <Link className="button button-light" href="/contact">
-            Check availability <span aria-hidden="true">↗</span>
+            Check availability <ActionIcon name="calendar" />
           </Link>
         </div>
       </section>
