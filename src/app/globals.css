@@ -75,17 +75,13 @@ a {
 }
 
 .site-header-inner {
+  /* Keep scroll state from changing layout and feeding scroll anchoring during zoom. */
   display: flex;
   width: min(100% - 88px, 1440px);
   min-height: 88px;
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
-  transition: min-height 200ms ease;
-}
-
-.site-header.is-compact .site-header-inner {
-  min-height: 68px;
 }
 
 .wordmark {
@@ -1395,10 +1391,6 @@ a {
     min-height: 72px;
   }
 
-  .site-header.is-compact .site-header-inner {
-    min-height: 58px;
-  }
-
   .brand-logo {
     font-size: 34px;
   }
@@ -1441,7 +1433,7 @@ a {
     right: 0;
     left: 0;
     display: none;
-    /* Reserve the expanded 72px header and its border, including while it shrinks. */
+    /* Reserve the 72px header and its border. */
     max-height: calc(100vh - 73px);
     max-height: calc(100dvh - 73px);
     overflow-y: auto;
