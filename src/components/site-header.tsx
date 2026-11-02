@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { client } from "@/config/client";
@@ -36,14 +36,7 @@ export function SiteHeader() {
           href="/"
           onClick={() => setMenuOpen(false)}
         >
-          <Image
-            alt={client.businessName}
-            className="brand-logo"
-            src={client.logo.src}
-            width={client.logo.width}
-            height={client.logo.height}
-            preload
-          />
+          <BrandLogo />
         </Link>
 
         <button

@@ -96,16 +96,36 @@ a {
 }
 
 .brand-logo {
-  display: block;
-  width: 200px;
-  height: 80px;
-  object-fit: cover;
-  transition: width 200ms ease, height 200ms ease;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #bc0000;
+  font-family: var(--sans);
+  font-size: 40px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: font-size 200ms ease;
+}
+
+.brand-logo-name {
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+.brand-logo-tagline {
+  font-family: "Arial Rounded MT Bold", var(--sans);
+  font-size: 0.48em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.wordmark-light .brand-logo {
+  color: var(--white);
 }
 
 .site-header.is-compact .brand-logo {
-  width: 170px;
-  height: 64px;
+  font-size: 34px;
 }
 
 .site-nav {
@@ -1380,13 +1400,11 @@ a {
   }
 
   .brand-logo {
-    width: 170px;
-    height: 64px;
+    font-size: 34px;
   }
 
   .site-header.is-compact .brand-logo {
-    width: 150px;
-    height: 54px;
+    font-size: 30px;
   }
 
   .menu-toggle {

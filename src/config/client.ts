@@ -1,6 +1,6 @@
 export const client = {
   businessName: "Jeffe Painting LLC",
-  logo: { src: "/images/jeffe-painting-logo.png", width: 900, height: 900 },
+  logo: { name: "JEFFE", tagline: "Painting LLC" },
   shortName: "Jeffe Painting",
   phone: "(855) 772-3391",
   phoneHref: "tel:+18557723391",

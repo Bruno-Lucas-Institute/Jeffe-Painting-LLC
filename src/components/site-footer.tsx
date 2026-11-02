@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
 import { client } from "@/config/client";
 
@@ -8,13 +8,7 @@ export function SiteFooter() {
       <div className="footer-main">
         <div className="footer-brand">
           <Link className="wordmark wordmark-light" href="/">
-            <Image
-              alt={client.businessName}
-              className="brand-logo"
-              src={client.logo.src}
-              width={client.logo.width}
-              height={client.logo.height}
-            />
+            <BrandLogo />
           </Link>
           <p>
             Considered painting and refinishing for homes across{" "}
