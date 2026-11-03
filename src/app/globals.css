@@ -1287,6 +1287,14 @@ a {
     min-height: 72px;
   }
 
+  .brand-logo {
+    font-size: 34px;
+  }
+
+  .site-header.is-compact .brand-logo {
+    font-size: 30px;
+  }
+
   .menu-toggle {
     display: flex;
     width: 42px;
