@@ -78,7 +78,7 @@ a {
   /* Keep scroll state from changing layout and feeding scroll anchoring during zoom. */
   display: flex;
   width: min(100% - 88px, 1440px);
-  min-height: 88px;
+  min-height: var(--header-content-height);
   margin: 0 auto;
   align-items: center;
   justify-content: space-between;
@@ -130,7 +130,6 @@ a {
 
 .hero {
   position: relative;
-  min-height: 640px;
   overflow: hidden;
   background: #232b25;
 }
@@ -140,8 +139,6 @@ a {
   z-index: 1;
   display: flex;
   width: min(840px, 72%);
-  min-height: 640px;
-  padding: 92px 5.5vw 82px max(44px, calc((100vw - 1440px) / 2));
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -258,7 +255,12 @@ a {
   z-index: 1;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(24, 30, 25, 0.86) 0%, rgba(24, 30, 25, 0.68) 43%, rgba(24, 30, 25, 0.28) 100%),
+    linear-gradient(
+      90deg,
+      rgba(24, 30, 25, 0.86) 0%,
+      rgba(24, 30, 25, 0.68) 43%,
+      rgba(24, 30, 25, 0.28) 100%
+    ),
     linear-gradient(0deg, rgba(20, 24, 21, 0.38), transparent 48%);
 }
 
@@ -828,7 +830,11 @@ a {
 .page-hero {
   padding: 105px max(44px, calc((100vw - 1200px) / 2)) 92px;
   background:
-    radial-gradient(ellipse at 87% 14%, rgba(221, 204, 179, 0.3), transparent 33%),
+    radial-gradient(
+      ellipse at 87% 14%,
+      rgba(221, 204, 179, 0.3),
+      transparent 33%
+    ),
     var(--paper);
 }
 
@@ -1284,7 +1290,6 @@ a {
 
   .site-header-inner {
     width: calc(100% - 36px);
-    min-height: 72px;
   }
 
   .brand-logo {
@@ -1330,8 +1335,8 @@ a {
     left: 0;
     display: none;
     /* Reserve the 72px header and its border. */
-    max-height: calc(100vh - 73px);
-    max-height: calc(100dvh - 73px);
+    max-height: calc(100vh - var(--header-height));
+    max-height: calc(100dvh - var(--header-height));
     overflow-y: auto;
     overscroll-behavior-y: contain;
     padding: 21px 23px 25px;
@@ -1364,19 +1369,17 @@ a {
     margin-top: 15px;
   }
 
-  .hero {
-    min-height: 720px;
-  }
-
   .hero-copy {
     width: 100%;
-    min-height: 720px;
-    padding: 68px 25px 180px;
   }
 
   .hero-image-wash {
     background:
-      linear-gradient(90deg, rgba(24, 30, 25, 0.78), rgba(24, 30, 25, 0.5)),
+      linear-gradient(
+        90deg,
+        rgba(24, 30, 25, 0.78),
+        rgba(24, 30, 25, 0.5)
+      ),
       linear-gradient(0deg, rgba(20, 24, 21, 0.45), transparent 60%);
   }
 

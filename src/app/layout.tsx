@@ -4,6 +4,7 @@ import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+import "./hero.css";
 import "@/components/button-styles.css";
 
 const inter = localFont({
