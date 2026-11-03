@@ -1,3 +1,5 @@
+import { ExperienceSignature } from "@/components/experience-signature";
+import { ActionIcon } from "@/components/action-icon";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/config/client";
@@ -33,10 +35,10 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <Link className="button" href="/contact">
-              Request a free estimate <span aria-hidden="true">↗</span>
+              Request a free estimate <ActionIcon name="estimate" />
             </Link>
             <a className="text-link" href={client.phoneHref}>
-              Or call {client.phone}
+              <ActionIcon name="phone" /> Or call {client.phone}
             </a>
           </div>
           <div className="hero-proof">
@@ -48,14 +50,7 @@ export default function Home() {
             </span>
           </div>
         </div>
-        <div className="experience-card">
-          <span className="experience-number">{client.yearsExperience}</span>
-          <span>
-            years of craft
-            <br />
-            &amp; attention to detail
-          </span>
-        </div>
+        <ExperienceSignature />
         <span className="hero-image-caption">
           A little care goes a long way.
         </span>
@@ -63,11 +58,6 @@ export default function Home() {
       </section>
 
       <section aria-label="Why homeowners choose Jeffe Painting" className="trust-strip">
-        <div className="trust-item">
-          <strong>{client.yearsExperience} years</strong>
-          <span>of painting experience</span>
-        </div>
-        <span className="trust-divider" />
         <div className="trust-item">
           <strong>{client.reviewRating} / 5</strong>
           <span>{client.reviewCount} local reviews</span>
@@ -102,7 +92,7 @@ export default function Home() {
               careful preparation and pride in the finish to every project.
             </p>
             <Link className="text-link" href="/services">
-              Explore all services <span aria-hidden="true">↗</span>
+              Explore all services <ActionIcon name="arrow" />
             </Link>
           </div>
         </div>
@@ -150,7 +140,7 @@ export default function Home() {
             preparation and a steady hand, familiar spaces can feel new again.
           </p>
           <Link className="button button-light" href="/projects">
-            See the project gallery <span aria-hidden="true">↗</span>
+            See the project gallery <ActionIcon name="gallery" />
           </Link>
         </div>
         <div className="transformation-images">
@@ -193,7 +183,7 @@ export default function Home() {
             </h2>
           </div>
           <Link className="text-link" href="/projects">
-            View all projects <span aria-hidden="true">↗</span>
+            View all projects <ActionIcon name="gallery" />
           </Link>
         </div>
         <div className="project-grid">
@@ -309,9 +299,9 @@ export default function Home() {
         </div>
         <div className="cta-actions">
           <Link className="button button-light" href="/contact">
-            Request your free estimate <span aria-hidden="true">↗</span>
+            Request your free estimate <ActionIcon name="estimate" />
           </Link>
-          <a href={client.phoneHref}>Prefer to talk? {client.phone}</a>
+          <a href={client.phoneHref}><ActionIcon name="phone" /> Prefer to talk? {client.phone}</a>
         </div>
       </section>
     </>

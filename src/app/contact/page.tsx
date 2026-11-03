@@ -1,3 +1,4 @@
+import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EstimateForm } from "@/components/estimate-form";
@@ -26,7 +27,7 @@ export default function ContactPage() {
           your project and arrange a free estimate.
         </p>
         <a className="text-link" href={client.phoneHref}>
-          Or call {client.phone} <span aria-hidden="true">↗</span>
+          Or call {client.phone} <ActionIcon name="phone" />
         </a>
       </section>
 
@@ -81,7 +82,7 @@ export default function ContactPage() {
               Not sure what you need? That&rsquo;s okay. A quick call is a great
               place to start.
             </p>
-            <Link href="/services">Explore our services ↗</Link>
+            <Link href="/services">Explore our services <ActionIcon name="arrow" /></Link>
           </div>
         </aside>
       </section>

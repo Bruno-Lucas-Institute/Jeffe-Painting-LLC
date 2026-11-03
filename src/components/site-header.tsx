@@ -1,9 +1,12 @@
 "use client";
 
+import { ActionIcon } from "@/components/action-icon";
 import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { client } from "@/config/client";
+
+import "./site-header.css";
 
 const navigation = [
   { label: "Services", href: "/services" },
@@ -14,6 +17,7 @@ const navigation = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -28,18 +32,18 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className={`site-header${isScrolled ? " is-compact" : ""}`}>
+    <header
+      className={`site-header${isScrolled ? " is-compact" : ""}`}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && menuOpen) {
+          setMenuOpen(false);
+          menuButtonRef.current?.focus();
+        }
+      }}
+    >
       <div className="site-header-inner">
-        <Link
-          aria-label={`${client.businessName} home`}
-          className="wordmark"
-          href="/"
-          onClick={() => setMenuOpen(false)}
-        >
-          <BrandLogo />
-        </Link>
-
         <button
+          ref={menuButtonRef}
           aria-controls="primary-navigation"
           aria-expanded={menuOpen}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -50,6 +54,23 @@ export function SiteHeader() {
           <span />
           <span />
         </button>
+
+        <Link
+          aria-label={`${client.businessName} home`}
+          className="wordmark"
+          href="/"
+          onClick={() => setMenuOpen(false)}
+        >
+          <BrandLogo />
+        </Link>
+
+        <a
+          aria-label={`Call ${client.businessName} at ${client.phone}`}
+          className="mobile-header-call"
+          href={client.phoneHref}
+        >
+          <ActionIcon name="phone" />
+        </a>
 
         <nav
           aria-label="Main navigation"
@@ -66,14 +87,14 @@ export function SiteHeader() {
             </Link>
           ))}
           <a className="nav-phone" href={client.phoneHref}>
-            Call {client.phone}
+            <ActionIcon name="phone" /> Call {client.phone}
           </a>
           <Link
             className="button button-small"
             href="/contact"
             onClick={() => setMenuOpen(false)}
           >
-            Request an estimate <span aria-hidden="true">↗</span>
+            Request an estimate <ActionIcon name="estimate" />
           </Link>
         </nav>
       </div>
