@@ -1,3 +1,4 @@
+import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function AboutPage() {
           home with respect, and take pride in the work you leave behind.
         </p>
         <Link className="button" href="/contact">
-          Meet us at your home <span aria-hidden="true">↗</span>
+          Meet us at your home <ActionIcon name="calendar" />
         </Link>
       </section>
 
@@ -58,7 +59,7 @@ export default function AboutPage() {
             clean, careful work.
           </p>
           <Link className="text-link" href="/projects">
-            Take a look at our work <span aria-hidden="true">↗</span>
+            Take a look at our work <ActionIcon name="gallery" />
           </Link>
         </div>
       </section>
@@ -110,9 +111,9 @@ export default function AboutPage() {
         </div>
         <div className="cta-actions">
           <Link className="button button-light" href="/contact">
-            Start a conversation <span aria-hidden="true">↗</span>
+            Start a conversation <ActionIcon name="message" />
           </Link>
-          <a href={client.phoneHref}>Prefer to talk? {client.phone}</a>
+          <a href={client.phoneHref}><ActionIcon name="phone" /> Prefer to talk? {client.phone}</a>
         </div>
       </section>
     </>

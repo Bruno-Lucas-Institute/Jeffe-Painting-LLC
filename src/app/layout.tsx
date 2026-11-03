@@ -1,8 +1,24 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+import "@/components/button-styles.css";
+
+const inter = localFont({
+  src: "./fonts/inter-variable.ttf",
+  variable: "--font-inter",
+  weight: "100 900",
+  display: "swap",
+});
+
+const outfit = localFont({
+  src: "./fonts/outfit-variable.ttf",
+  variable: "--font-outfit",
+  weight: "100 900",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>
         <SiteHeader />
         <main>{children}</main>

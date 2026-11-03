@@ -1,5 +1,6 @@
 "use client";
 
+import { ActionIcon } from "@/components/action-icon";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { client } from "@/config/client";
@@ -71,7 +72,7 @@ export function EstimateForm() {
         </label>
       </div>
       <button className="button" type="submit">
-        Prepare my estimate request <span aria-hidden="true">↗</span>
+        Prepare my estimate request <ActionIcon name="send" />
       </button>
       <p aria-live="polite" className="form-note">
         {notice ||

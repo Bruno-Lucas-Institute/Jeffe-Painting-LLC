@@ -1,0 +1,43 @@
+.mobile-header-call {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .site-header .site-header-inner {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    column-gap: 12px;
+  }
+
+  .site-header .menu-toggle {
+    grid-column: 1;
+    grid-row: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .site-header .wordmark {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .site-header .mobile-header-call {
+    grid-column: 3;
+    grid-row: 1;
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--red);
+  }
+
+  .mobile-header-call .action-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
