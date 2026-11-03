@@ -7,7 +7,7 @@ import { client } from "@/config/client";
 export default function Home() {
   return (
     <>
-      <section className="hero">
+      <section className="hero viewport-hero">
         <div className="hero-visual">
           <Image
             alt=""

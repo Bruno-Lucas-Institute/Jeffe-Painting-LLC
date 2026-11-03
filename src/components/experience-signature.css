@@ -57,21 +57,12 @@
     text-align: right;
   }
 
-  .hero {
-    min-height: 0;
-  }
-
-  .hero .hero-copy {
-    min-height: 0;
-    padding-bottom: 0;
-  }
-
   .experience-signature {
     position: relative;
     right: auto;
     bottom: auto;
     width: fit-content;
-    margin: 38px 25px 40px;
+    margin: 28px 25px 32px;
     gap: 18px;
   }
 
