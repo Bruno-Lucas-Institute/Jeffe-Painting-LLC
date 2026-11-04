@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
@@ -21,7 +21,19 @@ const outfit = localFont({
 	display: "swap",
 });
 
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	themeColor: "#293d34",
+};
+
 export const metadata: Metadata = {
+	appleWebApp: {
+		capable: true,
+		title: "Jeffe Painting",
+		statusBarStyle: "default",
+	},
+	icons: { apple: "/app-icon-192.png" },
 	title: {
 		default: `${client.businessName} | Painting in Danbury & Fairfield County, CT`,
 		template: `%s | ${client.shortName}`,

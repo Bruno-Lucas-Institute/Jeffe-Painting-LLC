@@ -8,28 +8,34 @@ import { client } from "@/config/client";
 export function EstimateForm() {
 	const [notice, setNotice] = useState("");
 
-	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	const [pending, setPending] = useState(false);
+	const [sent, setSent] = useState(false);
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
-		const formData = new FormData(event.currentTarget);
-		const fields = [
-			["Name", formData.get("name")],
-			["Email", formData.get("email")],
-			["Phone", formData.get("phone")],
-			["Town or ZIP code", formData.get("town")],
-			["Service", formData.get("service")],
-			["Project details", formData.get("details")],
-		];
-		const body = fields
-			.map(([label, value]) => `${label}: ${value}`)
-			.join("\n");
-		const subject = encodeURIComponent("Painting estimate request");
-		const message = encodeURIComponent(body);
-
-		setNotice(
-			"Your email app is opening. Review your request and send it to Jefferson.",
-		);
-		window.location.href = `mailto:${client.email}?subject=${subject}&body=${message}`;
+		const form = event.currentTarget;
+		setPending(true);
+		setNotice("");
+		setSent(false);
+		try {
+			const response = await fetch("/api/appointments", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(Object.fromEntries(new FormData(form))),
+			});
+			const result = await response.json();
+			if (!response.ok)
+				throw new Error(result.error || "Please try again.");
+			setSent(true);
+			form.reset();
+		} catch (error) {
+			setNotice(
+				error instanceof Error
+					? error.message
+					: "Could not send your request. Please try again.",
+			);
+		} finally {
+			setPending(false);
+		}
 	}
 
 	return (
@@ -87,12 +93,30 @@ export function EstimateForm() {
 					/>
 				</label>
 			</div>
-			<button className="button" type="submit">
-				Prepare my estimate request <ActionIcon name="send" />
+			<button className="button" type="submit" disabled={pending}>
+				{pending ? "Sending…" : "Request an appointment"}{" "}
+				<ActionIcon name="send" />
 			</button>
-			<p aria-live="polite" className="form-note">
-				{notice ||
-					"This opens your email app so you can review and send your request."}
+			{sent && (
+				<div className="sent-confirmation" role="status">
+					<span className="success-check" aria-hidden="true">
+						✓
+					</span>
+					<div>
+						<strong>Information sent</strong>
+						<p>Check your email for updates.</p>
+					</div>
+					<button
+						type="button"
+						aria-label="Dismiss confirmation"
+						onClick={() => setSent(false)}
+					>
+						×
+					</button>
+				</div>
+			)}
+			<p role="alert" className="form-note">
+				{notice}
 			</p>
 		</form>
 	);

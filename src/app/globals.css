@@ -1711,3 +1711,147 @@ a {
 		transition-duration: 0.01ms !important;
 	}
 }
+
+.login-section {
+	max-width: 540px;
+	margin: 60px auto;
+	padding: 0 18px;
+}
+.login-section h1 {
+	font-family: var(--heading);
+	font-size: 42px;
+	line-height: 1.15;
+}
+.inbox-section {
+	padding: 0 max(24px, calc((100vw - 1200px) / 2)) 80px;
+}
+.inbox-toolbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 24px;
+}
+.inbox-toolbar button {
+	cursor: pointer;
+}
+.inbox-toolbar .text-link {
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid;
+}
+.inbox-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 24px;
+}
+.inbox-card {
+	padding: 28px;
+	background: var(--white);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	overflow-wrap: anywhere;
+}
+.inbox-card h3 {
+	margin: 0;
+	font-family: var(--heading);
+	font-size: 28px;
+}
+.inbox-card dt {
+	color: var(--muted);
+	font-size: 12px;
+	margin-top: 12px;
+}
+.inbox-card dd {
+	margin: 0;
+}
+.inbox-count {
+	color: var(--red);
+}
+.request-details {
+	white-space: pre-wrap;
+}
+.sent-confirmation {
+	display: flex;
+	width: 100%;
+	gap: 16px;
+	align-items: center;
+	margin-top: 24px;
+	padding: 20px;
+	border: 1px solid #c0d3c4;
+	border-radius: 12px;
+	background: #edf5ed;
+	color: var(--forest);
+	animation: confirmation-in 350ms ease-out both;
+}
+.sent-confirmation p {
+	margin: 2px 0 0;
+}
+.sent-confirmation button {
+	margin-left: auto;
+	background: transparent;
+	border: 0;
+	font-size: 26px;
+	cursor: pointer;
+	min-width: 44px;
+	min-height: 44px;
+}
+.success-check {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	flex-shrink: 0;
+	border-radius: 50%;
+	background: var(--forest);
+	color: white;
+	font-size: 24px;
+}
+button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+@keyframes confirmation-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+@media (max-width: 760px) {
+	.inbox-grid {
+		grid-template-columns: 1fr;
+	}
+	.form-grid input,
+	.form-grid textarea,
+	.form-grid select {
+		font-size: 16px;
+	}
+	.estimate-form > .button {
+		width: 100%;
+	}
+	.sent-confirmation {
+		padding: 14px;
+		gap: 10px;
+	}
+	.service-card {
+		grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+	}
+}
+@media (max-width: 360px) {
+	.service-card {
+		grid-template-columns: 1fr;
+	}
+	.service-card-image {
+		min-height: 180px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+	}
+}
