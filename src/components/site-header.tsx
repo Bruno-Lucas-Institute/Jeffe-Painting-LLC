@@ -8,14 +8,13 @@ import { client } from "@/config/client";
 
 import "./site-header.css";
 
+import { visibleNavigation } from "@/lib/composition";
 const navigation = [
-	{ label: "Services", href: "/services" },
-	{ label: "Our work", href: "/projects" },
-	{ label: "About", href: "/about" },
-	{ label: "Contact", href: "/contact" },
-	{ label: "Owner login", href: "/login" },
+	...visibleNavigation(client),
+	...(client.features.owner && client.owner.enabled
+		? [{ label: client.content.ownerLogin, href: "/login" }]
+		: []),
 ];
-
 export function SiteHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -92,10 +91,10 @@ export function SiteHeader() {
 					</a>
 					<Link
 						className="button button-small"
-						href="/contact"
+						href={client.cta.href}
 						onClick={() => setMenuOpen(false)}
 					>
-						Request an estimate <ActionIcon name="estimate" />
+						{client.cta.label} <ActionIcon name="estimate" />
 					</Link>
 				</nav>
 			</div>

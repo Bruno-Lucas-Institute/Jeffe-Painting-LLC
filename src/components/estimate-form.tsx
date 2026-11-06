@@ -1,8 +1,8 @@
 "use client";
-import { ActionIcon } from "@/components/action-icon";
 import { useRef, useState, type FormEvent } from "react";
 import { client } from "@/config/client";
 import { estimateSchema } from "@/lib/validation/estimate";
+import { ActionIcon } from "./action-icon";
 export function EstimateForm() {
 	const [notice, setNotice] = useState("");
 	const [busy, setBusy] = useState(false);
@@ -12,7 +12,8 @@ export function EstimateForm() {
 	);
 	const dialog = useRef<HTMLDialogElement>(null);
 	const status = useRef<HTMLParagraphElement>(null);
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	const f = client.form;
+	async function submit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if (busy || sent) return;
 		const form = event.currentTarget;
@@ -22,7 +23,7 @@ export function EstimateForm() {
 		);
 		if (!parsed.success) {
 			setErrors(parsed.error.flatten().fieldErrors);
-			setNotice("Please check the highlighted fields.");
+			setNotice(f.errorSummary);
 			requestAnimationFrame(() =>
 				form
 					.querySelector<HTMLElement>('[aria-invalid="true"]')
@@ -44,110 +45,126 @@ export function EstimateForm() {
 				setErrors(result.fields || {});
 				throw new Error(
 					result.error ||
-						"Your request could not be saved. Please try again.",
+						"Unable to save your request. Please try again.",
 				);
 			}
 			if (result.mode !== "saved")
-				throw new Error(
-					"Your request was not confirmed. Please try again.",
-				);
+				throw new Error("The server did not confirm this request.");
 			form.reset();
-			if (
-				dialog.current &&
-				typeof dialog.current.showModal === "function"
-			) {
+			if (dialog.current?.showModal) {
 				setSent(true);
 				dialog.current.showModal();
-			} else setNotice("Solicitação enviada com sucesso!");
+			} else setNotice(f.successTitle);
 		} catch (error) {
 			setNotice(
-				error instanceof Error && error.name !== "TimeoutError"
+				error instanceof Error
 					? error.message
-					: "Connection interrupted. Your details are still here. Please try again.",
+					: "Connection interrupted. Your details are still here.",
 			);
 			requestAnimationFrame(() => status.current?.focus());
 		} finally {
 			setBusy(false);
 		}
 	}
-	function field(
-		name: string,
-		label: string,
-		type = "text",
-		maxLength = 200,
-	) {
-		return (
-			<label htmlFor={name}>
-				{label}
-				<input
-					id={name}
-					name={name}
-					type={type}
-					required
-					maxLength={maxLength}
-					autoComplete={
-						name === "name"
-							? "name"
-							: name === "email"
-								? "email"
-								: name === "phone"
-									? "tel"
-									: "postal-code"
-					}
-					aria-invalid={!!errors[name]}
-					aria-describedby={
-						errors[name] ? `${name}-error` : undefined
-					}
-				/>
-				{errors[name] && (
-					<span id={`${name}-error`} className="estimate-error">
-						{errors[name]?.[0]}
-					</span>
-				)}
-			</label>
-		);
-	}
+	if (!client.features.inquiry) return null;
 	return (
 		<form
 			className="estimate-form"
 			method="post"
 			action="/api/quote"
-			onSubmit={handleSubmit}
+			onSubmit={submit}
 			noValidate
 		>
-			<fieldset disabled={busy || sent} className="estimate-fields">
-				<legend className="owner-sr-only">Estimate request</legend>
+			<fieldset className="estimate-fields" disabled={busy || sent}>
+				<legend className="owner-sr-only">
+					{client.content.formTitle}
+				</legend>
 				<div className="form-grid">
-					{field("name", "Your name", "text", 100)}
-					{field("email", "Email address", "email")}
-					{field("phone", "Phone number", "tel", 30)}
-					{field("town", "Town or ZIP code")}
+					{f.fields.map((field) => {
+						const props = {
+							id: field.id,
+							name: field.id,
+							required: field.required,
+							"aria-invalid": !!errors[field.id],
+							"aria-describedby": errors[field.id]
+								? `${field.id}-error`
+								: undefined,
+						};
+						return (
+							<label
+								key={field.id}
+								className={
+									field.width === "full" ? "form-full" : ""
+								}
+								htmlFor={field.id}
+							>
+								{field.label}
+								{field.required ? " *" : ""}
+								{field.type === "textarea" ? (
+									<textarea
+										{...props}
+										maxLength={field.maxLength}
+										placeholder={field.placeholder}
+										rows={5}
+									/>
+								) : field.type === "select" ? (
+									<select {...props} defaultValue="">
+										<option value="" disabled>
+											{field.placeholder || field.label}
+										</option>
+										{field.options?.map((option) => (
+											<option
+												value={option.value}
+												key={option.value}
+											>
+												{option.label}
+											</option>
+										))}
+									</select>
+								) : (
+									<input
+										{...props}
+										type={field.type}
+										autoComplete={field.autoComplete}
+										maxLength={field.maxLength}
+										placeholder={field.placeholder}
+									/>
+								)}{" "}
+								{errors[field.id] && (
+									<span
+										id={`${field.id}-error`}
+										className="estimate-error"
+									>
+										{errors[field.id]?.[0]}
+									</span>
+								)}
+							</label>
+						);
+					})}
 					<label className="form-full" htmlFor="service">
-						What can we help with?
+						{f.serviceLabel}
+						{f.serviceRequired ? " *" : ""}
 						<select
 							id="service"
 							name="service"
+							required={f.serviceRequired}
 							defaultValue=""
-							required
 							aria-invalid={!!errors.service}
 							aria-describedby={
 								errors.service ? "service-error" : undefined
 							}
 						>
-							<option value="" disabled>
-								Choose a service
+							<option value="" disabled={f.serviceRequired}>
+								{f.serviceLabel}
 							</option>
 							{client.services.map((service) => (
-								<option
-									key={service.title}
-									value={service.title}
-								>
+								<option key={service.id} value={service.id}>
 									{service.title}
 								</option>
 							))}
-							<option value="Other painting project">
-								Something else
-							</option>
+							{f.allowOther && (
+								<option value="other">{f.otherLabel}</option>
+							)}
 						</select>
 						{errors.service && (
 							<span id="service-error" className="estimate-error">
@@ -155,79 +172,53 @@ export function EstimateForm() {
 							</span>
 						)}
 					</label>
-					<label className="form-full" htmlFor="details">
-						Tell us a little about your project
-						<textarea
-							id="details"
-							name="details"
-							required
-							rows={5}
-							maxLength={4000}
-							placeholder="What would you like painted or refreshed? (At least 10 characters)"
-							aria-invalid={!!errors.details}
-							aria-describedby={
-								errors.details ? "details-error" : undefined
-							}
-						/>
-						{errors.details && (
-							<span id="details-error" className="estimate-error">
-								{errors.details[0]}
-							</span>
-						)}
-					</label>
 				</div>
 				<div className="owner-honeypot" aria-hidden="true">
 					<label htmlFor="website">
-						Leave this empty
+						Leave empty
 						<input
 							id="website"
 							name="website"
-							autoComplete="off"
 							tabIndex={-1}
+							autoComplete="off"
 						/>
 					</label>
 				</div>
 				<button
 					className="button"
-					type="submit"
 					disabled={busy || sent}
+					type="submit"
 				>
-					{busy
-						? "Sending your request…"
-						: "Send my estimate request"}
+					{busy ? f.sendingLabel : f.submitLabel}
 					<ActionIcon name="send" />
 				</button>
 			</fieldset>
 			<p
 				ref={status}
-				tabIndex={-1}
 				role="status"
-				aria-live="polite"
+				tabIndex={-1}
 				className={`form-note ${notice ? "estimate-feedback" : ""}`}
+				aria-live="polite"
 			>
-				{notice ||
-					"No account needed. Your request is sent directly to the business owner."}
+				{notice || f.note}
 			</p>
 			<dialog
 				ref={dialog}
 				className="request-success-dialog"
 				aria-labelledby="request-success-title"
 				onClose={() => setSent(false)}
-				lang="pt-BR"
 			>
 				<div className="success-check" aria-hidden="true">
 					✓
 				</div>
-				<h2 id="request-success-title">
-					Solicitação enviada com sucesso!
-				</h2>
-				<p>Obrigado! Recebemos as informações do seu pedido.</p>
+				<h2 id="request-success-title">{f.successTitle}</h2>
+				<p>{f.successMessage}</p>
 				<button
-					className="button"
 					type="button"
+					className="button"
 					onClick={() => dialog.current?.close()}
 				>
-					OK
+					{f.closeLabel}
 				</button>
 			</dialog>
 		</form>

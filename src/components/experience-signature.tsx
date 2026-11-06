@@ -6,14 +6,14 @@ export function ExperienceSignature() {
 		<div
 			className="experience-signature"
 			role="img"
-			aria-label={`${client.yearsExperience}+ years of painting experience`}
+			aria-label={`${client.yearsExperience}+ ${client.content.experienceCaption}`}
 		>
 			<span className="experience-signature-value" aria-hidden="true">
 				{client.yearsExperience}
 				<sup>+</sup>
 			</span>
 			<span className="experience-signature-caption" aria-hidden="true">
-				Years of painting experience
+				{client.content.experienceCaption}
 			</span>
 		</div>
 	);

@@ -1,20 +1,17 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import {
-	Bell,
 	Inbox,
-	RefreshCw,
-	LogOut,
+	Bell,
 	Check,
+	LogOut,
+	RefreshCw,
 	Mail,
 	Phone,
 	MapPin,
-	CalendarClock,
-	ArrowLeft,
-	ArrowRight,
 } from "lucide-react";
+import { client, ownerCopy as t } from "@/config/client";
 import type { Inquiry } from "@/lib/owner/store";
-import { site } from "@/config/owner";
 import { PushControls } from "./push-controls";
 type Snapshot = {
 	items: Inquiry[];
@@ -33,11 +30,11 @@ export function Dashboard({
 	const [page, setPage] = useState(0);
 	const [busy, setBusy] = useState(false);
 	const [error, setError] = useState("");
-	const [lastUpdated, setLastUpdated] = useState("");
-	const refresh = useCallback(async (currentPage = 0) => {
+	const [updated, setUpdated] = useState("");
+	const refresh = useCallback(async (current = 0) => {
 		try {
 			const response = await fetch(
-				`/api/owner/inquiries?page=${currentPage}`,
+				`/api/owner/inquiries?page=${current}`,
 				{ cache: "no-store" },
 			);
 			if (response.status === 401) {
@@ -51,19 +48,16 @@ export function Dashboard({
 				return;
 			}
 			if (!response.ok) throw new Error();
-			const result = await response.json();
-			setData(result);
+			setData(await response.json());
 			setError("");
-			setLastUpdated(
-				new Date().toLocaleTimeString("pt-BR", {
-					hour: "2-digit",
-					minute: "2-digit",
-				}),
+			setUpdated(
+				new Intl.DateTimeFormat(client.owner.locale, {
+					timeStyle: "short",
+					timeZone: client.owner.timezone,
+				}).format(new Date()),
 			);
 		} catch {
-			setError(
-				"Não foi possível atualizar. Os pedidos abaixo são da última consulta.",
-			);
+			setError(t.refreshError);
 		}
 	}, []);
 	useEffect(() => {
@@ -73,10 +67,10 @@ export function Dashboard({
 		const focus = () => {
 			if (document.visibilityState === "visible") void refresh(page);
 		};
-		document.addEventListener("visibilitychange", focus);
 		const restored = (event: PageTransitionEvent) => {
 			if (event.persisted) void refresh(page);
 		};
+		document.addEventListener("visibilitychange", focus);
 		window.addEventListener("pageshow", restored);
 		return () => {
 			clearInterval(timer);
@@ -84,11 +78,6 @@ export function Dashboard({
 			window.removeEventListener("pageshow", restored);
 		};
 	}, [page, refresh]);
-	async function update() {
-		setBusy(true);
-		await refresh(page);
-		setBusy(false);
-	}
 	async function read(id: string) {
 		setBusy(true);
 		try {
@@ -104,7 +93,7 @@ export function Dashboard({
 			if (!response.ok) throw new Error();
 			await refresh(page);
 		} catch {
-			setError("Não foi possível marcar este pedido como lido.");
+			setError(t.readError);
 		} finally {
 			setBusy(false);
 		}
@@ -133,80 +122,77 @@ export function Dashboard({
 			});
 			window.location.replace("/login");
 		} catch {
-			setError("Não foi possível sair. Tente novamente.");
+			setError(t.logoutError);
 			setBusy(false);
 		}
 	}
-	async function changePage(next: number) {
-		setPage(next);
+	async function changePage(value: number) {
+		setPage(value);
 		setBusy(true);
-		await refresh(next);
+		await refresh(value);
 		setBusy(false);
 	}
 	return (
-		<section className="container owner-dashboard" lang="pt-BR">
+		<section
+			className="container owner-dashboard"
+			lang={client.owner.locale}
+		>
 			<div className="owner-dashboard-heading">
 				<div>
-					<p className="eyebrow">Área privada · {site.name}</p>
+					<p className="eyebrow">
+						{t.privateArea} · {client.businessName}
+					</p>
 					<h1>
-						Olá, <em>{username}.</em>
+						{t.greeting} <em>{username}.</em>
 					</h1>
-					<p>Todos os pedidos, em um só lugar.</p>
+					<p>{t.inboxSubtitle}</p>
 				</div>
 				<button
 					type="button"
-					onClick={logout}
 					className="button secondary"
+					onClick={logout}
 					disabled={busy}
 				>
 					<LogOut size={17} />
-					Sair deste aparelho
+					{t.signOut}
 				</button>
 			</div>
 			<div className="owner-stats">
-				<article>
-					<Inbox size={22} />
-					<div>
-						<strong>{data.total}</strong>
-						<span>Pedidos recebidos</span>
-					</div>
-				</article>
-				<article>
-					<Bell size={22} />
-					<div>
-						<strong>{data.unread}</strong>
-						<span>Ainda não lidos</span>
-					</div>
-				</article>
-				<article>
-					<Check size={22} />
-					<div>
-						<strong>{data.total - data.unread}</strong>
-						<span>Já consultados</span>
-					</div>
-				</article>
+				{[
+					[Inbox, data.total, t.received],
+					[Bell, data.unread, t.unread],
+					[Check, data.total - data.unread, t.read],
+				].map(([Icon, count, label]) => {
+					const I = Icon as typeof Inbox;
+					return (
+						<article key={String(label)}>
+							<I size={22} />
+							<div>
+								<strong>{String(count)}</strong>
+								<span>{String(label)}</span>
+							</div>
+						</article>
+					);
+				})}
 			</div>
-			<PushControls />
+			{client.features.push && <PushControls />}
 			<section className="owner-inbox" aria-labelledby="inbox-title">
 				<div className="owner-inbox-heading">
 					<div>
-						<p className="eyebrow">Caixa de entrada</p>
-						<h2 id="inbox-title">Pedidos dos clientes</h2>
+						<p className="eyebrow">{t.inboxEyebrow}</p>
+						<h2 id="inbox-title">{t.inboxTitle}</h2>
 						<p>
-							Atualização automática a cada 30 segundos.
-							{lastUpdated
-								? ` Última consulta: ${lastUpdated}.`
-								: ""}
+							{t.autoRefresh} {updated}
 						</p>
 					</div>
 					<button
-						className="button secondary"
 						type="button"
-						onClick={update}
+						className="button secondary"
+						onClick={() => changePage(page)}
 						disabled={busy}
 					>
 						<RefreshCw size={16} className={busy ? "spin" : ""} />
-						Atualizar
+						{t.refresh}
 					</button>
 				</div>
 				<p role="status" className="field-error">
@@ -214,24 +200,14 @@ export function Dashboard({
 				</p>
 				{data.pendingNotifications > 0 && (
 					<p className="owner-warning">
-						{data.pendingNotifications} aviso(s) aguardando envio.
-						Os pedidos já estão salvos e podem ser consultados
-						abaixo.
+						{data.pendingNotifications} · {t.pending}
 					</p>
 				)}
-				{data.items.length === 0 ? (
+				{!data.items.length ? (
 					<div className="owner-empty">
 						<Inbox size={36} />
-						<h3>
-							{data.total
-								? "Não há pedidos nesta página."
-								: "Tudo pronto para o primeiro pedido."}
-						</h3>
-						<p>
-							Quando alguém enviar o formulário, os detalhes
-							aparecerão aqui. O cliente não precisa criar uma
-							conta.
-						</p>
+						<h3>{t.emptyTitle}</h3>
+						<p>{t.emptyDescription}</p>
 					</div>
 				) : (
 					<div className="inquiry-list">
@@ -245,22 +221,33 @@ export function Dashboard({
 										<span
 											className={`owner-pill ${item.read ? "" : "active"}`}
 										>
-											{item.read ? "Lido" : "Novo pedido"}
+											{item.read
+												? t.readLabel
+												: t.newRequest}
 										</span>
 										<h3>{item.name}</h3>
 										<p>
-											{site.services.find(
-												(s) => s.slug === item.service,
-											)?.title || item.service}
+											{item.serviceLabel ||
+												client.services.find(
+													(service) =>
+														service.id ===
+															item.service ||
+														service.title ===
+															item.service,
+												)?.title ||
+												item.service}
 										</p>
 									</div>
 									<time dateTime={item.createdAt}>
-										{new Intl.DateTimeFormat("pt-BR", {
-											dateStyle: "medium",
-											timeStyle: "short",
-											timeZone: "America/New_York",
-										}).format(new Date(item.createdAt))}
-										<small>Horário de Nova York</small>
+										{new Intl.DateTimeFormat(
+											client.owner.locale,
+											{
+												dateStyle: "medium",
+												timeStyle: "short",
+												timeZone: client.owner.timezone,
+											},
+										).format(new Date(item.createdAt))}
+										<small>{client.owner.timezone}</small>
 									</time>
 								</header>
 								<div className="inquiry-contact">
@@ -284,21 +271,35 @@ export function Dashboard({
 											{item.location}
 										</span>
 									)}
-									{item.timeline && (
-										<span>
-											<CalendarClock size={16} />
-											{item.timeline}
-										</span>
-									)}
 								</div>
-								<p className="inquiry-message">
-									{item.message}
-								</p>
+								{item.message && (
+									<p className="inquiry-message">
+										{item.message}
+									</p>
+								)}
+								{Object.entries(item.fields || {})
+									.filter(([, value]) => value)
+									.map(([id, value]) => (
+										<p key={id}>
+											<strong>
+												{client.form.fields.find(
+													(field) => field.id === id,
+												)?.label || id}
+												:{" "}
+											</strong>
+											{value}
+										</p>
+									))}
+								{item.timeline && <p>{item.timeline}</p>}
 								{item.budget && (
-									<p>Orçamento informado: {item.budget}</p>
+									<p>
+										{t.budget}: {item.budget}
+									</p>
 								)}
 								<div className="inquiry-bottom">
-									<small>Pedido {item.id.slice(0, 8)}</small>
+									<small>
+										{t.requestId} {item.id.slice(0, 8)}
+									</small>
 									{!item.read && (
 										<button
 											type="button"
@@ -307,7 +308,7 @@ export function Dashboard({
 											disabled={busy}
 										>
 											<Check size={16} />
-											Marcar como lido
+											{t.markRead}
 										</button>
 									)}
 								</div>
@@ -319,24 +320,22 @@ export function Dashboard({
 					<button
 						type="button"
 						className="button secondary"
-						onClick={() => changePage(page - 1)}
 						disabled={busy || page === 0}
+						onClick={() => changePage(page - 1)}
 					>
-						<ArrowLeft size={16} />
-						Anterior
+						{t.previous}
 					</button>
 					<span>
-						Página {page + 1} de{" "}
+						{t.page} {page + 1} /{" "}
 						{Math.max(1, Math.ceil(data.total / 25))}
 					</span>
 					<button
 						type="button"
 						className="button secondary"
-						onClick={() => changePage(page + 1)}
 						disabled={busy || (page + 1) * 25 >= data.total}
+						onClick={() => changePage(page + 1)}
 					>
-						Próxima
-						<ArrowRight size={16} />
+						{t.next}
 					</button>
 				</div>
 			</section>

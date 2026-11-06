@@ -1,4 +1,5 @@
 import "server-only";
+import { client } from "@/config/client";
 import { NextResponse } from "next/server";
 import { isOwner } from "./auth";
 export function json(body: unknown, status = 200) {
@@ -90,7 +91,7 @@ export function formFeedback(
 				})[char]!,
 		);
 	return new NextResponse(
-		`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(title)}</title><style>body{margin:0;min-height:100svh;display:grid;place-items:center;background:#242720b3;font:16px/1.6 Arial,sans-serif;color:#242720}main{box-sizing:border-box;width:min(440px,calc(100% - 40px));padding:36px;background:#fffefa;border-radius:16px;text-align:center;box-shadow:0 20px 80px #0003}h1{font-size:29px;line-height:1.25}a{display:inline-block;padding:12px 35px;margin-top:15px;border-radius:6px;background:#a82d27;color:white;text-decoration:none}a:focus-visible{outline:3px solid #242720;outline-offset:4px}</style></head><body><main role="alertdialog" aria-modal="true" aria-labelledby="message-title"><h1 id="message-title">${escape(title)}</h1><p>${escape(message)}</p><a href="${escape(href)}">OK</a></main></body></html>`,
+		`<!doctype html><html lang="${escape(client.locale)}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(title)}</title><style>body{margin:0;min-height:100svh;display:grid;place-items:center;background:${client.theme.ink}b3;font:16px/1.6 Arial,sans-serif;color:${client.theme.ink}}main{box-sizing:border-box;width:min(440px,calc(100% - 40px));padding:36px;background:${client.theme.white};border-radius:16px;text-align:center;box-shadow:0 20px 80px #0003}h1{font-size:29px;line-height:1.25}a{display:inline-block;padding:12px 35px;margin-top:15px;border-radius:6px;background:${client.theme.primary};color:white;text-decoration:none}a:focus-visible{outline:3px solid ${client.theme.ink};outline-offset:4px}</style></head><body><main role="alertdialog" aria-modal="true" aria-labelledby="message-title"><h1 id="message-title">${escape(title)}</h1><p>${escape(message)}</p><a href="${escape(href)}">${escape(client.form.closeLabel)}</a></main></body></html>`,
 		{
 			status,
 			headers: {

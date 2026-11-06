@@ -6,7 +6,7 @@
 	display: flex;
 	align-items: center;
 	gap: 22px;
-	color: #f4ead8;
+	color: var(--tone-f4ead8);
 }
 
 .experience-signature-value {

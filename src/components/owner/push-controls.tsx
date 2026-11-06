@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Bell, BellOff, Download, Smartphone, Send } from "lucide-react";
+import { ownerCopy as t } from "@/config/client";
 import { pushBlock, type PushEnvironment } from "@/lib/push-capabilities";
 type InstallEvent = Event & {
 	prompt: () => Promise<void>;
@@ -9,6 +10,23 @@ type InstallEvent = Event & {
 function appKey(value: string) {
 	const raw = atob(value.replace(/-/g, "+").replace(/_/g, "/"));
 	return Uint8Array.from(raw, (c) => c.charCodeAt(0));
+}
+function environment(): PushEnvironment {
+	return {
+		secure: window.isSecureContext,
+		apisAvailable:
+			"serviceWorker" in navigator &&
+			"PushManager" in window &&
+			"Notification" in window,
+		ios:
+			/iPhone|iPad|iPod/.test(navigator.userAgent) ||
+			(navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
+		installed:
+			window.matchMedia("(display-mode: standalone)").matches ||
+			!!(navigator as Navigator & { standalone?: boolean }).standalone,
+		permission:
+			"Notification" in window ? Notification.permission : "default",
+	};
 }
 async function api(path: string, method: string, body?: unknown) {
 	const response = await fetch(path, {
@@ -20,141 +38,88 @@ async function api(path: string, method: string, body?: unknown) {
 	const data = await response.json();
 	if (!response.ok) {
 		if (response.status === 401) window.location.replace("/login");
-		throw new Error(
-			data.error || "Não foi possível concluir. Tente novamente.",
-		);
+		throw new Error(data.error || t.genericError);
 	}
 	return data;
 }
 export function PushControls() {
-	const [environment, setEnvironment] = useState<PushEnvironment | null>(
-		null,
-	);
-	const [installed, setInstalled] = useState(false);
-	const [ios, setIos] = useState(false);
+	const [device, setDevice] = useState<PushEnvironment | null>(null);
 	const [enabled, setEnabled] = useState(false);
 	const [busy, setBusy] = useState(false);
 	const [message, setMessage] = useState("");
+	const [configured, setConfigured] = useState<boolean | null>(null);
 	const [installPrompt, setInstallPrompt] = useState<InstallEvent | null>(
 		null,
 	);
-	const [configured, setConfigured] = useState<boolean | null>(null);
+	const blocked = device ? pushBlock(device, t) : null;
 	useEffect(() => {
 		let active = true;
 		async function init() {
-			const apple =
-				/iPhone|iPad|iPod/.test(navigator.userAgent) ||
-				(navigator.platform === "MacIntel" &&
-					navigator.maxTouchPoints > 1);
-			const standalone =
-				window.matchMedia("(display-mode: standalone)").matches ||
-				!!(navigator as Navigator & { standalone?: boolean })
-					.standalone;
-			const canPush =
-				window.isSecureContext &&
-				"serviceWorker" in navigator &&
-				"PushManager" in window &&
-				"Notification" in window;
-			if (active) {
-				setIos(apple);
-				setInstalled(standalone);
-				setEnvironment({
-					secure: window.isSecureContext,
-					apisAvailable:
-						"serviceWorker" in navigator &&
-						"PushManager" in window &&
-						"Notification" in window,
-					ios: apple,
-					installed: standalone,
-					permission:
-						"Notification" in window
-							? Notification.permission
-							: "default",
-				});
-			}
+			const env = environment();
+			if (active) setDevice(env);
 			try {
 				const config = await api("/api/owner/push", "GET");
 				if (active) setConfigured(config.configured);
-				if (canPush && (!apple || standalone)) {
+				if (
+					env.secure &&
+					env.apisAvailable &&
+					(!env.ios || env.installed) &&
+					config.configured
+				) {
 					const registration = await navigator.serviceWorker.register(
 						"/sw.js",
 						{ scope: "/", updateViaCache: "none" },
 					);
 					const sub =
 						await registration.pushManager.getSubscription();
-
-					if (sub && Notification.permission === "granted") {
+					if (sub && env.permission === "granted") {
 						await api("/api/owner/push", "POST", sub.toJSON());
 						if (active) setEnabled(true);
 					}
 				}
 			} catch {
-				if (active)
-					setMessage(
-						"Não foi possível confirmar as notificações. Toque em ativar para tentar novamente.",
-					);
+				if (active) setMessage(t.pushInitError);
 			}
 		}
 		void init();
-		function capture(event: Event) {
+		const capture = (event: Event) => {
 			event.preventDefault();
 			setInstallPrompt(event as InstallEvent);
-		}
-		function installedNow() {
-			setInstalled(true);
-			setInstallPrompt(null);
-		}
+		};
+		const update = () => setDevice(environment());
 		window.addEventListener("beforeinstallprompt", capture);
-		window.addEventListener("appinstalled", installedNow);
+		window.addEventListener("appinstalled", update);
+		window.addEventListener("focus", update);
 		return () => {
 			active = false;
 			window.removeEventListener("beforeinstallprompt", capture);
-			window.removeEventListener("appinstalled", installedNow);
+			window.removeEventListener("appinstalled", update);
+			window.removeEventListener("focus", update);
 		};
 	}, []);
-	const blocked = environment ? pushBlock(environment) : null;
 	async function enable() {
 		if (blocked) {
 			setMessage(blocked.message);
 			return;
 		}
-		if (ios && !installed) {
-			setMessage(
-				"No iPhone/iPad, adicione à Tela de Início, abra pelo ícone, entre novamente e toque em ativar.",
-			);
-			return;
-		}
 		setBusy(true);
 		setMessage("");
-		let sub: PushSubscription | null = null;
 		try {
-			if (
-				!environment ||
-				!environment.apisAvailable ||
-				!environment.secure
-			)
-				throw new Error(
-					"Use um navegador compatível em HTTPS para ativar notificações.",
-				);
+			if (!device?.apisAvailable || !device.secure)
+				throw new Error(t.httpsMessage);
 			const permission = await Notification.requestPermission();
-			setEnvironment((previous) =>
+			setDevice((previous) =>
 				previous ? { ...previous, permission } : previous,
 			);
-			if (permission !== "granted")
-				throw new Error(
-					"Permissão não concedida. Você pode habilitar notificações nas configurações do navegador.",
-				);
+			if (permission !== "granted") throw new Error(t.deniedMessage);
 			const config = await api("/api/owner/push", "GET");
-			if (!config.configured)
-				throw new Error(
-					"As notificações precisam ser configuradas no servidor.",
-				);
+			if (!config.configured) throw new Error(t.serverNotConfigured);
 			const registration = await navigator.serviceWorker.register(
 				"/sw.js",
 				{ scope: "/", updateViaCache: "none" },
 			);
 			await navigator.serviceWorker.ready;
-			sub = await registration.pushManager.getSubscription();
+			let sub = await registration.pushManager.getSubscription();
 			if (!sub)
 				sub = await registration.pushManager.subscribe({
 					userVisibleOnly: true,
@@ -162,15 +127,9 @@ export function PushControls() {
 				});
 			await api("/api/owner/push", "POST", sub.toJSON());
 			setEnabled(true);
-			setMessage(
-				"Notificações ativadas neste aparelho. Use o teste para conferir o recebimento.",
-			);
+			setMessage(t.pushEnabled);
 		} catch (error) {
-			setMessage(
-				error instanceof Error
-					? error.message
-					: "Não foi possível ativar.",
-			);
+			setMessage(error instanceof Error ? error.message : t.genericError);
 		} finally {
 			setBusy(false);
 		}
@@ -189,20 +148,11 @@ export function PushControls() {
 				all ? { all: true } : { endpoint: sub?.endpoint },
 			);
 			await sub?.unsubscribe();
-			const notifications = await registration?.getNotifications();
-			notifications?.forEach((n) => n.close());
+			(await registration?.getNotifications())?.forEach((n) => n.close());
 			setEnabled(false);
-			setMessage(
-				all
-					? "Notificações desativadas em todos os aparelhos."
-					: "Notificações desativadas neste aparelho.",
-			);
+			setMessage(all ? t.pushDisabledAll : t.pushDisabled);
 		} catch (error) {
-			setMessage(
-				error instanceof Error
-					? error.message
-					: "Não foi possível desativar.",
-			);
+			setMessage(error instanceof Error ? error.message : t.genericError);
 		} finally {
 			setBusy(false);
 		}
@@ -213,15 +163,11 @@ export function PushControls() {
 			const registration =
 				await navigator.serviceWorker.getRegistration("/");
 			const sub = await registration?.pushManager.getSubscription();
-			if (!sub) throw new Error("Ative as notificações primeiro.");
+			if (!sub) throw new Error(t.enableFirst);
 			await api("/api/owner/push/test", "POST", sub.toJSON());
-			setMessage(
-				"Teste aceito pelo serviço de push. Confira a notificação no aparelho.",
-			);
+			setMessage(t.testAccepted);
 		} catch (error) {
-			setMessage(
-				error instanceof Error ? error.message : "O teste falhou.",
-			);
+			setMessage(error instanceof Error ? error.message : t.testFailed);
 		} finally {
 			setBusy(false);
 		}
@@ -231,12 +177,7 @@ export function PushControls() {
 			await installPrompt.prompt();
 			await installPrompt.userChoice;
 			setInstallPrompt(null);
-		} else
-			setMessage(
-				ios
-					? "No Safari: Compartilhar → Adicionar à Tela de Início. Depois abra o ícone e entre no painel."
-					: "No menu do navegador, escolha Instalar aplicativo ou Adicionar à tela inicial. Depois abra o ícone e entre no painel.",
-			);
+		} else setMessage(device?.ios ? t.installMessage : t.installAndroid);
 	}
 	return (
 		<section
@@ -248,39 +189,35 @@ export function PushControls() {
 					<Smartphone size={23} />
 				</span>
 				<div>
-					<p className="eyebrow">Seu escritório, no bolso</p>
-					<h2 id="notification-title">Receba cada novo pedido.</h2>
+					<p className="eyebrow">{t.notificationEyebrow}</p>
+					<h2 id="notification-title">{t.notificationTitle}</h2>
 				</div>
 				<span className={`owner-pill ${enabled ? "active" : ""}`}>
 					{blocked
 						? blocked.label
 						: enabled
-							? "Ativado neste aparelho"
-							: environment
-								? "Configurar aparelho"
-								: "Verificando aparelho…"}
+							? t.notificationEnabled
+							: device
+								? t.notificationSetup
+								: t.notificationChecking}
 				</span>
 			</div>
-			<p>
-				Instale o site e permita as notificações. Os avisos incluem um
-				resumo do pedido; toque para abrir todas as informações no
-				painel privado.
-			</p>
+			<p>{t.notificationDescription}</p>
 			{blocked && (
 				<p className="owner-warning" role="status">
 					{blocked.message}
 				</p>
 			)}
 			<div className="owner-action-row">
-				{!installed && environment?.secure && (
+				{device?.secure && !device.installed && (
 					<button
-						className="button secondary"
 						type="button"
-						onClick={install}
+						className="button secondary"
 						disabled={busy}
+						onClick={install}
 					>
 						<Download size={17} />
-						Adicionar à tela inicial
+						{t.install}
 					</button>
 				)}
 				{enabled ? (
@@ -292,7 +229,7 @@ export function PushControls() {
 							disabled={busy}
 						>
 							<Send size={17} />
-							Testar notificação
+							{t.test}
 						</button>
 						<button
 							className="owner-text-button"
@@ -301,7 +238,7 @@ export function PushControls() {
 							disabled={busy}
 						>
 							<BellOff size={16} />
-							Desativar neste aparelho
+							{t.disable}
 						</button>
 					</>
 				) : (
@@ -310,46 +247,26 @@ export function PushControls() {
 						type="button"
 						onClick={enable}
 						disabled={
-							busy ||
-							configured === false ||
-							!environment ||
-							!!blocked
+							busy || configured === false || !device || !!blocked
 						}
 					>
 						<Bell size={17} />
-						{busy
-							? "Aguarde…"
-							: blocked?.kind === "https"
-								? "Disponível após conectar por HTTPS"
-								: "Ativar notificações"}
+						{busy ? t.working : t.enable}
 					</button>
 				)}
 			</div>
 			{configured === false && (
-				<p className="owner-warning">
-					As chaves de notificações ainda não estão configuradas no
-					servidor.
-				</p>
+				<p className="owner-warning">{t.serverNotConfigured}</p>
 			)}
-
-			<p className="owner-hint">
-				Android: menu do navegador → Instalar aplicativo. iPhone: Safari
-				→ Compartilhar → Adicionar à Tela de Início. Abra o ícone, entre
-				e toque em Ativar notificações. Somente instalar não concede
-				permissão.
-			</p>
-			<p className="owner-hint">
-				Os detalhes podem aparecer na tela bloqueada, conforme as
-				configurações do seu aparelho. Para interromper avisos num
-				aparelho perdido, use o botão abaixo.
-			</p>
+			<p className="owner-hint">{t.deviceInstructions}</p>
+			<p className="owner-hint">{t.devicePrivacy}</p>
 			<button
-				type="button"
 				className="owner-text-button"
-				disabled={busy}
+				type="button"
 				onClick={() => disable(true)}
+				disabled={busy}
 			>
-				Desativar notificações em todos os aparelhos
+				{t.disableAll}
 			</button>
 			<p role="status" aria-live="polite" className="owner-push-status">
 				{message}

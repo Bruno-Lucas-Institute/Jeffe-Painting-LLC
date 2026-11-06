@@ -1,155 +1,71 @@
-import { ActionIcon } from "@/components/action-icon";
-import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { client } from "@/config/client";
-
-export const metadata: Metadata = {
-	title: "About Jeffe Painting",
-	description:
-		"Meet the local painting team serving Danbury and Fairfield County, Connecticut, with 25 years of experience and a focus on careful work.",
-};
-
-export default function AboutPage() {
+import { PageHero, Conversion, Lines } from "@/components/business-sections";
+import { pageMetadata } from "@/lib/seo";
+export const metadata = pageMetadata(
+	client.content.aboutTitle,
+	client.content.aboutDescription,
+	"/about",
+);
+export default function About() {
 	return (
 		<>
-			<section className="page-hero">
-				<p className="eyebrow">
-					<span className="eyebrow-line" /> A little about us
-				</p>
-				<h1>
-					Good people.
-					<br />
-					<em>Work done with care.</em>
-				</h1>
-				<p>
-					Jeffe Painting is a local team built around a simple idea:
-					treat every home with respect, and take pride in the work
-					you leave behind.
-				</p>
-				<Link className="button" href="/contact">
-					Meet us at your home <ActionIcon name="calendar" />
-				</Link>
-			</section>
-
+			<PageHero prefix="about" />
 			<section className="about-story">
 				<div className="about-image">
 					<Image
-						alt="A carefully painted interior by Jeffe Painting"
+						src={client.about.image}
+						alt={client.about.imageAlt}
 						fill
-						loading="eager"
-						sizes="(max-width: 760px) 100vw, 48vw"
-						src="/images/hero-interior.webp"
+						sizes="(max-width:760px) 100vw,48vw"
 					/>
-					<span className="image-index">DANBURY, CONNECTICUT</span>
+					<span className="image-index">
+						{client.about.imageLabel}
+					</span>
 				</div>
 				<div className="about-copy">
 					<p className="eyebrow">
-						<span className="eyebrow-line" /> Built on experience
+						{client.content.aboutStoryEyebrow}
 					</p>
 					<h2>
-						A familiar face.
+						{client.content.aboutStoryTitle}
 						<br />
-						<em>A finish you can feel good about.</em>
+						<em>{client.content.aboutStoryAccent}</em>
 					</h2>
-					<p>
-						With {client.yearsExperience} years in the trade,
-						Jefferson and his crew understand that a painting
-						project is about more than color. It is about how a home
-						feels when the work is finished—and how it is treated
-						along the way.
-					</p>
-					<p>
-						From the first conversation through the final
-						walkthrough, the focus stays on thoughtful preparation,
-						dependable scheduling, and clean, careful work.
-					</p>
-					<Link className="text-link" href="/projects">
-						Take a look at our work <ActionIcon name="gallery" />
-					</Link>
+					<p>{client.content.aboutStoryBody}</p>
+					<p>{client.content.aboutStorySecond}</p>
 				</div>
 			</section>
-
 			<section className="values-section">
 				<div className="values-intro">
-					<p className="eyebrow">
-						<span className="eyebrow-line" /> What matters to us
-					</p>
+					<p className="eyebrow">{client.content.valuesEyebrow}</p>
 					<h2>
-						The kind of care
-						<br />
-						we&rsquo;d want at home.
+						<Lines text={client.content.valuesTitle} />
 					</h2>
 				</div>
 				<div className="values-grid">
-					{[
-						[
-							"01",
-							"Respect for your home",
-							"We work neatly, protect the things around us, and leave the space cared for.",
-						],
-						[
-							"02",
-							"The prep is the work",
-							"A lasting finish starts with patient surface preparation and attention to detail.",
-						],
-						[
-							"03",
-							"Straightforward communication",
-							"Clear expectations and reliable scheduling help your project feel easier.",
-						],
-						[
-							"04",
-							"Pride in the finish",
-							"We want every edge, surface, and room to feel considered when the job is done.",
-						],
-					].map(([number, title, description]) => (
-						<article className="value-card" key={number}>
-							<span>{number}</span>
-							<h3>{title}</h3>
-							<p>{description}</p>
+					{client.values.map((value, index) => (
+						<article className="value-card" key={value.title}>
+							<span>{String(index + 1).padStart(2, "0")}</span>
+							<h3>{value.title}</h3>
+							<p>{value.description}</p>
 						</article>
 					))}
 				</div>
 			</section>
-
-			<section className="about-facts">
-				<div>
-					<strong>{client.yearsExperience}</strong>
-					<span>years of experience</span>
-				</div>
-				<div>
-					<strong>{client.reviewRating}</strong>
-					<span>average local rating</span>
-				</div>
-				<div>
-					<strong>{client.location}</strong>
-					<span>locally owned &amp; operated</span>
-				</div>
-			</section>
-
-			<section className="cta-section">
-				<div>
-					<p className="eyebrow eyebrow-light">
-						<span className="eyebrow-line" /> Here when you&rsquo;re
-						ready
-					</p>
-					<h2>
-						Tell us what
-						<br />
-						you have in mind.
-					</h2>
-				</div>
-				<div className="cta-actions">
-					<Link className="button button-light" href="/contact">
-						Start a conversation <ActionIcon name="message" />
-					</Link>
-					<a href={client.phoneHref}>
-						<ActionIcon name="phone" /> Prefer to talk?{" "}
-						{client.phone}
-					</a>
-				</div>
-			</section>
+			{client.features.experience && client.yearsExperience !== null && (
+				<section className="about-facts">
+					<div>
+						<strong>{client.yearsExperience}</strong>
+						<span>{client.content.experienceCaption}</span>
+					</div>
+					<div>
+						<strong>{client.location}</strong>
+						<span>{client.serviceArea}</span>
+					</div>
+				</section>
+			)}
+			<Conversion />
 		</>
 	);
 }

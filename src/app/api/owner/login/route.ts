@@ -1,3 +1,4 @@
+import { ownerCopy } from "@/config/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
@@ -21,12 +22,7 @@ export async function POST(request: Request) {
 	const native = isNativeForm(request);
 	const respond = (body: { error: string }, status: number) =>
 		native
-			? formFeedback(
-					"Não foi possível entrar",
-					body.error,
-					status,
-					"/login",
-				)
+			? formFeedback(ownerCopy.loginError, body.error, status, "/login")
 			: json(body, status);
 	if (!sameOrigin(request))
 		return respond({ error: "Request origin is not allowed." }, 403);
@@ -52,10 +48,7 @@ export async function POST(request: Request) {
 		if (
 			!(await verifyCredentials(input.data.username, input.data.password))
 		)
-			return respond(
-				{ error: "Username or password is incorrect." },
-				401,
-			);
+			return respond({ error: ownerCopy.loginError }, 401);
 		const response = native
 			? new NextResponse(null, {
 					status: 303,

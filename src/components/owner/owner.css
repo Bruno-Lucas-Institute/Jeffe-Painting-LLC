@@ -6,7 +6,7 @@
 	--surface: var(--white);
 	--text: var(--ink);
 	--font-heading: var(--heading);
-	--card-shadow: 0 12px 40px #203a2910;
+	--card-shadow: 0 12px 40px var(--tone-203a2910);
 	--radius: 8px;
 }
 .owner-dashboard {
@@ -50,7 +50,7 @@
 	color: var(--ink);
 }
 .field-error {
-	color: #a02d2d;
+	color: var(--tone-a02d2d);
 	font-size: 13px;
 }
 .owner-sr-only {
@@ -99,7 +99,11 @@
 	display: grid;
 	place-items: center;
 	padding: 65px 20px;
-	background: radial-gradient(ellipse at top, #e7eadd, transparent 70%);
+	background: radial-gradient(
+		ellipse at top,
+		var(--tone-e7eadd),
+		transparent 70%
+	);
 }
 .owner-login-form {
 	width: 100%;
@@ -116,7 +120,7 @@
 	width: 50px;
 	height: 50px;
 	border-radius: 14px;
-	background: #e7eadd;
+	background: var(--tone-e7eadd);
 	color: var(--primary);
 	flex-shrink: 0;
 }
@@ -202,8 +206,8 @@
 	color: var(--muted);
 }
 .owner-notifications {
-	border: 1px solid #cad4c0;
-	background: #edf0e5;
+	border: 1px solid var(--tone-cad4c0);
+	background: var(--tone-edf0e5);
 	border-radius: 14px;
 	padding: 30px;
 	margin-bottom: 55px;
@@ -258,7 +262,7 @@
 	font-size: 10px;
 	padding: 5px 10px;
 	border-radius: 20px;
-	background: #e9ece5;
+	background: var(--tone-e9ece5);
 	color: var(--muted);
 	font-weight: 600;
 	white-space: nowrap;
@@ -272,9 +276,9 @@
 }
 .owner-warning {
 	padding: 15px 18px;
-	border-left: 3px solid #ab7036;
-	background: #fff7e8;
-	color: #664019;
+	border-left: 3px solid var(--tone-ab7036);
+	background: var(--tone-fff7e8);
+	color: var(--tone-664019);
 	font-size: 13px;
 }
 .owner-push-status {
@@ -422,10 +426,10 @@
 	border: 0;
 	border-radius: 16px;
 	text-align: center;
-	box-shadow: 0 25px 100px #0003;
+	box-shadow: 0 25px 100px var(--tone-0003);
 }
 .request-success-dialog::backdrop {
-	background: #10261eb3;
+	background: var(--tone-10261eb3);
 	backdrop-filter: blur(4px);
 }
 .request-success-dialog h2 {
@@ -446,7 +450,7 @@
 	place-items: center;
 	width: 60px;
 	height: 60px;
-	background: #e7eadd;
+	background: var(--tone-e7eadd);
 	color: var(--primary);
 	border-radius: 50%;
 	font-size: 30px;
@@ -654,12 +658,12 @@ button {
 	overflow: hidden;
 }
 .estimate-error {
-	color: #a02d2d;
+	color: var(--tone-a02d2d);
 	font-size: 12px;
 	display: block;
 }
 .estimate-form [aria-invalid="true"] {
-	border-color: #a02d2d;
+	border-color: var(--tone-a02d2d);
 }
 .estimate-feedback {
 	border-left: 3px solid var(--red);

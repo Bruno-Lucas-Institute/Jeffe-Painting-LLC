@@ -1,4 +1,6 @@
 import "server-only";
+import { client } from "@/config/client";
+import { assertDatabaseIdentity } from "./database-identity";
 import { DatabaseSync } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
@@ -12,6 +14,8 @@ export type Inquiry = {
 	phone: string;
 	service: string;
 	message: string;
+	serviceLabel?: string;
+	fields?: Record<string, string>;
 	location?: string;
 	timeline?: string;
 	budget?: string;
@@ -26,10 +30,22 @@ export function db() {
 	if (process.env.NODE_ENV === "production" && !process.env.OWNER_DATA_DIR)
 		throw new Error("OWNER_DATA_DIR must point to a persistent volume");
 	const folder = resolve(
-		/*turbopackIgnore: true*/ process.env.OWNER_DATA_DIR || ".local-data",
+		/*turbopackIgnore: true*/ process.env.OWNER_DATA_DIR ||
+			`.local-data/${client.id}`,
 	);
 	mkdirSync(folder, { recursive: true, mode: 0o700 });
 	const database = new DatabaseSync(resolve(folder, "owner.sqlite"));
+	database.exec("PRAGMA busy_timeout=5000;");
+	try {
+		assertDatabaseIdentity(
+			database,
+			client.id,
+			client.legacyDatabaseId === client.id,
+		);
+	} catch (error) {
+		database.close();
+		throw error;
+	}
 	database.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
  CREATE TABLE IF NOT EXISTS inquiries(id TEXT PRIMARY KEY,created_at TEXT NOT NULL,payload TEXT NOT NULL,is_read INTEGER NOT NULL DEFAULT 0);
  CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
@@ -106,7 +122,8 @@ export function addSubscription(sub: StoredSubscription) {
 	const count = database
 		.prepare("SELECT COUNT(*) AS count FROM subscriptions")
 		.get() as { count: number };
-	if (!exists && count.count >= 10) throw new Error("Device limit reached");
+	if (!exists && count.count >= client.owner.maxDevices)
+		throw new Error("Device limit reached");
 	database
 		.prepare(
 			"INSERT INTO subscriptions(endpoint,payload,created_at) VALUES(?,?,?) ON CONFLICT(endpoint) DO UPDATE SET payload=excluded.payload",

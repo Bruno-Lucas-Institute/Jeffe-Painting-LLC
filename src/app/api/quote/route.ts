@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { estimateSchema } from "@/lib/validation/estimate";
+import { client } from "@/config/client";
+import { estimateSchema, normalizeInquiry } from "@/lib/validation/estimate";
 import { saveInquiry, persistentLimit } from "@/lib/owner/store";
 import { flushPushJobs } from "@/lib/owner/push";
 import {
@@ -20,10 +21,10 @@ export async function POST(request: Request) {
 		native
 			? formFeedback(
 					status === 200
-						? "Solicitação enviada com sucesso!"
-						: "Não foi possível enviar",
+						? client.form.successTitle
+						: client.form.errorSummary,
 					status === 200
-						? "Obrigado! Recebemos as informações do seu pedido."
+						? client.form.successMessage
 						: body.error ||
 								"Revise os campos do formulário e tente novamente.",
 					status,
@@ -32,6 +33,8 @@ export async function POST(request: Request) {
 					status,
 					headers: { "Cache-Control": "no-store" },
 				});
+	if (!client.features.inquiry)
+		return respond({ error: "Requests are not enabled." }, 503);
 	if (!sameOrigin(request))
 		return respond(
 			{ error: "Open the form from this website and try again." },
@@ -55,7 +58,7 @@ export async function POST(request: Request) {
 	}
 	let raw: unknown;
 	try {
-		raw = await readFormOrJson(request, 16000);
+		raw = await readFormOrJson(request, 65536);
 	} catch {
 		return respond({ error: "Please check the form and try again." }, 400);
 	}
@@ -73,14 +76,7 @@ export async function POST(request: Request) {
 	try {
 		const { website: unused, ...data } = parsed.data;
 		void unused;
-		saveInquiry({
-			name: data.name,
-			email: data.email,
-			phone: data.phone,
-			service: data.service,
-			location: data.town,
-			message: data.details,
-		});
+		saveInquiry(normalizeInquiry(data, client));
 		after(async () => {
 			try {
 				await flushPushJobs();

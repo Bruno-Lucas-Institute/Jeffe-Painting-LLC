@@ -1,4 +1,5 @@
-﻿import { test, after } from "node:test";
+import { client } from "../src/config/client";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -39,7 +40,7 @@ const payload = {
 	name: "Test Customer",
 	email: "customer@example.com",
 	phone: "",
-	service: "interior-painting",
+	service: client.services[0].id,
 	message: "Please estimate a room refresh.",
 	location: "Sample city",
 	timeline: "Next month",

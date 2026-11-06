@@ -7,6 +7,7 @@ const developmentHosts = [
 	.filter((value): value is string => Boolean(value?.trim()))
 	.map((value) => new URL(value.trim()).hostname);
 const nextConfig: NextConfig = {
+	distDir: process.env.NEXT_BUILD_DIR || ".next",
 	allowedDevOrigins: [...new Set(developmentHosts)],
 	serverExternalPackages: ["web-push"],
 	outputFileTracingExcludes: {
@@ -34,6 +35,7 @@ const nextConfig: NextConfig = {
 	cacheComponents: true,
 	partialPrefetching: true,
 	turbopack: {
+		root: process.cwd(),
 		rules: {
 			"*.css": {
 				loaders: ["@tailwindcss/turbopack"],

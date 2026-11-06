@@ -1,3 +1,4 @@
+import { client } from "@/config/client";
 import { guard, json, readJson } from "@/lib/owner/http";
 import { subscriptionSchema } from "@/lib/owner/push-validation";
 import { sendPush } from "@/lib/owner/push";
@@ -13,8 +14,8 @@ export async function POST(request: Request) {
 		if (!hasSubscription(sub.endpoint))
 			return json({ error: "Enable this device first." }, 400);
 		await sendPush(sub, {
-			title: "Notificações ativadas",
-			body: "Jef, este aparelho está pronto para receber novos pedidos.",
+			title: client.owner.testTitle,
+			body: client.owner.testBody,
 			tag: "owner-test",
 			url: "/owner",
 		});

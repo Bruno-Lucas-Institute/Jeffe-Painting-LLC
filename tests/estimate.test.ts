@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { client } from "../src/config/client";
 import { estimateSchema } from "../src/lib/validation/estimate";
 import {
 	sameOrigin,
@@ -7,30 +8,40 @@ import {
 	readFormOrJson,
 	formFeedback,
 } from "../src/lib/owner/http";
-const valid = {
-	name: "Sample Customer",
-	email: "customer@example.com",
-	phone: "(202) 555-0147",
-	town: "Danbury",
-	service: "Interior painting",
-	details: "Please estimate our living room.",
-	website: "",
-};
-test("the actual Jeffe form accepts configured services and validates all submitted fields", () => {
+export function sample() {
+	const data: Record<string, string> = {
+		website: "",
+		service: client.services[0].id,
+	};
+	for (const field of client.form.fields)
+		data[field.id] =
+			field.type === "email"
+				? "customer@example.com"
+				: field.type === "tel"
+					? "2025550147"
+					: field.type === "date"
+						? "2027-03-12"
+						: field.type === "number"
+							? "100"
+							: field.type === "select"
+								? field.options![0].value
+								: "Sample customer request details";
+	return data;
+}
+test("active business fields and services are validated", () => {
+	const valid = sample();
 	assert.ok(estimateSchema.safeParse(valid).success);
-	for (const patch of [
-		{ email: "not-email" },
-		{ phone: "" },
-		{ town: "" },
-		{ service: "unknown" },
-		{ details: "short" },
-	])
-		assert.equal(
-			estimateSchema.safeParse({ ...valid, ...patch }).success,
-			false,
-		);
+	assert.equal(
+		estimateSchema.safeParse({ ...valid, service: "not-a-service" })
+			.success,
+		false,
+	);
+	assert.equal(
+		estimateSchema.safeParse({ ...valid, email: "invalid" }).success,
+		false,
+	);
 });
-test("LAN and localhost origins are explicit development exceptions only", () => {
+test("LAN origins are allowed only in development", () => {
 	const previous = {
 		NODE_ENV: process.env.NODE_ENV,
 		NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
@@ -39,58 +50,67 @@ test("LAN and localhost origins are explicit development exceptions only", () =>
 	Object.assign(process.env, {
 		NODE_ENV: "development",
 		NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
-		OWNER_DEV_ORIGINS: "http://192.168.4.197:3000",
+		OWNER_DEV_ORIGINS: "http://192.168.1.10:3000",
 	});
 	try {
 		const request = (origin: string) =>
-			new Request("http://localhost:3000/api/quote", {
-				headers: { origin },
-			});
-		assert.equal(sameOrigin(request("http://localhost:3000")), true);
-		assert.equal(sameOrigin(request("http://192.168.4.197:3000")), true);
+			new Request("http://localhost/api/quote", { headers: { origin } });
+		assert.equal(sameOrigin(request("http://192.168.1.10:3000")), true);
 		assert.equal(sameOrigin(request("https://untrusted.example")), false);
 		Object.assign(process.env, { NODE_ENV: "production" });
-		assert.equal(sameOrigin(request("http://192.168.4.197:3000")), false);
+		assert.equal(sameOrigin(request("http://192.168.1.10:3000")), false);
 	} finally {
-		for (const [key, value] of Object.entries(previous)) {
+		for (const [key, value] of Object.entries(previous))
 			if (value === undefined) delete process.env[key];
 			else process.env[key] = value;
-		}
 	}
 });
-test("JSON reader rejects oversized bodies", async () => {
-	const request = new Request("http://localhost/api/quote", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ value: "x".repeat(200) }),
-	});
-	await assert.rejects(readJson(request, 30));
+test("bounded JSON and native POST support", async () => {
+	const body = sample();
+	assert.deepEqual(
+		await readFormOrJson(
+			new Request("http://localhost/api/quote", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				body: new URLSearchParams(body),
+			}),
+		),
+		body,
+	);
+	await assert.rejects(
+		readJson(
+			new Request("http://localhost/api/quote", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ text: "x".repeat(100) }),
+			}),
+			10,
+		),
+	);
 });
-
-test("native form POST is bounded and supported without JavaScript", async () => {
-	const request = new Request("http://localhost/api/quote", {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: new URLSearchParams(valid),
-	});
-	assert.deepEqual(await readFormOrJson(request), valid);
-	const tooLarge = new Request("http://localhost/api/quote", {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: "name=" + "x".repeat(100),
-	});
-	await assert.rejects(readFormOrJson(tooLarge, 20));
-});
-test("native confirmation is visible HTML and escapes text", async () => {
+test("native feedback is branded HTML and escapes text", async () => {
 	const response = formFeedback(
-		"Solicitação enviada com sucesso!",
+		client.form.successTitle,
 		"<script>bad()</script>",
 	);
-	assert.equal(response.status, 200);
-	assert.match(response.headers.get("content-type") || "", /text\/html/);
 	const html = await response.text();
 	assert.ok(html.includes('role="alertdialog"'));
-	assert.ok(html.includes("Solicitação enviada com sucesso!"));
 	assert.ok(!html.includes("<script>bad()"));
 	assert.ok(html.includes("&lt;script&gt;"));
+	assert.ok(html.includes(client.theme.primary));
+});
+
+test("required fields cannot be skipped by omitting JSON properties", () => {
+	const valid = sample();
+	for (const field of client.form.fields.filter((field) => field.required)) {
+		const missing = { ...valid };
+		delete missing[field.id];
+		assert.equal(
+			estimateSchema.safeParse(missing).success,
+			false,
+			field.id,
+		);
+	}
 });

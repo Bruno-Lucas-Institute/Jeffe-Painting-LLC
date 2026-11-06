@@ -1,5 +1,5 @@
 {
-	"name": "jeffe-painting-app",
+	"name": "reusable-business-template",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -12,7 +12,10 @@
 		"typecheck": "tsc --noEmit",
 		"test": "node --conditions=react-server --import tsx --test tests/*.test.ts",
 		"push:worker": "node --env-file-if-exists=.env.local scripts/push-worker.mjs",
-		"setup:owner": "node scripts/setup-owner.mjs"
+		"setup:owner": "node scripts/setup-owner.mjs",
+		"client:new": "node --import tsx scripts/new-client.mjs",
+		"client:check": "node --import tsx scripts/check-client.mjs",
+		"qa:local": "node --env-file-if-exists=.env.local --import tsx scripts/qa-local.mjs"
 	},
 	"dependencies": {
 		"lucide-react": "^1.69.0",

@@ -1,10 +1,10 @@
-.jeffe-logo {
+.business-logo {
 	display: inline-flex;
 	flex-direction: column;
 	align-items: stretch;
 	width: 3.5em;
 	gap: 5px;
-	color: #bc0000;
+	color: var(--red);
 	font-family: var(--sans);
 	font-size: 40px;
 	line-height: 1;
@@ -13,33 +13,33 @@
 }
 
 /* Both lines fill the same box; distribute letters to align both edges. */
-.jeffe-logo-name,
-.jeffe-logo-tagline {
+.business-logo-name,
+.business-logo-tagline {
 	display: flex;
 	justify-content: space-between;
 }
 
-.jeffe-logo-name {
+.business-logo-name {
 	font-family: var(--heading);
 	font-weight: 900;
 }
 
-.jeffe-logo-tagline {
+.business-logo-tagline {
 	font-family: var(--font-logo-rounded), var(--sans);
 	font-size: 0.48em;
 	font-weight: 700;
 }
 
-.jeffe-logo-tagline > span {
+.business-logo-tagline > span {
 	white-space: pre;
 }
 
-.wordmark-light .jeffe-logo {
+.wordmark-light .business-logo {
 	color: var(--white);
 }
 
 /* Match the estimate button height and share the navigation's center line. */
-.site-header .jeffe-logo {
+.site-header .business-logo {
 	height: 43px;
 	justify-content: space-between;
 	gap: 0;
@@ -47,12 +47,12 @@
 }
 
 @media (max-width: 760px) {
-	.jeffe-logo {
+	.business-logo {
 		font-size: 34px;
 	}
 
 	/* The mobile menu toggle is 42px tall, including in the compact header. */
-	.site-header .jeffe-logo {
+	.site-header .business-logo {
 		height: 42px;
 		font-size: 26px;
 	}

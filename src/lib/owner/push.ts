@@ -1,8 +1,10 @@
 import "server-only";
+import { client } from "@/config/client";
 import webpush from "web-push";
 import { db, removeSubscription, type StoredSubscription } from "./store";
 export function pushConfigured() {
 	return !!(
+		client.features.push &&
 		process.env.VAPID_PUBLIC_KEY &&
 		process.env.VAPID_PRIVATE_KEY &&
 		process.env.VAPID_SUBJECT
@@ -54,11 +56,14 @@ export async function flushPushJobs() {
 					inquiry.timeline,
 					inquiry.budget,
 					inquiry.message,
+					...Object.entries(inquiry.fields || {}).map(
+						([key, value]) => `${key}: ${value}`,
+					),
 				]
 					.filter(Boolean)
 					.join(" · ");
 				await sendPush(JSON.parse(job.subscription), {
-					title: "Novo pedido recebido",
+					title: client.owner.pushTitle,
 					body: Array.from(excerpt).slice(0, 550).join(""),
 					tag: job.id,
 					url: "/owner",

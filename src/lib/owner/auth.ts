@@ -1,4 +1,5 @@
 import "server-only";
+import { client } from "@/config/client";
 import { randomBytes, scrypt, timingSafeEqual, createHash } from "node:crypto";
 import { promisify } from "node:util";
 import { cookies } from "next/headers";
@@ -8,9 +9,11 @@ export const sessionCookie =
 	process.env.NODE_ENV === "production"
 		? "__Host-owner-session"
 		: "owner-session";
-export const sessionAge = 60 * 60 * 24 * 30;
+export const sessionAge = 60 * 60 * 24 * client.owner.sessionDays;
 export function ownerConfigured() {
 	return (
+		client.features.owner &&
+		client.owner.enabled &&
 		!!process.env.OWNER_USERNAME &&
 		/^scrypt:[a-f0-9]{32}:[a-f0-9]{128}$/.test(
 			process.env.OWNER_PASSWORD_HASH || "",
@@ -35,6 +38,7 @@ function tokenHash(token: string) {
 	return createHash("sha256")
 		.update(token)
 		.update(process.env.OWNER_PASSWORD_HASH || "")
+		.update(client.id)
 		.digest("hex");
 }
 export function createSession() {

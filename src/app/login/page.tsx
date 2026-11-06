@@ -1,3 +1,5 @@
+import { client, ownerCopy } from "@/config/client";
+import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -10,13 +12,14 @@ export const metadata = {
 export const instant = false;
 async function LoginContent() {
 	await connection();
+	if (!client.features.owner || !client.owner.enabled) notFound();
 	if (await isOwner()) redirect("/owner");
 	return <LoginForm />;
 }
 export default function Login() {
 	return (
-		<section className="owner-login-shell" lang="pt-BR">
-			<Suspense fallback={<p>Carregando acesso seguro…</p>}>
+		<section className="owner-login-shell" lang={client.owner.locale}>
+			<Suspense fallback={<p>{ownerCopy.loading}</p>}>
 				<LoginContent />
 			</Suspense>
 		</section>

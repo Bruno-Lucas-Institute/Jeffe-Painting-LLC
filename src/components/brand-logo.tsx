@@ -1,3 +1,4 @@
+import Image from "next/image";
 import localFont from "next/font/local";
 import { client } from "@/config/client";
 import "./brand-logo.css";
@@ -10,18 +11,28 @@ const roundedLogo = localFont({
 });
 
 export function BrandLogo() {
+	if (client.logo.image)
+		return (
+			<Image
+				src={client.logo.image}
+				alt={client.businessName}
+				width={180}
+				height={60}
+				className="custom-business-logo"
+			/>
+		);
 	return (
 		<span
-			className={`jeffe-logo ${roundedLogo.variable}`}
+			className={`business-logo ${roundedLogo.variable}`}
 			aria-label={client.businessName}
 			role="img"
 		>
-			<span className="jeffe-logo-name" aria-hidden="true">
+			<span className="business-logo-name" aria-hidden="true">
 				{Array.from(client.logo.name).map((letter, index) => (
 					<span key={index}>{letter}</span>
 				))}
 			</span>
-			<span className="jeffe-logo-tagline" aria-hidden="true">
+			<span className="business-logo-tagline" aria-hidden="true">
 				{Array.from(client.logo.tagline).map((letter, index) => (
 					<span key={index}>{letter}</span>
 				))}

@@ -1,6 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-*.md
 
 # dependencies
 /node_modules
@@ -45,3 +44,6 @@ next-env.d.ts
 .env*
 !.env.example
 !OWNER_SETUP.md
+
+.qa/
+.npm-cache/

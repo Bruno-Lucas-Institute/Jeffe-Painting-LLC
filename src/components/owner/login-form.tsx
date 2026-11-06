@@ -7,6 +7,7 @@ import {
 	Eye,
 	EyeOff,
 } from "lucide-react";
+import { ownerCopy as t } from "@/config/client";
 export function LoginForm() {
 	const [busy, setBusy] = useState(false);
 	const [error, setError] = useState("");
@@ -14,7 +15,7 @@ export function LoginForm() {
 	async function submit(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if (busy) return;
-		const values = new FormData(event.currentTarget);
+		const form = new FormData(event.currentTarget);
 		setBusy(true);
 		setError("");
 		try {
@@ -22,20 +23,16 @@ export function LoginForm() {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					username: values.get("username"),
-					password: values.get("password"),
+					username: form.get("username"),
+					password: form.get("password"),
 				}),
+				signal: AbortSignal.timeout(15000),
 			});
-			const data = await response.json();
-			if (!response.ok)
-				throw new Error(data.error || "Não foi possível entrar.");
+			const result = await response.json();
+			if (!response.ok) throw new Error(result.error || t.loginError);
 			window.location.replace("/owner");
 		} catch (error) {
-			setError(
-				error instanceof Error
-					? error.message
-					: "Conexão interrompida. Tente novamente.",
-			);
+			setError(error instanceof Error ? error.message : t.genericError);
 			setBusy(false);
 		}
 	}
@@ -49,59 +46,56 @@ export function LoginForm() {
 			<span className="owner-lock">
 				<LockKeyhole size={25} />
 			</span>
-			<p className="eyebrow">Área do proprietário</p>
+			<p className="eyebrow">{t.loginEyebrow}</p>
 			<h1>
-				Seu negócio,
+				{t.loginTitle}
 				<br />
-				<em>sempre por perto.</em>
+				<em>{t.loginAccent}</em>
 			</h1>
-			<p>
-				Entre para acompanhar os pedidos e ativar as notificações neste
-				aparelho.
-			</p>
+			<p>{t.loginDescription}</p>
 			<div className="field">
-				<label htmlFor="username">Usuário</label>
+				<label htmlFor="username">{t.username}</label>
 				<input
 					id="username"
 					name="username"
+					required
+					maxLength={100}
 					autoComplete="username"
 					autoCapitalize="none"
 					spellCheck={false}
-					required
-					maxLength={100}
 					disabled={busy}
 				/>
 			</div>
 			<div className="field">
-				<label htmlFor="password">Senha</label>
+				<label htmlFor="password">{t.password}</label>
 				<div className="password-field">
 					<input
 						id="password"
 						name="password"
-						type={show ? "text" : "password"}
-						autoComplete="current-password"
 						required
 						maxLength={256}
+						autoComplete="current-password"
+						type={show ? "text" : "password"}
 						disabled={busy}
 					/>
 					<button
 						type="button"
 						onClick={() => setShow(!show)}
-						aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+						aria-label={show ? t.hidePassword : t.showPassword}
 					>
 						{show ? <EyeOff size={19} /> : <Eye size={19} />}
 					</button>
 				</div>
 			</div>
-			<button className="button" disabled={busy}>
+			<button type="submit" className="button" disabled={busy}>
 				{busy ? (
 					<>
 						<LoaderCircle size={18} className="spin" />
-						Entrando…
+						{t.signingIn}
 					</>
 				) : (
 					<>
-						Entrar no painel
+						{t.signIn}
 						<ArrowRight size={18} />
 					</>
 				)}
@@ -109,9 +103,7 @@ export function LoginForm() {
 			<p role="alert" className="field-error">
 				{error}
 			</p>
-			<small>
-				Clientes podem enviar pedidos pelo formulário sem fazer login.
-			</small>
+			<small>{t.visitorNote}</small>
 		</form>
 	);
 }
