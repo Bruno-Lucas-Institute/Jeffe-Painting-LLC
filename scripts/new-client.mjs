@@ -167,6 +167,10 @@ export function createClient({
 		".env.example",
 		`NEXT_PUBLIC_CLIENT_PROFILE=${id}\nNEXT_PUBLIC_SITE_URL=http://localhost:3000\nOWNER_USERNAME=\nOWNER_PASSWORD_HASH=\nOWNER_DATA_DIR=\nOWNER_DEV_ORIGINS=http://localhost:3000,http://127.0.0.1:3000\nVAPID_PUBLIC_KEY=\nVAPID_PRIVATE_KEY=\nVAPID_SUBJECT=mailto:replace@example.com\nPUSH_RETRY_SECRET=\nPUSH_RETRY_ORIGIN=\nTRUST_PROXY=false\n`,
 	);
+	write(
+		"README.md",
+		`# ${config.businessName}\n\nIndependent client website generated from the reusable business template.\n\n## Start\n\nRequires Node 24+. Run npm ci, copy .env.example to .env.local, then run npm run dev. This repository has one public profile: src/config/profiles/current.json (ID: ${id}). Update its branding, services, page content, form fields, optional sections and SEO. The initial content is a demonstration and indexing is disabled.\n\n## Owner and data\n\nRun npm run setup:owner -- --username YourOwnerName and provide a new password through stdin. Configure a dedicated persistent OWNER_DATA_DIR in production, stable VAPID keys, a real contact and the final HTTPS origin. No previous owner credentials, sessions or requests are included. Phone notifications require HTTPS and explicit device permission. Run npm run push:worker alongside the server for retries.\n\n## Verify and deploy\n\nRun npm run client:check, npm run lint, npm run typecheck, npm run test and npm run build. Use npm start on a Node 24 host with persistent disk and HTTPS. Get client approval before publication. See CLIENT_SETUP.md and OWNER_SETUP.md for launch and owner instructions. Requests are inquiries, not automatically confirmed bookings.\n\n## Create another independent client\n\nThe neutral blueprint and client:new command remain available. Each new destination gets fresh configuration and must set up its own owner and database.\n`,
+	);
 	return {
 		destination: target,
 		id,

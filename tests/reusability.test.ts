@@ -143,6 +143,11 @@ test("new client export is independent and excludes prior clients, credentials, 
 		),
 	);
 	assert.equal(profile.businessName, "Garden Care");
+	assert.ok(
+		readFileSync(join(destination, "README.md"), "utf8").startsWith(
+			"# Garden Care",
+		),
+	);
 	assert.equal(profile.id, "garden-care");
 	assert.equal(profile.demo, true);
 	assert.equal(profile.testimonials.length, 0);
