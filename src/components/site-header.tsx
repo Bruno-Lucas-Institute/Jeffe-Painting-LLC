@@ -13,6 +13,7 @@ const navigation = [
 	{ label: "Our work", href: "/projects" },
 	{ label: "About", href: "/about" },
 	{ label: "Contact", href: "/contact" },
+	{ label: "Team login", href: "/login" },
 ];
 
 export function SiteHeader() {
