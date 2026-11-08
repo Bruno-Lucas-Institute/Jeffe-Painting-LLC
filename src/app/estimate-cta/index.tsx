@@ -7,8 +7,8 @@ export function EstimateCta() {
 		<section className="cta-section">
 			<div>
 				<p className="eyebrow eyebrow-light">
-					<span className="eyebrow-line" /> Let&rsquo;s talk about
-					your project
+					<span className="eyebrow-line" />{" "}
+					Let&rsquo;s talk about your project
 				</p>
 				<h2>
 					Ready for a change
@@ -16,7 +16,7 @@ export function EstimateCta() {
 					you can feel?
 				</h2>
 			</div>
-			<div className="cta-actions">
+			<div className="cta-actions flex items-start flex-col gap-[15px]">
 				<Link className="button button-light" href="/contact">
 					Request your free estimate <ActionIcon name="estimate" />
 				</Link>

@@ -15,7 +15,8 @@ export default function ContactPage() {
 		<>
 			<section className="page-hero contact-hero">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> Let&rsquo;s make a plan
+					<span className="eyebrow-line" />{" "}
+					Let&rsquo;s make a plan
 				</p>
 				<h1>
 					Tell us what
@@ -35,8 +36,8 @@ export default function ContactPage() {
 				<div className="contact-form-panel">
 					<div className="form-heading">
 						<p className="eyebrow">
-							<span className="eyebrow-line" /> Request an
-							estimate
+							<span className="eyebrow-line" />{" "}
+							Request an estimate
 						</p>
 						<h2>
 							Let&rsquo;s talk about
@@ -51,23 +52,28 @@ export default function ContactPage() {
 					<EstimateForm />
 				</div>
 				<aside className="contact-aside">
-					<div className="contact-aside-block">
+					<div className="contact-aside-block mb-[35px]">
 						<p className="eyebrow">
-							<span className="eyebrow-line" /> Call or email
+							<span className="eyebrow-line" />{" "}
+							Call or email
 						</p>
-						<a className="contact-detail" href={client.phoneHref}>
+						<a
+							className="contact-detail block w-fit font-heading text-[19px]"
+							href={client.phoneHref}
+						>
 							{client.phone}
 						</a>
 						<a
-							className="contact-detail"
+							className="contact-detail block w-fit font-heading text-[19px]"
 							href={`mailto:${client.email}`}
 						>
 							{client.email}
 						</a>
 					</div>
-					<div className="contact-aside-block">
+					<div className="contact-aside-block mb-[35px]">
 						<p className="eyebrow">
-							<span className="eyebrow-line" /> Where we work
+							<span className="eyebrow-line" />{" "}
+							Where we work
 						</p>
 						<p>
 							Based in {client.location}
@@ -78,12 +84,16 @@ export default function ContactPage() {
 							{client.serviceTowns.join(" · ")}
 						</p>
 					</div>
-					<div className="contact-aside-block">
+					<div className="contact-aside-block mb-[35px]">
 						<p className="eyebrow">
-							<span className="eyebrow-line" /> Office hours
+							<span className="eyebrow-line" />{" "}
+							Office hours
 						</p>
 						{client.hours.map((item) => (
-							<div className="hours-row" key={item.days}>
+							<div
+								className="hours-row flex justify-between gap-[12px] text-muted text-[11px]"
+								key={item.days}
+							>
 								<span>{item.days}</span>
 								<span>{item.hours}</span>
 							</div>

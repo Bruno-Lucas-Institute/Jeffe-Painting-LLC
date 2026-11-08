@@ -9,7 +9,8 @@ export function Projects() {
 			<div className="section-heading">
 				<div>
 					<p className="eyebrow">
-						<span className="eyebrow-line" /> A few favorites
+						<span className="eyebrow-line" />{" "}
+						A few favorites
 					</p>
 					<h2>
 						Made with care.
@@ -28,7 +29,7 @@ export function Projects() {
 						href="/projects"
 						key={project.title}
 					>
-						<div className="project-card-image">
+						<div className="project-card-image absolute inset-0 overflow-hidden">
 							<Image
 								alt={project.imageAlt}
 								fill
@@ -36,11 +37,14 @@ export function Projects() {
 								src={project.image}
 							/>
 						</div>
-						<div className="project-caption">
+						<div className="project-caption absolute z-2 right-[24px] bottom-[25px] left-[24px]">
 							<span>{project.category}</span>
 							<h3>{project.title}</h3>
 						</div>
-						<span className="project-arrow" aria-hidden="true">
+						<span
+							className="project-arrow absolute z-2 top-[18px] right-[18px] grid w-[35px] h-[35px] place-items-center"
+							aria-hidden="true"
+						>
 							↗
 						</span>
 					</Link>

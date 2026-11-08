@@ -90,7 +90,7 @@ export function AdminInbox() {
 	}
 	return (
 		<section className="inbox-section">
-			<div className="inbox-toolbar">
+			<div className="inbox-toolbar flex items-center flex-wrap gap-[24px]">
 				<button className="button" onClick={enablePush}>
 					Enable notifications
 				</button>
@@ -109,14 +109,14 @@ export function AdminInbox() {
 			<p role="status">{notice}</p>
 			<h2>
 				Customer requests{" "}
-				<span className="inbox-count">{items.length}</span>
+				<span className="text-brand-red">{items.length}</span>
 			</h2>
 			{!notice && !items.length && (
 				<div className="inbox-card">
 					Your inbox is ready. New estimate requests will appear here.
 				</div>
 			)}
-			<div className="inbox-grid">
+			<div className="inbox-grid grid grid-cols-2 gap-[24px]">
 				{items.map((item) => (
 					<article className="inbox-card" key={item.id}>
 						<p className="eyebrow">{item.service}</p>
@@ -141,7 +141,7 @@ export function AdminInbox() {
 							<dt>Town / ZIP</dt>
 							<dd>{item.town}</dd>
 						</dl>
-						<p className="request-details">{item.details}</p>
+						<p className="whitespace-pre-wrap">{item.details}</p>
 						<a
 							className="button button-small"
 							href={`mailto:${item.email}?subject=Your%20Jeffe%20Painting%20estimate`}

@@ -1,29 +1,23 @@
+@reference "../app/globals.css";
+
 .experience-signature {
-	position: absolute;
-	z-index: 2;
+	@apply absolute z-2;
 	right: max(44px, calc((100vw - 1440px) / 2));
 	bottom: 48px;
-	display: flex;
-	align-items: center;
+	@apply flex items-center;
 	gap: 22px;
 	color: #f4ead8;
 }
 
 .experience-signature-value {
-	display: inline-flex;
-	align-items: flex-start;
-	font-family: var(--heading);
-	font-size: 88px;
-	font-weight: 500;
 	letter-spacing: -0.055em;
-	line-height: 0.9;
 }
 
 .experience-signature-value sup {
-	position: static;
+	@apply static;
 	margin: 3px 0 0 5px;
 	font-size: 0.4em;
-	font-weight: 400;
+	@apply font-normal;
 	letter-spacing: 0;
 	line-height: 1;
 }
@@ -32,12 +26,12 @@
 	max-width: 160px;
 	padding: 6px 0 6px 22px;
 	border-left: 1px solid rgb(244 234 216 / 45%);
-	font-family: var(--sans);
+	@apply font-body;
 	font-size: 11px;
-	font-weight: 500;
+	@apply font-medium;
 	letter-spacing: 0.13em;
 	line-height: 1.7;
-	text-transform: uppercase;
+	@apply uppercase;
 }
 
 @media (max-width: 760px) {
@@ -46,22 +40,20 @@
 	}
 
 	.trust-strip .trust-item {
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: baseline;
+		@apply flex-row justify-between items-baseline;
 		gap: 16px;
 	}
 
 	.trust-strip .trust-item > span {
 		max-width: 48%;
-		text-align: right;
+		@apply text-right;
 	}
 
 	.experience-signature {
-		position: relative;
+		@apply relative;
 		right: auto;
 		bottom: auto;
-		width: fit-content;
+		@apply w-fit;
 		margin: 28px 25px 32px;
 		gap: 18px;
 	}

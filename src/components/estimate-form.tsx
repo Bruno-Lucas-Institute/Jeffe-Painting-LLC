@@ -39,8 +39,11 @@ export function EstimateForm() {
 	}
 
 	return (
-		<form className="estimate-form" onSubmit={handleSubmit}>
-			<div className="form-grid">
+		<form
+			className="estimate-form flex flex-col items-start"
+			onSubmit={handleSubmit}
+		>
+			<div className="form-grid grid w-full grid-cols-2 gap-[17px]">
 				<label>
 					Your name
 					<input autoComplete="name" name="name" required />
@@ -67,7 +70,7 @@ export function EstimateForm() {
 					Town or ZIP code
 					<input autoComplete="postal-code" name="town" required />
 				</label>
-				<label className="form-full">
+				<label className="form-full col-span-full">
 					What can we help with?
 					<select defaultValue="" name="service" required>
 						<option disabled value="">
@@ -83,7 +86,7 @@ export function EstimateForm() {
 						</option>
 					</select>
 				</label>
-				<label className="form-full">
+				<label className="form-full col-span-full">
 					Tell us a little about your project
 					<textarea
 						name="details"
@@ -98,8 +101,14 @@ export function EstimateForm() {
 				<ActionIcon name="send" />
 			</button>
 			{sent && (
-				<div className="sent-confirmation" role="status">
-					<span className="success-check" aria-hidden="true">
+				<div
+					className="sent-confirmation flex w-full gap-[16px] items-center mt-[24px] rounded-[12px] text-forest"
+					role="status"
+				>
+					<span
+						className="success-check grid place-items-center w-[38px] h-[38px] shrink-0 bg-forest text-white text-[24px]"
+						aria-hidden="true"
+					>
 						✓
 					</span>
 					<div>

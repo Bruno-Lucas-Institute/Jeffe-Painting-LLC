@@ -29,9 +29,12 @@ export function LoginForm() {
 		}
 	}
 	return (
-		<form onSubmit={submit} className="estimate-form">
-			<div className="form-grid">
-				<label className="form-full">
+		<form
+			onSubmit={submit}
+			className="estimate-form flex flex-col items-start"
+		>
+			<div className="form-grid grid w-full grid-cols-2 gap-[17px]">
+				<label className="form-full col-span-full">
 					Name
 					<input
 						name="name"
@@ -40,7 +43,7 @@ export function LoginForm() {
 						maxLength={200}
 					/>
 				</label>
-				<label className="form-full">
+				<label className="form-full col-span-full">
 					Password
 					<input
 						name="password"

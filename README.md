@@ -17,6 +17,10 @@ Business details, services, project gallery entries, and reviews are maintained 
 
 The estimate form saves requests directly to the team's protected customer inbox.
 
+## Styling
+
+Start with Tailwind utilities in the component markup. Use the theme tokens in `src/app/globals.css` for shared colors and fonts. Keep shared selector rules, layered gradients, and keyframes in CSS, using `@apply` for utility-backed declarations in those rules.
+
 ## Checks
 
 ```bash

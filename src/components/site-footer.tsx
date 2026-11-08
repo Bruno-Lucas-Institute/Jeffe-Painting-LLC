@@ -5,7 +5,7 @@ import { client } from "@/config/client";
 export function SiteFooter() {
 	return (
 		<footer className="site-footer">
-			<div className="footer-main">
+			<div className="footer-main grid pb-[56px]">
 				<div className="footer-brand">
 					<Link className="wordmark wordmark-light" href="/">
 						<BrandLogo />
@@ -14,7 +14,7 @@ export function SiteFooter() {
 						Considered painting and refinishing for homes across{" "}
 						{client.serviceArea}.
 					</p>
-					<div className="footer-socials">
+					<div className="footer-socials flex gap-[18px]">
 						{client.socialLinks.map((social) => (
 							<a
 								href={social.href}
@@ -28,7 +28,7 @@ export function SiteFooter() {
 					</div>
 				</div>
 
-				<div className="footer-column">
+				<div className="footer-column flex flex-col items-start gap-[11px]">
 					<h2>Explore</h2>
 					<Link href="/services">Services</Link>
 					<Link href="/projects">Our work</Link>
@@ -36,7 +36,7 @@ export function SiteFooter() {
 					<Link href="/contact">Request an estimate</Link>
 				</div>
 
-				<div className="footer-column">
+				<div className="footer-column flex flex-col items-start gap-[11px]">
 					<h2>Get in touch</h2>
 					<a href={client.phoneHref}>{client.phone}</a>
 					<a href={`mailto:${client.email}`}>{client.email}</a>
@@ -47,7 +47,7 @@ export function SiteFooter() {
 					</span>
 				</div>
 			</div>
-			<div className="footer-bottom">
+			<div className="footer-bottom flex min-h-[62px] items-center justify-between gap-[20px] text-[10px]">
 				<span>
 					© {client.copyrightYear} {client.businessName}. All rights
 					reserved.

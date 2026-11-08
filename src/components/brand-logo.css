@@ -1,47 +1,26 @@
+@reference "../app/globals.css";
+
 .jeffe-logo {
-	display: inline-flex;
-	flex-direction: column;
-	align-items: stretch;
-	width: 3.5em;
-	gap: 5px;
 	color: #bc0000;
-	font-family: var(--sans);
-	font-size: 40px;
-	line-height: 1;
-	white-space: nowrap;
 	transition: font-size 200ms ease;
-}
-
-/* Both lines fill the same box; distribute letters to align both edges. */
-.jeffe-logo-name,
-.jeffe-logo-tagline {
-	display: flex;
-	justify-content: space-between;
-}
-
-.jeffe-logo-name {
-	font-family: var(--heading);
-	font-weight: 900;
 }
 
 .jeffe-logo-tagline {
 	font-family: var(--font-logo-rounded), var(--sans);
-	font-size: 0.48em;
-	font-weight: 700;
 }
 
 .jeffe-logo-tagline > span {
-	white-space: pre;
+	@apply whitespace-pre;
 }
 
 .wordmark-light .jeffe-logo {
-	color: var(--white);
+	@apply text-cream;
 }
 
 /* Match the estimate button height and share the navigation's center line. */
 .site-header .jeffe-logo {
 	height: 43px;
-	justify-content: space-between;
+	@apply justify-between;
 	gap: 0;
 	font-size: 27px;
 }

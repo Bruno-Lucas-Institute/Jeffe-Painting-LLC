@@ -3,7 +3,8 @@ export function Process() {
 		<section className="section process-section">
 			<div className="process-heading">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> The process
+					<span className="eyebrow-line" />{" "}
+					The process
 				</p>
 				<h2>
 					Easy to start.
@@ -15,7 +16,7 @@ export function Process() {
 					well done. Here is what getting started looks like.
 				</p>
 			</div>
-			<div className="process-steps">
+			<div className="process-steps grid gap-[21px]">
 				{[
 					[
 						"01",
@@ -33,8 +34,10 @@ export function Process() {
 						"Our crew takes care of the details, from prep through final walkthrough.",
 					],
 				].map(([number, title, description]) => (
-					<div className="process-step" key={number}>
-						<span className="step-number">{number}</span>
+					<div className="process-step pt-[13px]" key={number}>
+						<span className="text-brand-red font-heading text-[15px] not-italic">
+							{number}
+						</span>
 						<h3>{title}</h3>
 						<p>{description}</p>
 					</div>
