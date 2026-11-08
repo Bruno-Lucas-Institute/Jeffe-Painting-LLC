@@ -1,11 +1,11 @@
-import { Hero } from "./_sections/hero";
-import { TrustStrip } from "./_sections/trust-strip";
-import { Services } from "./_sections/services";
-import { Transformation } from "./_sections/transformation";
-import { Projects } from "./_sections/projects";
-import { Process } from "./_sections/process";
-import { Testimonials } from "./_sections/testimonials";
-import { EstimateCta } from "./_sections/estimate-cta";
+import { Hero } from "./hero";
+import { TrustStrip } from "./trust-strip";
+import { Services } from "./services-preview";
+import { Transformation } from "./transformation";
+import { Projects } from "./featured-projects";
+import { Process } from "./process";
+import { Testimonials } from "./testimonials";
+import { EstimateCta } from "./estimate-cta";
 
 export default function Home() {
 	return (
