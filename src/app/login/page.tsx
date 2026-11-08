@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 async function LoginContent() {
 	if (await authenticated()) redirect("/admin");
 	return (
-		<section className="login-section">
+		<section className="login-section max-w-[540px]">
 			<div className="contact-form-panel">
 				<p className="eyebrow">Jeffe Painting · Team</p>
 				<h1>Welcome back.</h1>

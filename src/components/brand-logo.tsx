@@ -12,16 +12,22 @@ const roundedLogo = localFont({
 export function BrandLogo() {
 	return (
 		<span
-			className={`jeffe-logo ${roundedLogo.variable}`}
+			className={`jeffe-logo inline-flex w-[3.5em] flex-col items-stretch gap-[5px] font-body text-[40px] leading-[1] whitespace-nowrap ${roundedLogo.variable}`}
 			aria-label={client.businessName}
 			role="img"
 		>
-			<span className="jeffe-logo-name" aria-hidden="true">
+			<span
+				className="flex justify-between font-heading font-black"
+				aria-hidden="true"
+			>
 				{Array.from(client.logo.name).map((letter, index) => (
 					<span key={index}>{letter}</span>
 				))}
 			</span>
-			<span className="jeffe-logo-tagline" aria-hidden="true">
+			<span
+				className="jeffe-logo-tagline flex justify-between text-[0.48em] font-bold"
+				aria-hidden="true"
+			>
 				{Array.from(client.logo.tagline).map((letter, index) => (
 					<span key={index}>{letter}</span>
 				))}

@@ -49,7 +49,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-			<body>
+			<body className="bg-background font-body text-[15px] leading-[1.65] text-foreground antialiased">
 				<SiteHeader />
 				<main>{children}</main>
 				<SiteFooter />

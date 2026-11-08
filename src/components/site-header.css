@@ -1,10 +1,12 @@
+@reference "../app/globals.css";
+
 .mobile-header-call {
-	display: none;
+	@apply hidden;
 }
 
 @media (max-width: 760px) {
 	.site-header .site-header-inner {
-		display: grid;
+		@apply grid;
 		grid-template-columns: 44px minmax(0, 1fr) 44px;
 		column-gap: 12px;
 	}
@@ -20,20 +22,19 @@
 	.site-header .wordmark {
 		grid-column: 2;
 		grid-row: 1;
-		justify-self: center;
+		@apply justify-self-center;
 	}
 
 	.site-header .mobile-header-call {
 		grid-column: 3;
 		grid-row: 1;
-		display: inline-flex;
+		@apply inline-flex;
 		width: 44px;
 		height: 44px;
-		align-items: center;
-		justify-content: center;
+		@apply items-center justify-center;
 		border: 1px solid var(--line);
 		border-radius: 12px;
-		color: var(--red);
+		@apply text-brand-red;
 	}
 
 	.mobile-header-call .action-icon {

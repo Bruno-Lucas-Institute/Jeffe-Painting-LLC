@@ -15,8 +15,8 @@ export default function ServicesPage() {
 		<>
 			<section className="page-hero">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> Services · Danbury &amp;
-					Fairfield County
+					<span className="eyebrow-line" />{" "}
+					Services · Danbury &amp; Fairfield County
 				</p>
 				<h1>
 					Thoughtful work,
@@ -40,7 +40,7 @@ export default function ServicesPage() {
 						id={service.href.split("#")[1]}
 						key={service.title}
 					>
-						<div className="service-detail-image">
+						<div className="service-detail-image relative min-h-[340px] overflow-hidden bg-paper-deep">
 							<Image
 								alt={service.imageAlt}
 								fill
@@ -48,7 +48,9 @@ export default function ServicesPage() {
 								sizes="(max-width: 760px) 100vw, 50vw"
 								src={service.image}
 							/>
-							<span className="image-index">0{index + 1}</span>
+							<span className="image-index">
+								0{index + 1}
+							</span>
 						</div>
 						<div className="service-detail-copy">
 							<p className="eyebrow">
@@ -57,7 +59,7 @@ export default function ServicesPage() {
 							</p>
 							<h2>{service.title}</h2>
 							<p>{service.description}</p>
-							<ul className="check-list">
+							<ul className="check-list flex p-0 flex-col gap-[8px] list-none text-[12px]">
 								{[
 									"Careful surface preparation",
 									"Clear communication from start to finish",
@@ -79,7 +81,8 @@ export default function ServicesPage() {
 			<section className="service-area-band">
 				<div>
 					<p className="eyebrow eyebrow-light">
-						<span className="eyebrow-line" /> Rooted in Danbury
+						<span className="eyebrow-line" />{" "}
+						Rooted in Danbury
 					</p>
 					<h2>
 						Local work.

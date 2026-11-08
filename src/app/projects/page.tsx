@@ -15,8 +15,8 @@ export default function ProjectsPage() {
 		<>
 			<section className="page-hero">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> Selected work · Fairfield
-					County, CT
+					<span className="eyebrow-line" />{" "}
+					Selected work · Fairfield County, CT
 				</p>
 				<h1>
 					Real homes.
@@ -32,13 +32,13 @@ export default function ProjectsPage() {
 				</Link>
 			</section>
 			<section className="gallery-section">
-				<div className="gallery-grid">
+				<div className="gallery-grid grid">
 					{client.projects.map((project, index) => (
 						<figure
 							className={`gallery-card gallery-card-${index + 1}`}
 							key={project.title}
 						>
-							<div className="gallery-image">
+							<div className="gallery-image relative overflow-hidden bg-paper-deep">
 								<Image
 									alt={project.imageAlt}
 									fill
@@ -62,8 +62,8 @@ export default function ProjectsPage() {
 			<section className="cta-section">
 				<div>
 					<p className="eyebrow eyebrow-light">
-						<span className="eyebrow-line" /> Your project could be
-						next
+						<span className="eyebrow-line" />{" "}
+						Your project could be next
 					</p>
 					<h2>
 						Let&rsquo;s make your
@@ -71,7 +71,7 @@ export default function ProjectsPage() {
 						home feel new again.
 					</h2>
 				</div>
-				<div className="cta-actions">
+				<div className="cta-actions flex items-start flex-col gap-[15px]">
 					<Link className="button button-light" href="/contact">
 						Request a free estimate <ActionIcon name="estimate" />
 					</Link>

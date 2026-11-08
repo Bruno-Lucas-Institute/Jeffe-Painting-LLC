@@ -5,9 +5,10 @@ import Link from "next/link";
 export function Transformation() {
 	return (
 		<section className="section transformation-section">
-			<div className="transformation-copy">
+			<div className="transformation-copy max-w-[460px]">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> Before &amp; after
+					<span className="eyebrow-line" />{" "}
+					Before &amp; after
 				</p>
 				<h2>
 					Small changes.
@@ -23,8 +24,8 @@ export function Transformation() {
 					See the project gallery <ActionIcon name="gallery" />
 				</Link>
 			</div>
-			<div className="transformation-images">
-				<figure className="transformation-after">
+			<div className="transformation-images relative grid h-[350px] items-center">
+				<figure className="transformation-after h-[320px]">
 					<Image
 						alt="After: refreshed interior with clean, bright finishes"
 						fill

@@ -15,7 +15,8 @@ export default function AboutPage() {
 		<>
 			<section className="page-hero">
 				<p className="eyebrow">
-					<span className="eyebrow-line" /> A little about us
+					<span className="eyebrow-line" />{" "}
+					A little about us
 				</p>
 				<h1>
 					Good people.
@@ -33,7 +34,7 @@ export default function AboutPage() {
 			</section>
 
 			<section className="about-story">
-				<div className="about-image">
+				<div className="about-image relative min-h-[500px] overflow-hidden bg-paper-deep">
 					<Image
 						alt="A carefully painted interior by Jeffe Painting"
 						fill
@@ -41,11 +42,14 @@ export default function AboutPage() {
 						sizes="(max-width: 760px) 100vw, 48vw"
 						src="/images/hero-interior.webp"
 					/>
-					<span className="image-index">DANBURY, CONNECTICUT</span>
+					<span className="image-index">
+						DANBURY, CONNECTICUT
+					</span>
 				</div>
 				<div className="about-copy">
 					<p className="eyebrow">
-						<span className="eyebrow-line" /> Built on experience
+						<span className="eyebrow-line" />{" "}
+						Built on experience
 					</p>
 					<h2>
 						A familiar face.
@@ -73,7 +77,8 @@ export default function AboutPage() {
 			<section className="values-section">
 				<div className="values-intro">
 					<p className="eyebrow">
-						<span className="eyebrow-line" /> What matters to us
+						<span className="eyebrow-line" />{" "}
+						What matters to us
 					</p>
 					<h2>
 						The kind of care
@@ -81,7 +86,7 @@ export default function AboutPage() {
 						we&rsquo;d want at home.
 					</h2>
 				</div>
-				<div className="values-grid">
+				<div className="values-grid grid">
 					{[
 						[
 							"01",
@@ -104,7 +109,7 @@ export default function AboutPage() {
 							"We want every edge, surface, and room to feel considered when the job is done.",
 						],
 					].map(([number, title, description]) => (
-						<article className="value-card" key={number}>
+						<article className="value-card pt-[15px]" key={number}>
 							<span>{number}</span>
 							<h3>{title}</h3>
 							<p>{description}</p>
@@ -131,8 +136,8 @@ export default function AboutPage() {
 			<section className="cta-section">
 				<div>
 					<p className="eyebrow eyebrow-light">
-						<span className="eyebrow-line" /> Here when you&rsquo;re
-						ready
+						<span className="eyebrow-line" />{" "}
+						Here when you&rsquo;re ready
 					</p>
 					<h2>
 						Tell us what
@@ -140,7 +145,7 @@ export default function AboutPage() {
 						you have in mind.
 					</h2>
 				</div>
-				<div className="cta-actions">
+				<div className="cta-actions flex items-start flex-col gap-[15px]">
 					<Link className="button button-light" href="/contact">
 						Start a conversation <ActionIcon name="message" />
 					</Link>
