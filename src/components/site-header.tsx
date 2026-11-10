@@ -33,7 +33,7 @@ export function SiteHeader() {
 
 	return (
 		<header
-			className={`site-header${isScrolled ? " is-compact" : ""}`}
+			className={`site-header sticky top-0 z-20 bg-background${isScrolled ? " is-compact" : ""}`}
 			onKeyDown={(event) => {
 				if (event.key === "Escape" && menuOpen) {
 					setMenuOpen(false);
@@ -41,7 +41,7 @@ export function SiteHeader() {
 				}
 			}}
 		>
-			<div className="site-header-inner">
+			<div className="site-header-inner flex items-center justify-between">
 				<button
 					ref={menuButtonRef}
 					aria-controls="primary-navigation"
@@ -74,7 +74,7 @@ export function SiteHeader() {
 
 				<nav
 					aria-label="Main navigation"
-					className={`site-nav${menuOpen ? " is-open" : ""}`}
+					className={`site-nav flex items-center text-[13px]${menuOpen ? " is-open" : ""}`}
 					id="primary-navigation"
 				>
 					{navigation.map((item) => (
@@ -86,7 +86,10 @@ export function SiteHeader() {
 							{item.label}
 						</Link>
 					))}
-					<a className="nav-phone" href={client.phoneHref}>
+					<a
+						className="nav-phone inline-flex items-center gap-[7px]"
+						href={client.phoneHref}
+					>
 						<ActionIcon name="phone" /> Call {client.phone}
 					</a>
 					<Link

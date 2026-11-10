@@ -14,13 +14,13 @@ export default function Projects() {
 		<>
 			<PageHero prefix="projectsPage" />
 			<section className="gallery-section">
-				<div className="gallery-grid">
+				<div className="gallery-grid grid">
 					{client.projects.map((project, index) => (
 						<figure
 							className={`gallery-card gallery-card-${(index % 6) + 1}`}
 							key={project.title}
 						>
-							<div className="gallery-image">
+							<div className="gallery-image relative overflow-hidden bg-paper-deep">
 								<Image
 									src={project.image}
 									alt={project.imageAlt}

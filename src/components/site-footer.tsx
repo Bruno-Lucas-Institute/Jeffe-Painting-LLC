@@ -5,7 +5,7 @@ import { BrandLogo } from "./brand-logo";
 export function SiteFooter() {
 	return (
 		<footer className="site-footer">
-			<div className="footer-main">
+			<div className="footer-main grid pb-[56px]">
 				<div className="footer-brand">
 					<Link href="/" className="wordmark wordmark-light">
 						<BrandLogo />
@@ -46,7 +46,7 @@ export function SiteFooter() {
 					</span>
 				</div>
 			</div>
-			<div className="footer-bottom">
+			<div className="footer-bottom flex min-h-[62px] items-center justify-between gap-[20px] text-[10px]">
 				<span>
 					© {client.copyrightYear} {client.businessName}.{" "}
 					{client.content.footerRights}

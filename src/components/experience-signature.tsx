@@ -8,7 +8,10 @@ export function ExperienceSignature() {
 			role="img"
 			aria-label={`${client.yearsExperience}+ ${client.content.experienceCaption}`}
 		>
-			<span className="experience-signature-value" aria-hidden="true">
+			<span
+				className="experience-signature-value inline-flex items-start font-heading text-[88px] font-medium leading-[0.9]"
+				aria-hidden="true"
+			>
 				{client.yearsExperience}
 				<sup>+</sup>
 			</span>

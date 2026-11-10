@@ -1,3 +1,5 @@
+@reference "./globals.css";
+
 :root {
 	--header-content-height: 88px;
 	--header-height: calc(var(--header-content-height) + 1px);
@@ -9,14 +11,14 @@
 
 /* Grow with content rather than clipping short screens or enlarged text. */
 .hero.viewport-hero {
-	display: grid;
+	@apply grid;
 	grid-template-rows: 1fr auto;
 	min-height: calc(100vh - var(--header-height));
 	min-height: calc(100svh - var(--header-height));
 }
 
 .viewport-hero .hero-copy {
-	min-height: 0;
+	@apply min-h-0;
 	padding: clamp(32px, 6svh, 80px) 5.5vw 96px
 		max(44px, calc((100vw - 1440px) / 2));
 }

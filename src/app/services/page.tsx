@@ -23,7 +23,7 @@ export default function Services() {
 						id={service.id}
 						key={service.id}
 					>
-						<div className="service-detail-image">
+						<div className="service-detail-image relative min-h-[340px] overflow-hidden bg-paper-deep">
 							<Image
 								src={service.image}
 								alt={service.imageAlt}

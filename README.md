@@ -46,6 +46,11 @@ Default development storage: `.local-data/<business-id>/owner.sqlite`, table `in
 Existing request payloads remain readable. Stable service IDs are used going forward and a service-label snapshot is stored; legacy title-valued requests still display. Extra form values are stored in `fields`. Maintain retention/access policies and a consistent SQLite backup strategy. Run on one persistent Node host; migrate to a shared database before scaling across hosts.
 
 Login uses salted scrypt hashes and random, revocable server sessions. Cookies are HttpOnly/SameSite=Strict and Secure in production. Password changes and business identity changes invalidate sessions. Mutations check the origin, requests have bounded bodies and persistent quotas, forms have a honeypot, and push endpoints are restricted to known browser providers. Behind a trusted proxy that overwrites forwarded headers, set `TRUST_PROXY=true`; otherwise visitors share a conservative quota. Configure edge protection for a real launch.
+The estimate form saves requests directly to the team's protected customer inbox.
+
+## Styling
+
+Start with Tailwind utilities in the component markup. Use the theme tokens in `src/app/globals.css` for shared colors and fonts. Keep shared selector rules, layered gradients, and keyframes in CSS, using `@apply` for utility-backed declarations in those rules.
 
 ## Phone installation and notifications
 
@@ -76,3 +81,14 @@ npm run build
 `tests/reusability.test.ts` exercises multiple industries and the sanitized exporter. Other tests cover dynamic fields, database identity, persistence, sessions, abuse limits and notification retry behavior. `npm run qa:local` reads a password through stdin and verifies local pages, browser asset requests and owner session flow without creating customer inquiries. Use a separate QA database/environment for integration testing.
 
 Browser automation and physical-device push verification depend on the environment; do not treat HTTP tests as visual accessibility or notification-delivery certification. The dependency installation reported eight moderate advisories in the existing toolchain; review compatible updates before a production launch rather than forcing unrelated downgrades.
+## Customer inbox and mobile notifications
+
+Node.js 24+ is required (SQLite is stored on the server). Run `JEFFE_ADMIN_PASSWORD='<chosen password>' node scripts/setup-local.mjs` once to create a private `.env.local`. Open `/login` and use the configured `jef` account. There is no public registration; customer requests do not require login.
+
+The form saves requests to SQLite and only then shows “Information sent / Check your email for updates.” The team replies manually using the inbox email link; automatic customer emails are not configured. The inbox refreshes every 15 seconds and shows the latest 200 requests.
+
+For production, configure the variables from `.env.example` in the hosting environment. Use HTTPS, Node.js 24+, and a **single server with a persistent volume** for `DATABASE_PATH`; ephemeral/serverless filesystems will lose data and must be replaced with a managed database before deploying. Back up the database. Keep the same VAPID keys across deployments and never expose the private key or password hash to browser code.
+
+On iPhone (iOS 16.4+), use Share → Add to Home Screen, open the installed app, sign in and tap Enable notifications. Android can install through the browser menu. Notification permission is requested only by the button. Requests remain saved if push delivery fails. Push messages contain no customer details; opening the inbox requires a valid session. Device subscriptions remain enrolled until permission is revoked in that device's settings; signing out revokes the session, not notification permission.
+
+Checks: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`. For HTTP integration checks, start the app with a temporary database and test environment credentials, then run `TEST_BASE_URL=http://localhost:3000 TEST_ADMIN_PASSWORD='<test password>' npm run test:integration`. These checks create synthetic requests; never point them at production.

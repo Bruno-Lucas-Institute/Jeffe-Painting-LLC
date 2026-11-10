@@ -23,7 +23,7 @@ export default function Contact() {
 					<EstimateForm />
 				</div>
 				<aside className="contact-aside">
-					<div className="contact-aside-block">
+					<div className="contact-aside-block mb-[35px]">
 						<p className="eyebrow">
 							{client.content.contactHeading}
 						</p>
@@ -36,7 +36,7 @@ export default function Contact() {
 							</a>
 						)}
 						<a
-							className="contact-detail"
+							className="contact-detail block w-fit font-heading text-[19px]"
 							href={`mailto:${client.email}`}
 						>
 							{client.email}
@@ -60,7 +60,10 @@ export default function Contact() {
 					<div className="contact-aside-block">
 						<p className="eyebrow">{client.content.hoursHeading}</p>
 						{client.hours.map((item) => (
-							<div className="hours-row" key={item.days}>
+							<div
+								className="hours-row flex justify-between gap-[12px] text-muted text-[11px]"
+								key={item.days}
+							>
 								<span>{item.days}</span>
 								<span>{item.hours}</span>
 							</div>
