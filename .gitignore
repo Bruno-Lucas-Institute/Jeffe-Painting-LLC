@@ -1,6 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-*.md
 
 # dependencies
 /node_modules
@@ -37,4 +36,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Private owner data and credentials
+.local-data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.env*
+!.env.example
+!OWNER_SETUP.md
+
+.qa/
+.npm-cache/
 /data/

@@ -1,5 +1,5 @@
 {
-	"name": "jeffe-painting-app",
+	"name": "reusable-business-template",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -10,13 +10,23 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"typecheck": "tsc --noEmit",
+		"test": "node --conditions=react-server --import tsx --test tests/*.test.ts",
+		"push:worker": "node --env-file-if-exists=.env.local scripts/push-worker.mjs",
+		"setup:owner": "node scripts/setup-owner.mjs",
+		"client:new": "node --import tsx scripts/new-client.mjs",
+		"client:check": "node --import tsx scripts/check-client.mjs",
+		"qa:local": "node --env-file-if-exists=.env.local --import tsx scripts/qa-local.mjs"
 		"test": "node --experimental-strip-types --test tests/*.test.mjs",
 		"test:integration": "node --experimental-strip-types --test tests/*.integration.mjs"
 	},
 	"dependencies": {
+		"lucide-react": "^1.69.0",
 		"next": "16.4.4",
 		"react": "19.3.0",
 		"react-dom": "19.3.0",
+		"server-only": "^0.0.1",
+		"web-push": "^3.6.7",
+		"zod": "^4.6.7"
 		"web-push": "^3.6.7"
 	},
 	"devDependencies": {
@@ -30,6 +40,10 @@
 		"prettier": "^3.9.10",
 		"prettier-plugin-tailwindcss": "^0.8.1",
 		"tailwindcss": "^4",
+		"tsx": "^4.23.15",
 		"typescript": "^5"
+	},
+	"engines": {
+		"node": ">=24.0.0"
 	}
 }

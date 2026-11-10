@@ -1,0 +1,566 @@
+{
+	"businessName": "Jeffe Painting LLC",
+	"logo": {
+		"name": "JEFFE",
+		"tagline": "Painting LLC",
+		"mark": "J",
+		"image": ""
+	},
+	"shortName": "Jeffe Painting",
+	"phone": "(855) 772-3391",
+	"phoneHref": "tel:+18557723391",
+	"email": "jeffe8138@gmail.com",
+	"location": "Danbury, CT",
+	"serviceArea": "Fairfield County, CT",
+	"serviceTowns": [
+		"Danbury",
+		"Ridgefield",
+		"Westport",
+		"Greenwich",
+		"Stamford",
+		"Fairfield"
+	],
+	"yearsExperience": 25,
+	"reviewRating": "5.0",
+	"reviewCount": "97+",
+	"copyrightYear": 2026,
+	"hours": [
+		{
+			"days": "Monday–Saturday",
+			"hours": "8:00 AM–5:30 PM"
+		},
+		{
+			"days": "Sunday",
+			"hours": "Closed"
+		}
+	],
+	"socialLinks": [
+		{
+			"label": "Facebook",
+			"href": "https://www.facebook.com/people/Jeffe-Painting-LLC/61571465634865/"
+		},
+		{
+			"label": "Instagram",
+			"href": "https://www.instagram.com/jeffe_painting_llc/"
+		}
+	],
+	"services": [
+		{
+			"title": "Interior painting",
+			"description": "Thoughtful preparation and clean, lasting finishes for walls, ceilings, trim, doors, and the details that make a room feel complete.",
+			"href": "/services#interior",
+			"image": "/images/interior-painting.webp",
+			"imageAlt": "Freshly finished interior with crisp trim and painted walls",
+			"label": "Inside your home",
+			"id": "interior",
+			"bullets": [
+				"A clearly agreed scope",
+				"Careful preparation",
+				"Communication throughout the work"
+			]
+		},
+		{
+			"title": "Exterior painting",
+			"description": "Weather-ready finishes for siding, shutters, doors, trim, and porches, applied with care for your home's character.",
+			"href": "/services#exterior",
+			"image": "/images/exterior-painting.webp",
+			"imageAlt": "Recently painted home exterior with clean white trim",
+			"label": "Curb appeal",
+			"id": "exterior",
+			"bullets": [
+				"A clearly agreed scope",
+				"Careful preparation",
+				"Communication throughout the work"
+			]
+		},
+		{
+			"title": "Cabinet refinishing",
+			"description": "Give your kitchen a fresh start with detailed cabinet preparation and a smooth finish, without replacing the cabinets you have.",
+			"href": "/services#cabinets",
+			"image": "/images/cabinet-refinishing.webp",
+			"imageAlt": "Refinished kitchen cabinetry in a rich charcoal finish",
+			"label": "A kitchen refresh",
+			"id": "cabinets",
+			"bullets": [
+				"A clearly agreed scope",
+				"Careful preparation",
+				"Communication throughout the work"
+			]
+		},
+		{
+			"title": "Closet painting",
+			"description": "Refresh closets, shelving, doors, and built-ins with a considered finish that brings a little more polish to everyday spaces.",
+			"href": "/services#closets",
+			"image": "/images/closet-painting.webp",
+			"imageAlt": "Custom painted built-in cabinetry and shelving",
+			"label": "The finishing touch",
+			"id": "closets",
+			"bullets": [
+				"A clearly agreed scope",
+				"Careful preparation",
+				"Communication throughout the work"
+			]
+		}
+	],
+	"projects": [
+		{
+			"title": "A kitchen, renewed",
+			"category": "Cabinet refinishing",
+			"image": "/images/project-kitchen.webp",
+			"imageAlt": "Bright white kitchen with freshly painted cabinets"
+		},
+		{
+			"title": "A deeper shade, a fresh feel",
+			"category": "Cabinet refinishing",
+			"image": "/images/project-sage-kitchen.webp",
+			"imageAlt": "Sage green kitchen cabinets with brass hardware"
+		},
+		{
+			"title": "Clean lines, lasting finish",
+			"category": "Interior painting",
+			"image": "/images/project-wainscoting.webp",
+			"imageAlt": "Crisp white painted interior doors and wainscoting"
+		},
+		{
+			"title": "A welcoming first impression",
+			"category": "Exterior painting",
+			"image": "/images/project-exterior.webp",
+			"imageAlt": "Painted cedar-shake home exterior with white entry trim"
+		},
+		{
+			"title": "Storage with a finished look",
+			"category": "Closets & built-ins",
+			"image": "/images/project-mudroom.webp",
+			"imageAlt": "Painted mudroom cabinetry with brass hardware"
+		},
+		{
+			"title": "A room, refreshed",
+			"category": "Interior painting",
+			"image": "/images/transformation-after.webp",
+			"imageAlt": "A completed painting transformation in a homeowner's space"
+		}
+	],
+	"testimonials": [
+		{
+			"quote": "Their attention to detail shows in every step—from prep work like sanding and filling nail pops to the smooth, drip-free finishes and sharp, clean lines around trim and edges.",
+			"name": "Janet Bruehlman",
+			"location": "Ridgefield, CT"
+		},
+		{
+			"quote": "Their ability to renew my maple kitchen cabinets without the high cost of new cabinets was outstanding. My cabinets now look perfect and amazingly beautiful.",
+			"name": "Kelly Carvalho",
+			"location": "Local homeowner"
+		}
+	],
+	"id": "jeffe-painting",
+	"industry": "painting",
+	"locale": "en-US",
+	"demo": false,
+	"description": "Thoughtful painting and refinishing in Danbury and Fairfield County, Connecticut.",
+	"navigation": [
+		{
+			"label": "Services",
+			"href": "/services"
+		},
+		{
+			"label": "Our work",
+			"href": "/projects"
+		},
+		{
+			"label": "About",
+			"href": "/about"
+		},
+		{
+			"label": "Contact",
+			"href": "/contact"
+		}
+	],
+	"cta": {
+		"label": "Request a free estimate",
+		"href": "/contact",
+		"free": true
+	},
+	"theme": {
+		"primary": "#a82d27",
+		"primaryDark": "#84231e",
+		"paper": "#f7f5ef",
+		"paperDeep": "#efede5",
+		"ink": "#242720",
+		"muted": "#6f7169",
+		"line": "#deddd4",
+		"forest": "#293d34",
+		"white": "#fffefa",
+		"heading": "outfit",
+		"body": "inter",
+		"radius": "8px",
+		"palette": {
+			"0003": "#0003",
+			"10261eb3": "#10261eb3",
+			"203a2910": "#203a2910",
+			"232b25": "#232b25",
+			"242720": "#242720",
+			"252a25": "#252a25",
+			"293d34": "#293d34",
+			"4a4b45": "#4a4b45",
+			"52564e": "#52564e",
+			"62675b": "#62675b",
+			"664019": "#664019",
+			"6f7169": "#6f7169",
+			"77786c": "#77786c",
+			"7d8277": "#7d8277",
+			"84231e": "#84231e",
+			"999990": "#999990",
+			"a02d2d": "#a02d2d",
+			"a82d27": "#a82d27",
+			"ab7036": "#ab7036",
+			"b38339": "#b38339",
+			"bc0000": "#bc0000",
+			"c8c6ba": "#c8c6ba",
+			"cad4c0": "#cad4c0",
+			"d7b4a1": "#d7b4a1",
+			"d8d6cc": "#d8d6cc",
+			"deddd4": "#deddd4",
+			"e0b5a2": "#e0b5a2",
+			"e7cabb": "#e7cabb",
+			"e7eadd": "#e7eadd",
+			"e8c8b7": "#e8c8b7",
+			"e9ece5": "#e9ece5",
+			"edf0e5": "#edf0e5",
+			"efede5": "#efede5",
+			"f0d7b3": "#f0d7b3",
+			"f0eee7": "#f0eee7",
+			"f1efe8": "#f1efe8",
+			"f4ead8": "#f4ead8",
+			"f4f1e8": "#f4f1e8",
+			"f7f5ef": "#f7f5ef",
+			"fff7e8": "#fff7e8",
+			"fffefa": "#fffefa"
+		},
+		"sectionSpace": "110px",
+		"containerWidth": "1300px"
+	},
+	"features": {
+		"projects": true,
+		"testimonials": true,
+		"transformation": true,
+		"experience": true,
+		"areas": true,
+		"owner": true,
+		"push": true,
+		"inquiry": true
+	},
+	"home": {
+		"sections": [
+			"hero",
+			"trust",
+			"services",
+			"transformation",
+			"projects",
+			"process",
+			"testimonials",
+			"cta"
+		],
+		"layout": "editorial",
+		"heroImage": "/images/hero-interior.webp",
+		"heroAlt": "A bright interior with carefully finished walls and trim"
+	},
+	"transformation": {
+		"before": "/images/transformation-before.webp",
+		"beforeAlt": "A room before preparation",
+		"after": "/images/transformation-after.webp",
+		"afterAlt": "A refreshed interior"
+	},
+	"about": {
+		"image": "/images/hero-interior.webp",
+		"imageAlt": "A carefully finished interior",
+		"imageLabel": "DANBURY, CONNECTICUT"
+	},
+	"content": {
+		"heroTitle": "A fresh coat.",
+		"heroAccent": "A feeling of home.",
+		"heroDescription": "Thoughtful painting and refinishing, done with care for the home you love. Proudly serving homeowners across Fairfield County.",
+		"heroCaption": "A little care goes a long way.",
+		"heroSide": "JEFFE PAINTING · DANBURY, CT",
+		"experienceCaption": "Years of painting experience",
+		"servicesEyebrow": "What we do",
+		"servicesTitle": "Good work lives\nin the details.",
+		"servicesDescription": "From a single room to a full exterior refresh, we bring the same careful preparation and pride in the finish to every project.",
+		"servicesLink": "Explore all services",
+		"transformationEyebrow": "Before & after",
+		"transformationTitle": "Small changes.",
+		"transformationAccent": "Remarkable difference.",
+		"transformationDescription": "A tired finish can make a whole room feel dated. With the right preparation and a steady hand, familiar spaces can feel new again.",
+		"transformationLink": "See the project gallery",
+		"transformationStamp": "A home\nrefreshed",
+		"beforeLabel": "Before",
+		"afterLabel": "After",
+		"projectsEyebrow": "A few favorites",
+		"projectsTitle": "Made with care.\nMade to feel like home.",
+		"projectsLink": "View all projects",
+		"processEyebrow": "The process",
+		"processTitle": "Easy to start.",
+		"processAccent": "Good to come home to.",
+		"processDescription": "Clear communication and respectful work are part of a job well done. Here is what getting started looks like.",
+		"testimonialsEyebrow": "Kind words",
+		"testimonialsTitle": "Better homes.\nHappier homeowners.",
+		"ctaEyebrow": "Let’s talk about your project",
+		"ctaTitle": "Ready for a change\nyou can feel?",
+		"callLabel": "Or call",
+		"preferCall": "Prefer to talk?",
+		"servicesPageEyebrow": "Services · Danbury & Fairfield County",
+		"servicesPageTitle": "Thoughtful work,",
+		"servicesPageAccent": "beautifully finished.",
+		"servicesPageDescription": "From a room that needs a reset to a kitchen ready for a new chapter, we bring experience, careful prep, and pride in the details.",
+		"areaEyebrow": "Rooted in Danbury",
+		"areaTitle": "Local work.\nA personal touch.",
+		"areaDescription": "A locally owned team in Danbury, serving homes throughout Fairfield County.",
+		"areaLink": "Check availability",
+		"aboutEyebrow": "A little about us",
+		"aboutTitle": "Good people.",
+		"aboutAccent": "Work done with care.",
+		"aboutDescription": "Jeffe Painting is a local team built around a simple idea: treat every home with respect, and take pride in the work you leave behind.",
+		"aboutStoryEyebrow": "Built on experience",
+		"aboutStoryTitle": "A familiar face.",
+		"aboutStoryAccent": "A finish you can feel good about.",
+		"aboutStoryBody": "With 25 years in the trade, Jefferson and his crew understand that a painting project is about more than color. It is about how a home feels when the work is finished—and how it is treated along the way.",
+		"aboutStorySecond": "From the first conversation through the final walkthrough, the focus stays on thoughtful preparation, dependable scheduling, and clean, careful work.",
+		"valuesEyebrow": "What matters to us",
+		"valuesTitle": "The kind of care\nwe’d want at home.",
+		"projectsPageEyebrow": "Selected work · Fairfield County, CT",
+		"projectsPageTitle": "Real homes.",
+		"projectsPageAccent": "Carefully refreshed.",
+		"projectsPageDescription": "A look at painting, cabinet refinishing, and detail work for local homeowners.",
+		"projectsNote": "Every home and project is different. Ask us what is possible for yours.",
+		"contactEyebrow": "Let’s make a plan",
+		"contactTitle": "Tell us what",
+		"contactAccent": "you have in mind.",
+		"contactDescription": "Share a few details and Jefferson will be in touch to talk through your project and arrange an estimate.",
+		"formEyebrow": "Request an estimate",
+		"formTitle": "Let’s talk about\nyour project.",
+		"formDescription": "Every detail helps us get a better sense of what you need.",
+		"contactHeading": "Call or email",
+		"areasHeading": "Where we work",
+		"hoursHeading": "Office hours",
+		"contactNote": "Not sure what you need? That’s okay. A quick call is a great place to start.",
+		"footerDescription": "Considered painting and refinishing for homes across Fairfield County.",
+		"footerTagline": "Made for homes that feel like yours.",
+		"footerExplore": "Explore",
+		"footerContact": "Get in touch",
+		"footerRights": "All rights reserved.",
+		"ownerLogin": "Owner login",
+		"privacyLink": "Privacy",
+		"demoNotice": "Demonstration content — replace before launch.",
+		"emptyProjects": "Project examples will be added here.",
+		"emptyTestimonials": "Client feedback will appear here when available.",
+		"skipLink": "Skip to content"
+	},
+	"trust": [
+		{
+			"value": "Clear communication",
+			"caption": "From the first conversation"
+		},
+		{
+			"value": "Careful preparation",
+			"caption": "Respect for your space"
+		},
+		{
+			"value": "Locally owned",
+			"caption": "Danbury & Fairfield County"
+		}
+	],
+	"process": [
+		{
+			"title": "Tell us about it",
+			"description": "Share a few details about your project and where you are located."
+		},
+		{
+			"title": "Get a clear estimate",
+			"description": "Talk through the work and review the proposed scope."
+		},
+		{
+			"title": "Enjoy the refresh",
+			"description": "Review the completed work together."
+		}
+	],
+	"values": [
+		{
+			"title": "Respect for your home",
+			"description": "Protect the things around us and treat the space with care."
+		},
+		{
+			"title": "Preparation with purpose",
+			"description": "A lasting finish starts with patient preparation."
+		},
+		{
+			"title": "Straightforward communication",
+			"description": "Clear expectations help the project feel easier."
+		},
+		{
+			"title": "Pride in the details",
+			"description": "Review the work and the agreed scope together."
+		}
+	],
+	"form": {
+		"contactMethod": "either",
+		"fields": [
+			{
+				"id": "name",
+				"label": "Your name",
+				"type": "text",
+				"required": true,
+				"minLength": 2,
+				"maxLength": 100,
+				"width": "half",
+				"autoComplete": "name"
+			},
+			{
+				"id": "email",
+				"label": "Email address",
+				"type": "email",
+				"required": true,
+				"maxLength": 200,
+				"width": "half",
+				"autoComplete": "email"
+			},
+			{
+				"id": "phone",
+				"label": "Phone number",
+				"type": "tel",
+				"required": true,
+				"maxLength": 30,
+				"width": "half",
+				"autoComplete": "tel"
+			},
+			{
+				"id": "town",
+				"label": "Town or ZIP code",
+				"type": "text",
+				"required": true,
+				"minLength": 2,
+				"maxLength": 200,
+				"width": "half",
+				"autoComplete": "postal-code"
+			},
+			{
+				"id": "details",
+				"label": "Tell us a little about your project",
+				"type": "textarea",
+				"required": true,
+				"minLength": 10,
+				"maxLength": 4000,
+				"width": "full",
+				"placeholder": "What would you like painted or refreshed?"
+			}
+		],
+		"serviceLabel": "What can we help with?",
+		"serviceRequired": true,
+		"allowOther": true,
+		"otherLabel": "Something else",
+		"submitLabel": "Send my estimate request",
+		"sendingLabel": "Sending your request…",
+		"successTitle": "Request sent successfully!",
+		"successMessage": "Thank you. Your request has been received.",
+		"closeLabel": "OK",
+		"note": "No account needed. Your request is sent directly to the business owner.",
+		"errorSummary": "Please check the highlighted fields."
+	},
+	"owner": {
+		"enabled": true,
+		"locale": "en-US",
+		"timezone": "America/New_York",
+		"sessionDays": 30,
+		"maxDevices": 10,
+		"copy": {
+			"loginEyebrow": "Owner access",
+			"loginTitle": "Your business,",
+			"loginAccent": "always within reach.",
+			"loginDescription": "Sign in to manage requests and notifications on this device.",
+			"username": "Username",
+			"password": "Password",
+			"showPassword": "Show password",
+			"hidePassword": "Hide password",
+			"signIn": "Sign in",
+			"signingIn": "Signing in…",
+			"visitorNote": "Customers can send requests without an account.",
+			"privateArea": "Private workspace",
+			"greeting": "Hello,",
+			"inboxSubtitle": "Every request, in one place.",
+			"signOut": "Sign out on this device",
+			"received": "Requests received",
+			"unread": "Unread",
+			"read": "Reviewed",
+			"inboxEyebrow": "Inbox",
+			"inboxTitle": "Customer requests",
+			"refresh": "Refresh",
+			"autoRefresh": "Updates every 30 seconds while this page is visible.",
+			"emptyTitle": "Ready for your first request.",
+			"emptyDescription": "New requests will appear here. Customers do not need an account.",
+			"newRequest": "New request",
+			"readLabel": "Read",
+			"markRead": "Mark as read",
+			"requestId": "Request",
+			"previous": "Previous",
+			"next": "Next",
+			"page": "Page",
+			"pending": "Notifications waiting to retry. Requests are already saved.",
+			"refreshError": "Unable to refresh. Showing the last successful update.",
+			"readError": "Unable to update this request. Please try again.",
+			"logoutError": "Unable to sign out. Please try again.",
+			"budget": "Budget",
+			"notificationEyebrow": "Your office, in your pocket",
+			"notificationTitle": "Keep up with new requests.",
+			"notificationDescription": "Install the site and allow notifications. Alerts include a request summary; open the private dashboard for full details.",
+			"notificationEnabled": "Enabled on this device",
+			"notificationSetup": "Set up this device",
+			"notificationChecking": "Checking device…",
+			"install": "Add to Home Screen",
+			"enable": "Enable notifications",
+			"disable": "Disable on this device",
+			"disableAll": "Disable notifications on all devices",
+			"test": "Send a test notification",
+			"working": "Please wait…",
+			"httpsLabel": "HTTPS required",
+			"httpsMessage": "This address uses HTTP. Phone notifications require a trusted HTTPS address. Requests remain available in the dashboard.",
+			"installLabel": "Install on the Home Screen",
+			"installMessage": "On iPhone/iPad, open in Safari, choose Share → Add to Home Screen, then open the icon, sign in and enable notifications. iOS/iPadOS 16.4+ is required.",
+			"unsupportedLabel": "Browser not supported",
+			"unsupportedMessage": "Use an updated browser that supports Web Push.",
+			"deniedLabel": "Permission blocked",
+			"deniedMessage": "Allow notifications in the browser’s site settings, then reopen this dashboard.",
+			"serverNotConfigured": "Notifications have not been configured on this server.",
+			"pushInitError": "Unable to confirm notifications. Try enabling them again.",
+			"pushEnabled": "Notifications are registered on this device. Send a test to check receipt.",
+			"pushDisabled": "Notifications disabled on this device.",
+			"pushDisabledAll": "Notifications disabled on all devices.",
+			"testAccepted": "The push service accepted the test. Check your device.",
+			"testFailed": "Unable to send the test. Try enabling this device again.",
+			"enableFirst": "Enable notifications first.",
+			"installAndroid": "Open the browser menu and choose Install app or Add to Home Screen. Then open the icon and sign in.",
+			"devicePrivacy": "Request details may appear on the lock screen. Disable all devices if an enrolled device is lost.",
+			"deviceInstructions": "Android: browser menu → Install app. iPhone: Safari → Share → Add to Home Screen. Open the installed icon, sign in and allow notifications. Installing alone does not grant permission.",
+			"genericError": "Unable to complete this action. Please try again.",
+			"loginError": "Incorrect username or password.",
+			"sessionExpired": "Please sign in again.",
+			"loading": "Loading your private workspace…"
+		},
+		"pushTitle": "New request received",
+		"testTitle": "Notifications enabled",
+		"testBody": "This device is ready to receive new requests."
+	},
+	"seo": {
+		"title": "Jeffe Painting LLC | Painting in Danbury & Fairfield County, CT",
+		"description": "Interior and exterior painting, cabinet refinishing, and closet painting in Danbury and Fairfield County, Connecticut.",
+		"indexable": true,
+		"socialImage": "/images/hero-interior.webp"
+	},
+	"legacyDatabaseId": "jeffe-painting",
+	"privacy": {
+		"title": "Privacy",
+		"reviewNotice": "Policy template — business-specific review required before launch.",
+		"paragraphs": [
+			"Information submitted through the inquiry form is stored on the business server for owner follow-up. Authorized owner devices can receive encrypted notification summaries via their push providers. The private dashboard requires login.",
+			"The site uses an HttpOnly owner-session cookie and temporary hashed rate-limit identifiers. The operating business must specify its identity, retention periods, providers, privacy contact and applicable rights before launch.",
+			"Do not submit sensitive personal information through the inquiry form."
+		]
+	}
+}

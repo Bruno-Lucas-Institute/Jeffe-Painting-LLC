@@ -7,12 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { client } from "@/config/client";
 import { buttonStyles, smallButtonStyles } from "@/components/button";
 
+import { visibleNavigation } from "@/lib/composition";
 const navigation = [
 	{ label: "Services", href: "/services" },
 	{ label: "Our work", href: "/projects" },
 	{ label: "About", href: "/about" },
+	{ label: "Contact", href: "/contact" },
+	{ label: "Team login", href: "/login" },
 ];
-
 export function SiteHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -80,17 +82,19 @@ export function SiteHeader() {
 							{item.label}
 						</Link>
 					))}
-					<div className="flex items-center gap-[18px] max-[760px]:mt-3.75 max-[760px]:flex-col max-[760px]:items-stretch max-[760px]:gap-3.75 [&>.button]:min-h-12 [&>.button]:px-6 [&>.button]:text-[15px]">
-						<a
-							className="text-muted inline-flex items-center gap-1.75 whitespace-nowrap max-[760px]:py-3.25"
-							href={client.phoneHref}
-						>
-							<ActionIcon name="phone" /> Call {client.phone}
-						</a>
-						<Link className={`button ${buttonStyles} ${smallButtonStyles}`} href="/contact" onClick={() => setMenuOpen(false)}>
-							Request an estimate <ActionIcon name="estimate" />
-						</Link>
-					</div>
+					<a
+						className="nav-phone inline-flex items-center gap-[7px]"
+						href={client.phoneHref}
+					>
+						<ActionIcon name="phone" /> Call {client.phone}
+					</a>
+					<Link
+						className="button button-small"
+						href="/contact"
+						onClick={() => setMenuOpen(false)}
+					>
+						Request an estimate <ActionIcon name="estimate" />
+					</Link>
 				</nav>
 			</div>
 		</header>
