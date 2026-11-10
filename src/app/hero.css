@@ -1,0 +1,43 @@
+:root {
+	--header-content-height: 88px;
+	--header-height: calc(var(--header-content-height) + 1px);
+}
+
+.site-header .site-header-inner {
+	min-height: var(--header-content-height);
+}
+
+/* Grow with content rather than clipping short screens or enlarged text. */
+.hero.viewport-hero {
+	display: grid;
+	grid-template-rows: 1fr auto;
+	min-height: calc(100vh - var(--header-height));
+	min-height: calc(100svh - var(--header-height));
+}
+
+.viewport-hero .hero-copy {
+	min-height: 0;
+	padding: clamp(32px, 6svh, 80px) 5.5vw 96px
+		max(44px, calc((100vw - 1440px) / 2));
+}
+
+@media (max-width: 1050px) and (min-width: 761px) {
+	.viewport-hero .hero-copy {
+		padding-left: 40px;
+	}
+}
+
+@media (max-width: 760px) {
+	:root {
+		--header-content-height: 72px;
+	}
+
+	.site-header .site-nav {
+		max-height: calc(100vh - var(--header-height));
+		max-height: calc(100dvh - var(--header-height));
+	}
+
+	.viewport-hero .hero-copy {
+		padding: clamp(28px, 5svh, 48px) 25px 0;
+	}
+}

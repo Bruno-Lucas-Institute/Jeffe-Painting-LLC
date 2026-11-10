@@ -1,23 +1,12 @@
-import { Hero } from "./hero";
-import { TrustStrip } from "./trust-strip";
-import { Services } from "./services-preview";
-import { Transformation } from "./transformation";
-import { Projects } from "./featured-projects";
-import { Process } from "./process";
-import { Testimonials } from "./testimonials";
-import { EstimateCta } from "./estimate-cta";
-
+import { client } from "@/config/client";
+import { homeSections } from "@/lib/composition";
+import { BusinessSection } from "@/components/business-sections";
 export default function Home() {
 	return (
-		<>
-			<Hero />
-			<TrustStrip />
-			<Services />
-			<Transformation />
-			<Projects />
-			<Process />
-			<Testimonials />
-			<EstimateCta />
-		</>
+		<div className={`business-home layout-${client.home.layout}`}>
+			{homeSections(client).map((section, index) => (
+				<BusinessSection type={section} key={`${section}-${index}`} />
+			))}
+		</div>
 	);
 }

@@ -6,6 +6,7 @@ import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+import "@/components/owner/owner.css";
 import "./hero.css";
 import "@/components/button-styles.css";
 
@@ -36,13 +37,11 @@ export const metadata: Metadata = {
 		statusBarStyle: "default",
 		title: client.shortName,
 	},
-	icons: { apple: "/app-icon-192.png" },
-	title: {
-		default: `${client.businessName} | Painting in Danbury & Fairfield County, CT`,
-		template: `%s | ${client.shortName}`,
-	},
-	description:
-		"Interior and exterior painting, cabinet refinishing, and closet painting from Jefferson's trusted local team in Danbury and Fairfield County, Connecticut.",
+	icons: { apple: "/apple-icon" },
+	metadataBase: new URL(siteOrigin),
+	...pageMetadata(client.seo.title, client.seo.description, "/"),
+	title: { default: client.seo.title, template: `%s | ${client.shortName}` },
+	robots: { index: client.seo.indexable, follow: client.seo.indexable },
 };
 
 export default function RootLayout({
@@ -51,8 +50,20 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-			<body className="bg-background font-body text-[15px] leading-[1.65] text-foreground antialiased">
+		<html
+			style={themeStyle(client)}
+			lang={client.locale.split("-")[0]}
+			className={`${inter.variable} ${outfit.variable}`}
+		>
+			<body>
+				<a className="skip-link" href="#main-content">
+					{client.content.skipLink}
+				</a>
+				{client.demo && (
+					<div className="template-demo-notice">
+						{client.content.demoNotice}
+					</div>
+				)}
 				<SiteHeader />
 				<main id="main-content">{children}</main>
 				<SiteFooter />

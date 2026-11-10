@@ -26,6 +26,8 @@
 
 .business-logo-tagline {
 	font-family: var(--font-logo-rounded), var(--sans);
+	font-size: 0.48em;
+	font-weight: 700;
 }
 
 .business-logo-tagline > span {
@@ -39,7 +41,7 @@
 /* Match the estimate button height and share the navigation's center line. */
 .site-header .business-logo {
 	height: 43px;
-	@apply justify-between;
+	justify-content: space-between;
 	gap: 0;
 	font-size: 27px;
 }

@@ -47,4 +47,3 @@ next-env.d.ts
 
 .qa/
 .npm-cache/
-/data/
