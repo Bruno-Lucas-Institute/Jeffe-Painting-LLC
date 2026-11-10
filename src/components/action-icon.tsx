@@ -23,7 +23,7 @@ export function ActionIcon({ name }: { name: ActionIconName }) {
 	return (
 		<svg
 			aria-hidden="true"
-			className="inline-block h-4.5 w-4.5 shrink-0 align-middle"
+			className="action-icon"
 			focusable="false"
 			width="18"
 			height="18"
