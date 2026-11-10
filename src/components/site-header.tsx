@@ -7,12 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { client } from "@/config/client";
 import { buttonStyles, smallButtonStyles } from "@/components/button";
 
+import { visibleNavigation } from "@/lib/composition";
 const navigation = [
 	{ label: "Services", href: "/services" },
 	{ label: "Our work", href: "/projects" },
 	{ label: "About", href: "/about" },
+	{ label: "Contact", href: "/contact" },
+	{ label: "Team login", href: "/login" },
 ];
-
 export function SiteHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);

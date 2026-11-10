@@ -1,9 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { themeStyle } from "@/config/theme";
+import { pageMetadata, siteOrigin } from "@/lib/seo";
 import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+import "./hero.css";
+import "@/components/button-styles.css";
 
 const inter = localFont({
 	src: "./fonts/inter-variable.ttf",
@@ -22,18 +26,19 @@ const outfit = localFont({
 export const viewport: Viewport = {
 	width: "device-width",
 	initialScale: 1,
-	themeColor: "#293d34",
+	viewportFit: "cover",
+	themeColor: client.theme.primary,
 };
-
 export const metadata: Metadata = {
+	manifest: "/manifest.webmanifest",
 	appleWebApp: {
 		capable: true,
-		title: "Jeffe Painting",
 		statusBarStyle: "default",
+		title: client.shortName,
 	},
 	icons: { apple: "/app-icon-192.png" },
 	title: {
-		default: `${client.businessName}`,
+		default: `${client.businessName} | Painting in Danbury & Fairfield County, CT`,
 		template: `%s | ${client.shortName}`,
 	},
 	description:
@@ -47,9 +52,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-			<body className="bg-background font-body text-3.75 text-foreground leading-[1.65] antialiased max-[760px]:text-sm">
+			<body className="bg-background font-body text-[15px] leading-[1.65] text-foreground antialiased">
 				<SiteHeader />
-				<main>{children}</main>
+				<main id="main-content">{children}</main>
 				<SiteFooter />
 			</body>
 		</html>

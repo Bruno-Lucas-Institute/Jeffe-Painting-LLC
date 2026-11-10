@@ -1,13 +1,5 @@
-import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
 import { client } from "@/config/client";
-
-const footerServices = [
-	{ label: "Interior painting", href: "/services#interior" },
-	{ label: "Exterior painting", href: "/services#exterior" },
-	{ label: "Cabinet refinishing", href: "/services#cabinets" },
-	{ label: "Closet painting", href: "/services#closets" },
-];
 
 export function SiteFooter() {
 	return (
@@ -89,50 +81,28 @@ export function SiteFooter() {
 								className="transition-colors hover:text-[#f2dfb1]"
 								href={service.href}
 							>
-								{service.label}
-							</Link>
+								{social.label}
+							</a>
 						))}
 					</div>
-
-					<div className="flex flex-col gap-3 text-sm text-white/75">
-						<h3 className="mb-2 text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[#d7c59b]">
-							Get in touch
-						</h3>
-						<a className="transition-colors hover:text-[#f2dfb1]" href={client.phoneHref}>
-							{client.phone}
-						</a>
-						<a className="transition-colors hover:text-[#f2dfb1]" href={`mailto:${client.email}`}>
-							{client.email}
-						</a>
-						<p className="leading-6 text-white/70">
-							{client.location}
-							<br />
-							Serving {client.serviceArea}
-						</p>
-						<div className="mt-1 flex gap-4 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/60">
-							{client.socialLinks.map((social) => (
-								<a
-									href={social.href}
-									key={social.label}
-									rel="noreferrer"
-									target="_blank"
-									className="transition-colors hover:text-[#f2dfb1]"
-								>
-									{social.label}
-								</a>
-							))}
-						</div>
-					</div>
 				</div>
-			</div>
 
 			<div className="border-t border-white/10 bg-[#121a17]">
 				<div className="mx-auto flex max-w-325 flex-col items-start justify-between gap-2 px-[max(24px,calc((100vw-1300px)/2))] py-4 text-sm text-white/55 max-[700px]:items-start">
 					<span>
-						© {client.copyrightYear} {client.businessName}. All rights reserved.
+						{client.location}
+						<br />
+						Serving {client.serviceArea}
 					</span>
 					<span>Made for homes that feel like yours.</span>
 				</div>
+			</div>
+			<div className="footer-bottom flex min-h-[62px] items-center justify-between gap-[20px] text-[10px]">
+				<span>
+					© {client.copyrightYear} {client.businessName}. All rights
+					reserved.
+				</span>
+				<span>Made for homes that feel like yours.</span>
 			</div>
 		</footer>
 	);

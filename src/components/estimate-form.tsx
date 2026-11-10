@@ -1,47 +1,81 @@
 "use client";
 
 import { ActionIcon } from "@/components/action-icon";
-import { buttonStyles } from "@/components/button";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { client } from "@/config/client";
-
+import { estimateSchema } from "@/lib/validation/estimate";
+import { ActionIcon } from "./action-icon";
 export function EstimateForm() {
 	const [notice, setNotice] = useState("");
-
-	const [pending, setPending] = useState(false);
+	const [busy, setBusy] = useState(false);
 	const [sent, setSent] = useState(false);
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+		{},
+	);
+	const dialog = useRef<HTMLDialogElement>(null);
+	const status = useRef<HTMLParagraphElement>(null);
+	const f = client.form;
+	async function submit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
+		if (busy || sent) return;
 		const form = event.currentTarget;
-		setPending(true);
 		setNotice("");
-		setSent(false);
+		const parsed = estimateSchema.safeParse(
+			Object.fromEntries(new FormData(form)),
+		);
+		if (!parsed.success) {
+			setErrors(parsed.error.flatten().fieldErrors);
+			setNotice(f.errorSummary);
+			requestAnimationFrame(() =>
+				form
+					.querySelector<HTMLElement>('[aria-invalid="true"]')
+					?.focus(),
+			);
+			return;
+		}
+		setErrors({});
+		setBusy(true);
 		try {
-			const response = await fetch("/api/appointments", {
+			const response = await fetch("/api/quote", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(Object.fromEntries(new FormData(form))),
+				body: JSON.stringify(parsed.data),
+				signal: AbortSignal.timeout(15000),
 			});
 			const result = await response.json();
-			if (!response.ok)
-				throw new Error(result.error || "Please try again.");
-			setSent(true);
+			if (!response.ok) {
+				setErrors(result.fields || {});
+				throw new Error(
+					result.error ||
+						"Unable to save your request. Please try again.",
+				);
+			}
+			if (result.mode !== "saved")
+				throw new Error("The server did not confirm this request.");
 			form.reset();
+			if (dialog.current?.showModal) {
+				setSent(true);
+				dialog.current.showModal();
+			} else setNotice(f.successTitle);
 		} catch (error) {
 			setNotice(
 				error instanceof Error
 					? error.message
-					: "Could not send your request. Please try again.",
+					: "Connection interrupted. Your details are still here.",
 			);
+			requestAnimationFrame(() => status.current?.focus());
 		} finally {
-			setPending(false);
+			setBusy(false);
 		}
 	}
-
+	if (!client.features.inquiry) return null;
 	return (
-		<form className="flex flex-col items-start" onSubmit={handleSubmit}>
-			<div className="[&_label]:text-2.75 [&_input]:bg-cream [&_input]:text-3.25 [&_input]:text-foreground [&_input:focus]:border-brand-red [&_select]:bg-cream [&_select]:text-3.25 [&_select]:text-foreground [&_select:focus]:border-brand-red [&_textarea]:bg-cream [&_textarea]:text-3.25 [&_textarea]:text-foreground [&_textarea:focus]:border-brand-red grid w-full grid-cols-2 gap-5.5 max-[700px]:grid-cols-1 [&_input]:min-h-11.75 [&_input]:w-full [&_input]:rounded-none [&_input]:border [&_input]:border-[#d8d6cc] [&_input]:px-3 [&_input]:py-2.75 [&_input]:outline-none [&_input::placeholder]:text-[#999990] [&_input:focus]:shadow-[0_0_0_2px_rgba(168,45,39,0.1)] [&_label]:flex [&_label]:flex-col [&_label]:gap-2.25 [&_label]:font-semibold [&_label]:text-[#4a4b45] [&_select]:min-h-11.75 [&_select]:w-full [&_select]:rounded-none [&_select]:border [&_select]:border-[#d8d6cc] [&_select]:px-3 [&_select]:py-2.75 [&_select]:outline-none [&_select:focus]:shadow-[0_0_0_2px_rgba(168,45,39,0.1)] [&_textarea]:min-h-11.75 [&_textarea]:w-full [&_textarea]:resize-y [&_textarea]:rounded-none [&_textarea]:border [&_textarea]:border-[#d8d6cc] [&_textarea]:px-3 [&_textarea]:py-2.75 [&_textarea]:outline-none [&_textarea::placeholder]:text-[#999990] [&_textarea:focus]:shadow-[0_0_0_2px_rgba(168,45,39,0.1)]">
+		<form
+			className="estimate-form flex flex-col items-start"
+			onSubmit={handleSubmit}
+		>
+			<div className="form-grid grid w-full grid-cols-2 gap-[17px]">
 				<label>
 					Your name
 					<input autoComplete="name" name="name" required />
@@ -68,7 +102,7 @@ export function EstimateForm() {
 					Town or ZIP code
 					<input autoComplete="postal-code" name="town" required />
 				</label>
-				<label className="col-span-full">
+				<label className="form-full col-span-full">
 					What can we help with?
 					<select defaultValue="" name="service" required>
 						<option disabled value="">
@@ -84,7 +118,7 @@ export function EstimateForm() {
 						</option>
 					</select>
 				</label>
-				<label className="col-span-full">
+				<label className="form-full col-span-full">
 					Tell us a little about your project
 					<textarea
 						name="details"
@@ -94,33 +128,26 @@ export function EstimateForm() {
 					/>
 				</label>
 			</div>
-			<button
-				className={`mt-5.25 ${buttonStyles}`}
-				type="submit"
-				disabled={pending}
-			>
+			<button className="button" type="submit" disabled={pending}>
 				{pending ? "Sending…" : "Request an appointment"}{" "}
 				<ActionIcon name="send" />
 			</button>
 			{sent && (
 				<div
-					className="text-forest animate-confirmation-in mt-6 flex w-full items-center gap-4 rounded-xl border border-[#c0d3c4] bg-[#edf5ed] p-5"
+					className="sent-confirmation flex w-full gap-[16px] items-center mt-[24px] rounded-[12px] text-forest"
 					role="status"
 				>
 					<span
-						className="bg-forest grid h-9.5 w-9.5 shrink-0 place-items-center rounded-full text-2xl text-white"
+						className="success-check grid place-items-center w-[38px] h-[38px] shrink-0 bg-forest text-white text-[24px]"
 						aria-hidden="true"
 					>
 						✓
 					</span>
 					<div>
 						<strong>Information sent</strong>
-						<p className="mt-0.5 mb-0">
-							Check your email for updates.
-						</p>
+						<p>Check your email for updates.</p>
 					</div>
 					<button
-						className="text-6.5 ml-auto min-h-11 min-w-11 cursor-pointer border-0 bg-transparent"
 						type="button"
 						aria-label="Dismiss confirmation"
 						onClick={() => setSent(false)}
@@ -129,7 +156,7 @@ export function EstimateForm() {
 					</button>
 				</div>
 			)}
-			<p role="alert" className="text-2.5 text-muted mt-2.75 mb-0">
+			<p role="alert" className="form-note">
 				{notice}
 			</p>
 		</form>

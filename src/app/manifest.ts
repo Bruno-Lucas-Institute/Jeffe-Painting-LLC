@@ -1,17 +1,26 @@
 import type { MetadataRoute } from "next";
+import { client } from "@/config/client";
 export default function manifest(): MetadataRoute.Manifest {
 	return {
-		name: "Jeffe Painting",
-		short_name: "Jeffe",
-		description: "Painting estimates and customer inbox",
-		start_url: "/admin",
+		id: "/",
+		name: client.businessName,
+		short_name: client.shortName,
+		description: client.description,
+		start_url: client.features.owner ? "/owner" : "/",
+		scope: "/",
 		display: "standalone",
-		background_color: "#f7f5ef",
-		theme_color: "#293d34",
+		theme_color: client.theme.primary,
+		background_color: client.theme.paper,
+		lang: client.locale,
 		icons: [
-			{ src: "/app-icon-192.png", sizes: "192x192", type: "image/png" },
 			{
-				src: "/app-icon-512.png",
+				src: "/icon",
+				sizes: "512x512",
+				type: "image/png",
+				purpose: "any",
+			},
+			{
+				src: "/icon",
 				sizes: "512x512",
 				type: "image/png",
 				purpose: "maskable",
