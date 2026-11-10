@@ -12,9 +12,9 @@ const footerServices = [
 export function SiteFooter() {
 	return (
 		<footer className="relative overflow-hidden bg-[#1a231f] text-[#f7f3ea]">
-			<div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-			<div className="relative mx-auto max-w-[1300px] px-[max(24px,calc((100vw-1300px)/2))] py-16 max-[760px]:px-6.25 max-[760px]:py-12">
-				<div className="mb-10 rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top_left,_rgba(176,143,75,0.22),_transparent_35%),rgba(42,52,47,0.96)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.2)] sm:p-8 lg:flex lg:items-center lg:justify-between">
+			<div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
+			<div className="relative mx-auto max-w-325max(24px,calc((100vw-1300px)/2))] py-16 max-[760px]:px-6.25 max-[760px]:py-12">
+				<div className="mb-10 rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(176,143,75,0.22),transparent_35%),rgba(42,52,47,0.96)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.2)] sm:p-8 lg:flex lg:items-center lg:justify-between">
 					<div>
 						<p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#d7c59b]">
 							Your home, refreshed
@@ -40,7 +40,7 @@ export function SiteFooter() {
 				</div>
 
 				<div className="grid gap-10 pb-10 md:grid-cols-[1.4fr_0.7fr_0.7fr_1fr]">
-					<div className="max-w-[28rem]">
+					<div className="max-w-md">
 						<Link
 							className="inline-flex shrink-0 items-center gap-2.75"
 							href="/"
@@ -127,7 +127,7 @@ export function SiteFooter() {
 			</div>
 
 			<div className="border-t border-white/10 bg-[#121a17]">
-				<div className="mx-auto flex max-w-[1300px] flex-col items-start justify-between gap-2 px-[max(24px,calc((100vw-1300px)/2))] py-4 text-sm text-white/55 max-[700px]:items-start">
+				<div className="mx-auto flex max-w-325 flex-col items-start justify-between gap-2 px-[max(24px,calc((100vw-1300px)/2))] py-4 text-sm text-white/55 max-[700px]:items-start">
 					<span>
 						© {client.copyrightYear} {client.businessName}. All rights reserved.
 					</span>

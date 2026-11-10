@@ -39,7 +39,7 @@ export function SiteHeader() {
 				}
 			}}
 		>
-			<div className="mx-auto flex min-h-[78px] w-[min(calc(100%-48px),1280px)] items-center justify-between max-[760px]:grid max-[760px]:min-h-[78px] max-[760px]:w-[calc(100%-48px)] max-[760px]:grid-cols-[40px_minmax(0,1fr)_40px] max-[760px]:gap-x-4">
+			<div className="mx-auto flex min-h-19.5 w-[min(calc(100%-48px),1280px)] items-center justify-between max-[760px]:grid max-[760px]:min-h-19.5 max-[760px]:w-[calc(100%-48px)] max-[760px]:grid-cols-[40px_minmax(0,1fr)_40px] max-[760px]:gap-x-4">
 				<button
 					ref={menuButtonRef}
 					aria-controls="primary-navigation"
@@ -80,7 +80,7 @@ export function SiteHeader() {
 							{item.label}
 						</Link>
 					))}
-					<div className="flex items-center gap-[18px] max-[760px]:mt-3.75 max-[760px]:flex-col max-[760px]:items-stretch max-[760px]:gap-3.75 [&>.button]:min-h-12 [&>.button]:px-6 [&>.button]:text-[15px]">
+					<div className="flex items-center gap-4.5 max-[760px]:mt-3.75 max-[760px]:flex-col max-[760px]:items-stretch max-[760px]:gap-3.75 [&>.button]:min-h-12 [&>.button]:px-6 [&>.button]:text-[15px]">
 						<a
 							className="text-muted inline-flex items-center gap-1.75 whitespace-nowrap max-[760px]:py-3.25"
 							href={client.phoneHref}
