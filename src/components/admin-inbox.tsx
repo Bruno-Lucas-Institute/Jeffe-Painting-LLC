@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Appointment } from "@/lib/appointments";
+import { buttonStyles, smallButtonStyles } from "@/components/button";
 export function AdminInbox() {
 	const router = useRouter();
 	const [items, setItems] = useState<Appointment[]>([]);
@@ -89,61 +90,83 @@ export function AdminInbox() {
 		}
 	}
 	return (
-		<section className="inbox-section">
-			<div className="inbox-toolbar flex items-center flex-wrap gap-[24px]">
-				<button className="button" onClick={enablePush}>
+		<section className="px-[max(24px,calc((100vw-1200px)/2))] pb-20 max-[760px]:px-6">
+			<div className="flex flex-wrap items-center gap-6 [&>button]:cursor-pointer">
+				<button
+					className={`button ${buttonStyles}`}
+					onClick={enablePush}
+				>
 					Enable notifications
 				</button>
-				<button className="text-link" onClick={refresh}>
+				<button
+					className="text-3.25 hover:text-brand-red inline-flex items-center gap-2.75 border-0 border-b border-current bg-transparent pb-0.75 font-semibold transition-colors"
+					onClick={refresh}
+				>
 					Refresh
 				</button>
-				<button className="text-link" onClick={logout}>
+				<button
+					className="text-3.25 hover:text-brand-red inline-flex items-center gap-2.75 border-0 border-b border-current bg-transparent pb-0.75 font-semibold transition-colors"
+					onClick={logout}
+				>
 					Sign out
 				</button>
 			</div>
-			<p className="form-note">
+			<p className="text-2.5 text-muted mt-2.75 mb-0">
 				On iPhone: Share → Add to Home Screen. Open the app, sign in,
 				then enable notifications.
 			</p>
-			<p role="status">{pushNotice}</p>
-			<p role="status">{notice}</p>
-			<h2>
+			<p className="text-muted text-sm" role="status">
+				{pushNotice}
+			</p>
+			<p className="text-muted text-sm" role="status">
+				{notice}
+			</p>
+			<h2 className="font-heading text-8 my-7 font-normal">
 				Customer requests{" "}
 				<span className="text-brand-red">{items.length}</span>
 			</h2>
 			{!notice && !items.length && (
-				<div className="inbox-card">
+				<div className="border-line rounded-xl border bg-white p-7 wrap-anywhere">
 					Your inbox is ready. New estimate requests will appear here.
 				</div>
 			)}
-			<div className="inbox-grid grid grid-cols-2 gap-[24px]">
+			<div className="grid grid-cols-2 gap-6 max-[760px]:grid-cols-1">
 				{items.map((item) => (
-					<article className="inbox-card" key={item.id}>
-						<p className="eyebrow">{item.service}</p>
-						<h3>{item.name}</h3>
-						<p>
+					<article
+						className="border-line rounded-xl border bg-white p-7 wrap-anywhere"
+						key={item.id}
+					>
+						<p className="text-2.5 text-brand-red m-0 font-bold tracking-[0.14em] uppercase">
+							{item.service}
+						</p>
+						<h3 className="font-heading text-7 m-0">{item.name}</h3>
+						<p className="text-3 text-muted">
 							<time dateTime={item.createdAt}>
 								{new Date(item.createdAt).toLocaleString()}
 							</time>
 						</p>
-						<dl>
-							<dt>Email</dt>
+						<dl className="[&_dd]:m-0">
+							<dt className="text-3 text-muted mt-3">Email</dt>
 							<dd>
 								<a
-									className="text-link"
+									className="text-3.25 break-all underline decoration-current underline-offset-4"
 									href={`mailto:${item.email}`}
 								>
 									{item.email}
 								</a>
 							</dd>
-							<dt>Phone</dt>
+							<dt className="text-3 text-muted mt-3">Phone</dt>
 							<dd>{item.phone}</dd>
-							<dt>Town / ZIP</dt>
+							<dt className="text-3 text-muted mt-3">
+								Town / ZIP
+							</dt>
 							<dd>{item.town}</dd>
 						</dl>
-						<p className="whitespace-pre-wrap">{item.details}</p>
+						<p className="text-3.25 leading-[1.7] whitespace-pre-wrap">
+							{item.details}
+						</p>
 						<a
-							className="button button-small"
+							className={`button ${buttonStyles} ${smallButtonStyles}`}
 							href={`mailto:${item.email}?subject=Your%20Jeffe%20Painting%20estimate`}
 						>
 							Reply by email

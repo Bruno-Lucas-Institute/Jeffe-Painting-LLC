@@ -1,40 +1,65 @@
 import { EstimateForm } from "@/components/estimate-form";
 import { client } from "@/config/client";
-import { PageHero, Lines } from "@/components/business-sections";
-import { pageMetadata } from "@/lib/seo";
-export const metadata = pageMetadata(
-	client.content.contactTitle,
-	client.content.contactDescription,
-	"/contact",
-);
-export default function Contact() {
+
+export const metadata: Metadata = {
+	title: "Request a Free Painting Estimate",
+	description:
+		"Contact Jeffe Painting for a free painting estimate in Danbury and Fairfield County, CT. Call or share a few details about your project.",
+};
+
+export default function ContactPage() {
 	return (
 		<>
-			<PageHero prefix="contact" />
+			<section className="page-hero contact-hero">
+				<p className="eyebrow">
+					<span className="eyebrow-line" />{" "}
+					Let&rsquo;s make a plan
+				</p>
+				<h1>
+					Tell us what
+					<br />
+					<em>you have in mind.</em>
+				</h1>
+				<p>
+					Share a few details and Jefferson will be in touch to talk
+					through your project and arrange a free estimate.
+				</p>
+				<a className="text-link" href={client.phoneHref}>
+					Or call {client.phone} <ActionIcon name="phone" />
+				</a>
+			</section>
+
 			<section className="contact-section">
 				<div className="contact-form-panel">
 					<div className="form-heading">
-						<p className="eyebrow">{client.content.formEyebrow}</p>
+						<p className="eyebrow">
+							<span className="eyebrow-line" />{" "}
+							Request an estimate
+						</p>
 						<h2>
-							<Lines text={client.content.formTitle} />
+							Let&rsquo;s talk about
+							<br />
+							your project.
 						</h2>
-						<p>{client.content.formDescription}</p>
+						<p>
+							Every detail helps us get a better sense of what you
+							need.
+						</p>
 					</div>
 					<EstimateForm />
 				</div>
 				<aside className="contact-aside">
 					<div className="contact-aside-block mb-[35px]">
 						<p className="eyebrow">
-							{client.content.contactHeading}
+							<span className="eyebrow-line" />{" "}
+							Call or email
 						</p>
-						{client.phone && (
-							<a
-								className="contact-detail"
-								href={client.phoneHref}
-							>
-								{client.phone}
-							</a>
-						)}
+						<a
+							className="contact-detail block w-fit font-heading text-[19px]"
+							href={client.phoneHref}
+						>
+							{client.phone}
+						</a>
 						<a
 							className="contact-detail block w-fit font-heading text-[19px]"
 							href={`mailto:${client.email}`}
@@ -42,35 +67,41 @@ export default function Contact() {
 							{client.email}
 						</a>
 					</div>
-					{client.features.areas && (
-						<div className="contact-aside-block">
-							<p className="eyebrow">
-								{client.content.areasHeading}
-							</p>
-							<p>
-								{client.location}
-								<br />
-								{client.serviceArea}
-							</p>
-							<p className="town-list">
-								{client.serviceTowns.join(" · ")}
-							</p>
-						</div>
-					)}
-					<div className="contact-aside-block">
-						<p className="eyebrow">{client.content.hoursHeading}</p>
+					<div className="contact-aside-block mb-[35px]">
+						<p className="eyebrow">
+							<span className="eyebrow-line" />{" "}
+							Where we work
+						</p>
+						<p>
+							Based in {client.location}
+							<br />
+							Serving {client.serviceArea}
+						</p>
+						<p className="town-list">
+							{client.serviceTowns.join(" · ")}
+						</p>
+					</div>
+					<div className="contact-aside-block mb-[35px]">
+						<p className="eyebrow">
+							<span className="eyebrow-line" />{" "}
+							Office hours
+						</p>
 						{client.hours.map((item) => (
-							<div
-								className="hours-row flex justify-between gap-[12px] text-muted text-[11px]"
-								key={item.days}
-							>
+							<div className="text-2.75 text-muted flex justify-between gap-3 py-0.5" key={item.days}>
 								<span>{item.days}</span>
 								<span>{item.hours}</span>
 							</div>
 						))}
 					</div>
 					<div className="contact-note">
-						<p>{client.content.contactNote}</p>
+						<span aria-hidden="true">✳</span>
+						<p>
+							Not sure what you need? That&rsquo;s okay. A quick
+							call is a great place to start.
+						</p>
+						<Link href="/services">
+							Explore our services <ActionIcon name="arrow" />
+						</Link>
 					</div>
 				</aside>
 			</section>

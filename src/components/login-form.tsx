@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { buttonStyles } from "@/components/button";
 export function LoginForm() {
 	const router = useRouter();
 	const [error, setError] = useState("");
@@ -31,10 +32,10 @@ export function LoginForm() {
 	return (
 		<form
 			onSubmit={submit}
-			className="estimate-form flex flex-col items-start"
+			className="[&_label]:text-2.75 [&_input]:bg-cream [&_input]:text-3.25 [&_input]:text-foreground [&_input:focus]:border-brand-red flex flex-col items-start [&_input]:min-h-11.75 [&_input]:w-full [&_input]:rounded-none [&_input]:border [&_input]:border-[#d8d6cc] [&_input]:px-3 [&_input]:py-2.75 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(168,45,39,0.1)] [&_label]:flex [&_label]:flex-col [&_label]:gap-1.75 [&_label]:font-semibold [&_label]:text-[#4a4b45]"
 		>
-			<div className="form-grid grid w-full grid-cols-2 gap-[17px]">
-				<label className="form-full col-span-full">
+			<div className="grid w-full grid-cols-2 gap-4.25">
+				<label className="col-span-full">
 					Name
 					<input
 						name="name"
@@ -43,7 +44,7 @@ export function LoginForm() {
 						maxLength={200}
 					/>
 				</label>
-				<label className="form-full col-span-full">
+				<label className="col-span-full">
 					Password
 					<input
 						name="password"
@@ -54,10 +55,12 @@ export function LoginForm() {
 					/>
 				</label>
 			</div>
-			<button className="button" disabled={pending}>
+			<button className={`mt-5.25 ${buttonStyles}`} disabled={pending}>
 				{pending ? "Signing in…" : "Sign in"}
 			</button>
-			<p role="alert">{error}</p>
+			<p className="text-brand-red text-sm" role="alert">
+				{error}
+			</p>
 		</form>
 	);
 }

@@ -1,5 +1,8 @@
 "use client";
-import { useRef, useState, type FormEvent } from "react";
+
+import { ActionIcon } from "@/components/action-icon";
+import type { FormEvent } from "react";
+import { useState } from "react";
 import { client } from "@/config/client";
 import { estimateSchema } from "@/lib/validation/estimate";
 import { ActionIcon } from "./action-icon";
@@ -69,158 +72,93 @@ export function EstimateForm() {
 	if (!client.features.inquiry) return null;
 	return (
 		<form
-			className="estimate-form"
-			method="post"
-			action="/api/quote"
-			onSubmit={submit}
-			noValidate
+			className="estimate-form flex flex-col items-start"
+			onSubmit={handleSubmit}
 		>
-			<fieldset className="estimate-fields" disabled={busy || sent}>
-				<legend className="owner-sr-only">
-					{client.content.formTitle}
-				</legend>
-				<div className="form-grid">
-					{f.fields.map((field) => {
-						const props = {
-							id: field.id,
-							name: field.id,
-							required: field.required,
-							"aria-invalid": !!errors[field.id],
-							"aria-describedby": errors[field.id]
-								? `${field.id}-error`
-								: undefined,
-						};
-						return (
-							<label
-								key={field.id}
-								className={
-									field.width === "full" ? "form-full" : ""
-								}
-								htmlFor={field.id}
-							>
-								{field.label}
-								{field.required ? " *" : ""}
-								{field.type === "textarea" ? (
-									<textarea
-										{...props}
-										maxLength={field.maxLength}
-										placeholder={field.placeholder}
-										rows={5}
-									/>
-								) : field.type === "select" ? (
-									<select {...props} defaultValue="">
-										<option value="" disabled>
-											{field.placeholder || field.label}
-										</option>
-										{field.options?.map((option) => (
-											<option
-												value={option.value}
-												key={option.value}
-											>
-												{option.label}
-											</option>
-										))}
-									</select>
-								) : (
-									<input
-										{...props}
-										type={field.type}
-										autoComplete={field.autoComplete}
-										maxLength={field.maxLength}
-										placeholder={field.placeholder}
-									/>
-								)}{" "}
-								{errors[field.id] && (
-									<span
-										id={`${field.id}-error`}
-										className="estimate-error"
-									>
-										{errors[field.id]?.[0]}
-									</span>
-								)}
-							</label>
-						);
-					})}
-					<label className="form-full" htmlFor="service">
-						{f.serviceLabel}
-						{f.serviceRequired ? " *" : ""}
-						<select
-							id="service"
-							name="service"
-							required={f.serviceRequired}
-							defaultValue=""
-							aria-invalid={!!errors.service}
-							aria-describedby={
-								errors.service ? "service-error" : undefined
-							}
-						>
-							<option value="" disabled={f.serviceRequired}>
-								{f.serviceLabel}
+			<div className="form-grid grid w-full grid-cols-2 gap-[17px]">
+				<label>
+					Your name
+					<input autoComplete="name" name="name" required />
+				</label>
+				<label>
+					Email address
+					<input
+						autoComplete="email"
+						name="email"
+						required
+						type="email"
+					/>
+				</label>
+				<label>
+					Phone number
+					<input
+						autoComplete="tel"
+						name="phone"
+						required
+						type="tel"
+					/>
+				</label>
+				<label>
+					Town or ZIP code
+					<input autoComplete="postal-code" name="town" required />
+				</label>
+				<label className="form-full col-span-full">
+					What can we help with?
+					<select defaultValue="" name="service" required>
+						<option disabled value="">
+							Choose a service
+						</option>
+						{client.services.map((service) => (
+							<option key={service.title} value={service.title}>
+								{service.title}
 							</option>
-							{client.services.map((service) => (
-								<option key={service.id} value={service.id}>
-									{service.title}
-								</option>
-							))}
-							{f.allowOther && (
-								<option value="other">{f.otherLabel}</option>
-							)}
-						</select>
-						{errors.service && (
-							<span id="service-error" className="estimate-error">
-								{errors.service[0]}
-							</span>
-						)}
-					</label>
-				</div>
-				<div className="owner-honeypot" aria-hidden="true">
-					<label htmlFor="website">
-						Leave empty
-						<input
-							id="website"
-							name="website"
-							tabIndex={-1}
-							autoComplete="off"
-						/>
-					</label>
-				</div>
-				<button
-					className="button"
-					disabled={busy || sent}
-					type="submit"
+						))}
+						<option value="Other painting project">
+							Something else
+						</option>
+					</select>
+				</label>
+				<label className="form-full col-span-full">
+					Tell us a little about your project
+					<textarea
+						name="details"
+						placeholder="What would you like painted or refreshed?"
+						required
+						rows={5}
+					/>
+				</label>
+			</div>
+			<button className="button" type="submit" disabled={pending}>
+				{pending ? "Sending…" : "Request an appointment"}{" "}
+				<ActionIcon name="send" />
+			</button>
+			{sent && (
+				<div
+					className="sent-confirmation flex w-full gap-[16px] items-center mt-[24px] rounded-[12px] text-forest"
+					role="status"
 				>
-					{busy ? f.sendingLabel : f.submitLabel}
-					<ActionIcon name="send" />
-				</button>
-			</fieldset>
-			<p
-				ref={status}
-				role="status"
-				tabIndex={-1}
-				className={`form-note ${notice ? "estimate-feedback" : ""}`}
-				aria-live="polite"
-			>
-				{notice || f.note}
+					<span
+						className="success-check grid place-items-center w-[38px] h-[38px] shrink-0 bg-forest text-white text-[24px]"
+						aria-hidden="true"
+					>
+						✓
+					</span>
+					<div>
+						<strong>Information sent</strong>
+						<p>Check your email for updates.</p>
+					</div>
+					<button
+						type="button"
+						aria-label="Dismiss confirmation"
+						onClick={() => setSent(false)}
+					>
+						×
+					</button>
+				</div>
+			)}
+			<p role="alert" className="form-note">
+				{notice}
 			</p>
-			<dialog
-				ref={dialog}
-				className="request-success-dialog"
-				aria-labelledby="request-success-title"
-				onClose={() => setSent(false)}
-			>
-				<div className="success-check" aria-hidden="true">
-					✓
-				</div>
-				<h2 id="request-success-title">{f.successTitle}</h2>
-				<p>{f.successMessage}</p>
-				<button
-					type="button"
-					className="button"
-					onClick={() => dialog.current?.close()}
-				>
-					{f.closeLabel}
-				</button>
-			</dialog>
 		</form>
 	);
 }
