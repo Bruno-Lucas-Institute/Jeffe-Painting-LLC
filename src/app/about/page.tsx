@@ -1,8 +1,21 @@
 import { ActionIcon } from "@/components/action-icon";
+import { buttonStyles, lightButtonStyles } from "@/components/button";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/config/client";
+import {
+	contentHeadingEm,
+	ctaActions,
+	ctaSection,
+	ctaTitle,
+	eyebrow,
+	pageHero,
+	pageHeroCopy,
+	pageHeroTitle,
+	sectionBody,
+	textLink,
+} from "@/app/styles";
 
 export const metadata: Metadata = {
 	title: "About Jeffe Painting",
@@ -13,80 +26,83 @@ export const metadata: Metadata = {
 export default function AboutPage() {
 	return (
 		<>
-			<section className="page-hero">
-				<p className="eyebrow">
-					<span className="eyebrow-line" />{" "}
-					A little about us
+			<section className={pageHero}>
+				<p className={eyebrow}>
+					<span className="inline-block h-px w-6.25 bg-current" /> A
+					little about us
 				</p>
-				<h1>
+				<h1 className={pageHeroTitle}>
 					Good people.
 					<br />
-					<em>Work done with care.</em>
+					<em className={contentHeadingEm}>Work done with care.</em>
 				</h1>
-				<p>
+				<p className={pageHeroCopy}>
 					Jeffe Painting is a local team built around a simple idea:
 					treat every home with respect, and take pride in the work
 					you leave behind.
 				</p>
-				<Link className="button" href="/contact">
+				<Link className={`button ${buttonStyles}`} href="/contact">
 					Meet us at your home <ActionIcon name="calendar" />
 				</Link>
 			</section>
 
-			<section className="about-story">
-				<div className="about-image relative min-h-[500px] overflow-hidden bg-paper-deep">
+			<section className="grid grid-cols-[1fr_0.85fr] items-center gap-[9vw] px-[max(44px,calc((100vw-1200px)/2))] pb-26.25 max-[1000px]:gap-10 max-[760px]:grid-cols-1 max-[760px]:px-6.25 max-[760px]:pb-17.5">
+				<div className="bg-paper-deep relative min-h-125 overflow-hidden">
 					<Image
 						alt="A carefully painted interior by Jeffe Painting"
+						className="object-cover transition-transform duration-500"
 						fill
 						loading="eager"
 						sizes="(max-width: 760px) 100vw, 48vw"
 						src="/images/hero-interior.webp"
 					/>
-					<span className="image-index">
+					<span className="bg-background text-2 text-foreground absolute bottom-3.75 left-3.75 z-2 px-2.5 py-1.75">
 						DANBURY, CONNECTICUT
 					</span>
 				</div>
-				<div className="about-copy">
-					<p className="eyebrow">
-						<span className="eyebrow-line" />{" "}
+				<div>
+					<p className={eyebrow}>
+						<span className="inline-block h-px w-6.25 bg-current" />{" "}
 						Built on experience
 					</p>
-					<h2>
+					<h2 className="font-heading m-0 text-[clamp(39px,4vw,54px)] leading-[1.04] font-normal tracking-[-0.055em]">
 						A familiar face.
 						<br />
-						<em>A finish you can feel good about.</em>
+						<em className={contentHeadingEm}>
+							A finish you can feel good about.
+						</em>
 					</h2>
-					<p>
+					<p className={`${sectionBody} my-4.75`}>
 						With {client.yearsExperience} years in the trade,
 						Jefferson and his crew understand that a painting
 						project is about more than color. It is about how a home
 						feels when the work is finished—and how it is treated
 						along the way.
 					</p>
-					<p>
+					<p className={`${sectionBody} my-4.75`}>
 						From the first conversation through the final
 						walkthrough, the focus stays on thoughtful preparation,
 						dependable scheduling, and clean, careful work.
 					</p>
-					<Link className="text-link" href="/projects">
+					<Link className={`${textLink} mt-2.5`} href="/projects">
 						Take a look at our work <ActionIcon name="gallery" />
 					</Link>
 				</div>
 			</section>
 
-			<section className="values-section">
-				<div className="values-intro">
-					<p className="eyebrow">
-						<span className="eyebrow-line" />{" "}
+			<section className="bg-paper-deep grid grid-cols-[0.72fr_1.28fr] gap-[7vw] px-[max(44px,calc((100vw-1200px)/2))] py-23.75 max-[1000px]:grid-cols-1 max-[1000px]:gap-10 max-[760px]:px-6.25 max-[760px]:py-17.5">
+				<div>
+					<p className={eyebrow}>
+						<span className="inline-block h-px w-6.25 bg-current" />{" "}
 						What matters to us
 					</p>
-					<h2>
+					<h2 className="font-heading m-0 text-[clamp(39px,4vw,54px)] leading-[1.04] font-normal tracking-[-0.055em]">
 						The kind of care
 						<br />
 						we&rsquo;d want at home.
 					</h2>
 				</div>
-				<div className="values-grid grid">
+				<div className="grid grid-cols-2 gap-x-6.25 gap-y-7.75 max-[760px]:grid-cols-1">
 					{[
 						[
 							"01",
@@ -109,44 +125,68 @@ export default function AboutPage() {
 							"We want every edge, surface, and room to feel considered when the job is done.",
 						],
 					].map(([number, title, description]) => (
-						<article className="value-card pt-[15px]" key={number}>
-							<span>{number}</span>
-							<h3>{title}</h3>
-							<p>{description}</p>
+						<article
+							className="border-t border-[#c8c6ba] pt-3.75"
+							key={number}
+						>
+							<span className="text-2.75 text-brand-red font-bold tracking-widest">
+								{number}
+							</span>
+							<h3 className="font-heading text-5.5 mt-2.25 mb-1.75 font-normal tracking-tight">
+								{title}
+							</h3>
+							<p className="text-3 text-muted m-0 leading-[1.7]">
+								{description}
+							</p>
 						</article>
 					))}
 				</div>
 			</section>
 
-			<section className="about-facts">
+			<section className="flex justify-between gap-5 px-[max(44px,calc((100vw-1100px)/2))] py-14 text-center max-[700px]:flex-col max-[700px]:gap-7">
 				<div>
-					<strong>{client.yearsExperience}</strong>
-					<span>years of experience</span>
+					<strong className="font-heading text-9.5 text-brand-red block font-normal">
+						{client.yearsExperience}
+					</strong>
+					<span className="text-2.75 text-muted">
+						years of experience
+					</span>
 				</div>
 				<div>
-					<strong>{client.reviewRating}</strong>
-					<span>average local rating</span>
+					<strong className="font-heading text-9.5 text-brand-red block font-normal">
+						{client.reviewRating}
+					</strong>
+					<span className="text-2.75 text-muted">
+						average local rating
+					</span>
 				</div>
 				<div>
-					<strong>{client.location}</strong>
-					<span>locally owned &amp; operated</span>
+					<strong className="font-heading text-9.5 text-brand-red block font-normal">
+						{client.location}
+					</strong>
+					<span className="text-2.75 text-muted">
+						locally owned &amp; operated
+					</span>
 				</div>
 			</section>
 
-			<section className="cta-section">
+			<section className={ctaSection}>
 				<div>
-					<p className="eyebrow eyebrow-light">
-						<span className="eyebrow-line" />{" "}
+					<p className={`${eyebrow} mb-4.5 text-[#f0d7b3]`}>
+						<span className="inline-block h-px w-6.25 bg-current" />{" "}
 						Here when you&rsquo;re ready
 					</p>
-					<h2>
+					<h2 className={ctaTitle}>
 						Tell us what
 						<br />
 						you have in mind.
 					</h2>
 				</div>
-				<div className="cta-actions flex items-start flex-col gap-[15px]">
-					<Link className="button button-light" href="/contact">
+				<div className={ctaActions}>
+					<Link
+						className={`button ${buttonStyles} ${lightButtonStyles}`}
+						href="/contact"
+					>
 						Start a conversation <ActionIcon name="message" />
 					</Link>
 					<a href={client.phoneHref}>

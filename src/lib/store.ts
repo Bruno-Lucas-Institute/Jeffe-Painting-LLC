@@ -5,7 +5,10 @@ import { dirname, resolve } from "node:path";
 let database: DatabaseSync;
 export function db() {
 	if (!database) {
-		const path = resolve(process.env.DATABASE_PATH || "data/jeffe.sqlite");
+		const path = resolve(
+			/* turbopackIgnore: true */
+			process.env.DATABASE_PATH || "data/jeffe.sqlite",
+		);
 		mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
 		database = new DatabaseSync(path);
 		database.exec(`PRAGMA journal_mode=WAL;
