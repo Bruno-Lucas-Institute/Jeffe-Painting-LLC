@@ -1,5 +1,4 @@
 import { Hero } from "./hero";
-import { TrustStrip } from "./trust-strip";
 import { Services } from "./services-preview";
 import { Transformation } from "./transformation";
 import { Projects } from "./featured-projects";
@@ -11,7 +10,6 @@ export default function Home() {
 	return (
 		<>
 			<Hero />
-			<TrustStrip />
 			<Services />
 			<Transformation />
 			<Projects />

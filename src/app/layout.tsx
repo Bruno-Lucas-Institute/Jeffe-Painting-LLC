@@ -4,8 +4,6 @@ import { client } from "@/config/client";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
-import "./hero.css";
-import "@/components/button-styles.css";
 
 const inter = localFont({
 	src: "./fonts/inter-variable.ttf",
@@ -35,7 +33,7 @@ export const metadata: Metadata = {
 	},
 	icons: { apple: "/app-icon-192.png" },
 	title: {
-		default: `${client.businessName} | Painting in Danbury & Fairfield County, CT`,
+		default: `${client.businessName}`,
 		template: `%s | ${client.shortName}`,
 	},
 	description:
@@ -49,7 +47,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-			<body className="bg-background font-body text-[15px] leading-[1.65] text-foreground antialiased">
+			<body className="bg-background font-body text-3.75 text-foreground leading-[1.65] antialiased max-[760px]:text-sm">
 				<SiteHeader />
 				<main>{children}</main>
 				<SiteFooter />
