@@ -4,7 +4,7 @@ A Next.js App Router / TypeScript foundation for independent local-service busin
 
 ## Current frontend status
 
-The frontend routes and presentation files under `src/app` were removed to make room for a fresh frontend implementation. Only the backend route handlers under `src/app/api` remain there; profile data, validation, authentication, persistence and push services are retained. The profile's page content and composition settings remain available for the new frontend to consume.
+The frontend routes, layouts, presentation components and styling were removed to make room for a fresh frontend implementation. Only backend route handlers remain under `src/app/api`; profile data, validation, authentication, persistence and push services are retained. Existing profile assets and page-content settings remain available for the new frontend.
 
 ## Start
 
