@@ -1,6 +1,10 @@
 # Reusable Business Website
 
-A Next.js App Router / TypeScript foundation for independent local-service businesses. Includes responsive marketing pages, configurable sections, an inquiry form, a private owner inbox, password login, PWA installation and Web Push. Each business gets its own repository, credentials and database. This is not a multi-tenant SaaS or an automatic appointment booking system.
+A Next.js App Router / TypeScript foundation for independent local-service businesses. It includes profile-aware inquiry and owner APIs, isolated business data, password authentication and Web Push support. Each business gets its own repository, credentials and database. This is not a multi-tenant SaaS or an automatic appointment booking system.
+
+## Current frontend status
+
+The frontend routes, layouts, presentation components and styling were removed to make room for a fresh frontend implementation. Only backend route handlers remain under `src/app/api`; profile data, validation, authentication, persistence and push services are retained. Existing profile assets and page-content settings remain available for the new frontend.
 
 ## Start
 
