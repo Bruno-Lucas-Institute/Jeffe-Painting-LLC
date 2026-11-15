@@ -2,7 +2,7 @@ import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
 export const metadata: Metadata = {
 	title: "Painting Project Gallery",
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 		"Browse painting, cabinet refinishing, and home refresh projects completed by Jeffe Painting across Danbury and Fairfield County, CT.",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+	const client = await getClient();
 	return (
 		<>
 			<section className="page-hero">

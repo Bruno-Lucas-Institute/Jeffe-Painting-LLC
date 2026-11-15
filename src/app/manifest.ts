@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { client } from "@/config/client";
-export default function manifest(): MetadataRoute.Manifest {
+import { getClient } from "@/lib/owner/settings";
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+	const client = await getClient();
 	return {
 		id: "/",
 		name: client.businessName,

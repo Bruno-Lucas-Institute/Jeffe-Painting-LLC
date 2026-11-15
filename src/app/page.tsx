@@ -2,9 +2,10 @@ import { ExperienceSignature } from "@/components/experience-signature";
 import { ActionIcon } from "@/components/action-icon";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
-export default function Home() {
+export default async function Home() {
+	const client = await getClient();
 	return (
 		<>
 			<section className="hero viewport-hero">

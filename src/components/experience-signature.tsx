@@ -1,7 +1,8 @@
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 import "./experience-signature.css";
 
-export function ExperienceSignature() {
+export async function ExperienceSignature() {
+	const client = await getClient();
 	return (
 		<div
 			className="experience-signature"

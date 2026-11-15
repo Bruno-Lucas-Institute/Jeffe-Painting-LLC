@@ -1,5 +1,6 @@
+import Image from "next/image";
 import localFont from "next/font/local";
-import { client } from "@/config/client";
+import type { SiteClient } from "@/lib/validation/settings";
 import "./brand-logo.css";
 
 const roundedLogo = localFont({
@@ -9,7 +10,18 @@ const roundedLogo = localFont({
 	display: "swap",
 });
 
-export function BrandLogo() {
+export function BrandLogo({ client }: { client: SiteClient }) {
+	if (client.logoUrl)
+		return (
+			<Image
+				unoptimized
+				width={180}
+				height={64}
+				src={client.logoUrl}
+				alt={client.businessName}
+				className="business-logo-image"
+			/>
+		);
 	return (
 		<span
 			className={`jeffe-logo ${roundedLogo.variable}`}

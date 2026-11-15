@@ -4,7 +4,7 @@ import { ActionIcon } from "@/components/action-icon";
 import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { client } from "@/config/client";
+import type { SiteClient } from "@/lib/validation/settings";
 
 import "./site-header.css";
 
@@ -16,7 +16,7 @@ const navigation = [
 	{ label: "Owner login", href: "/login" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ client }: { client: SiteClient }) {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -62,7 +62,7 @@ export function SiteHeader() {
 					href="/"
 					onClick={() => setMenuOpen(false)}
 				>
-					<BrandLogo />
+					<BrandLogo client={client} />
 				</Link>
 
 				<a

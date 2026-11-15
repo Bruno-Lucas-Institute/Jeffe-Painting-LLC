@@ -2,7 +2,7 @@ import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
 export const metadata: Metadata = {
 	title: "Painting Services in Danbury, CT",
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 		"Explore interior and exterior painting, cabinet refinishing, and closet painting from Jeffe Painting in Danbury and Fairfield County, Connecticut.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+	const client = await getClient();
 	return (
 		<>
 			<section className="page-hero">

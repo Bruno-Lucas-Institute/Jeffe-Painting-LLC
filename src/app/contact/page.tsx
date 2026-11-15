@@ -2,7 +2,7 @@ import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EstimateForm } from "@/components/estimate-form";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
 export const metadata: Metadata = {
 	title: "Request a Free Painting Estimate",
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 		"Contact Jeffe Painting for a free painting estimate in Danbury and Fairfield County, CT. Call or share a few details about your project.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+	const client = await getClient();
 	return (
 		<>
 			<section className="page-hero contact-hero">

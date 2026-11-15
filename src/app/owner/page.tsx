@@ -1,3 +1,5 @@
+import { SettingsForm } from "@/components/owner/settings-form";
+import { readSettings } from "@/lib/owner/settings";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -14,14 +16,19 @@ async function OwnerContent() {
 	await connection();
 	if (!(await isOwner())) redirect("/login");
 	return (
-		<Dashboard
-			initial={{
-				items: listInquiries(25),
-				...inquiryCounts(),
-				pendingNotifications: pendingPushCount(),
-			}}
-			username={process.env.OWNER_USERNAME || ""}
-		/>
+		<>
+			<Dashboard
+				initial={{
+					items: listInquiries(25),
+					...inquiryCounts(),
+					pendingNotifications: pendingPushCount(),
+				}}
+				username={process.env.OWNER_USERNAME || ""}
+			/>
+			<div className="container">
+				<SettingsForm initial={readSettings()} />
+			</div>
+		</>
 	);
 }
 export default function Owner() {

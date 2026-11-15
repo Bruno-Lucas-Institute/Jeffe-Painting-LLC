@@ -2,7 +2,7 @@ import { ActionIcon } from "@/components/action-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
 export const metadata: Metadata = {
 	title: "About Jeffe Painting",
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 		"Meet the local painting team serving Danbury and Fairfield County, Connecticut, with 25 years of experience and a focus on careful work.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+	const client = await getClient();
 	return (
 		<>
 			<section className="page-hero">
@@ -23,9 +24,9 @@ export default function AboutPage() {
 					<em>Work done with care.</em>
 				</h1>
 				<p>
-					Jeffe Painting is a local team built around a simple idea:
-					treat every home with respect, and take pride in the work
-					you leave behind.
+					{client.businessName} is a local team built around a simple
+					idea: treat every home with respect, and take pride in the
+					work you leave behind.
 				</p>
 				<Link className="button" href="/contact">
 					Meet us at your home <ActionIcon name="calendar" />
@@ -35,13 +36,18 @@ export default function AboutPage() {
 			<section className="about-story">
 				<div className="about-image">
 					<Image
-						alt="A carefully painted interior by Jeffe Painting"
+						alt={
+							"A carefully painted interior by " +
+							client.businessName
+						}
 						fill
 						loading="eager"
 						sizes="(max-width: 760px) 100vw, 48vw"
 						src="/images/hero-interior.webp"
 					/>
-					<span className="image-index">DANBURY, CONNECTICUT</span>
+					<span className="image-index">
+						{client.location.toUpperCase()}
+					</span>
 				</div>
 				<div className="about-copy">
 					<p className="eyebrow">

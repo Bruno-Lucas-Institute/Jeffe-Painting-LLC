@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
+import { Suspense } from "react";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
@@ -28,22 +29,28 @@ export const viewport: Viewport = {
 	viewportFit: "cover",
 	themeColor: "#a82d27",
 };
-export const metadata: Metadata = {
-	manifest: "/manifest.webmanifest",
-	appleWebApp: {
-		capable: true,
-		statusBarStyle: "default",
-		title: client.shortName,
-	},
-	icons: { apple: "/icons/apple-touch-icon.png" },
-	title: {
-		default: `${client.businessName} | Painting in Danbury & Fairfield County, CT`,
-		template: `%s | ${client.shortName}`,
-	},
-	description:
-		"Interior and exterior painting, cabinet refinishing, and closet painting from Jefferson's trusted local team in Danbury and Fairfield County, Connecticut.",
-};
-
+export async function generateMetadata(): Promise<Metadata> {
+	const client = await getClient();
+	return {
+		manifest: "/manifest.webmanifest",
+		appleWebApp: {
+			capable: true,
+			statusBarStyle: "default",
+			title: client.shortName,
+		},
+		icons: { apple: "/icons/apple-touch-icon.png" },
+		title: {
+			default: `${client.businessName} | Painting in ${client.serviceArea}`,
+			template: `%s | ${client.shortName}`,
+		},
+		description:
+			"Interior and exterior painting, cabinet refinishing, and closet painting from Jefferson's trusted local team in Danbury and Fairfield County, Connecticut.",
+	};
+}
+async function Header() {
+	const client = await getClient();
+	return <SiteHeader client={client} />;
+}
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -52,9 +59,15 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={`${inter.variable} ${outfit.variable}`}>
 			<body>
-				<SiteHeader />
-				<main>{children}</main>
-				<SiteFooter />
+				<Suspense>
+					<Header />
+				</Suspense>
+				<main>
+					<Suspense>{children}</Suspense>
+				</main>
+				<Suspense>
+					<SiteFooter />
+				</Suspense>
 			</body>
 		</html>
 	);

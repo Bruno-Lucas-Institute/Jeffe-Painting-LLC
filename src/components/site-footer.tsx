@@ -1,14 +1,15 @@
 import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
-import { client } from "@/config/client";
+import { getClient } from "@/lib/owner/settings";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+	const client = await getClient();
 	return (
 		<footer className="site-footer">
 			<div className="footer-main">
 				<div className="footer-brand">
 					<Link className="wordmark wordmark-light" href="/">
-						<BrandLogo />
+						<BrandLogo client={client} />
 					</Link>
 					<p>
 						Considered painting and refinishing for homes across{" "}
