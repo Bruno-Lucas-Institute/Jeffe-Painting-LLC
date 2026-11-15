@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 	const respond = (body: { error: string }, status: number) =>
 		native
 			? formFeedback(
-					"Não foi possível entrar",
+					"Unable to sign in",
 					body.error,
 					status,
 					"/login",

@@ -30,8 +30,8 @@ export default function Owner() {
 	return (
 		<Suspense
 			fallback={
-				<section className="owner-dashboard" lang="pt-BR">
-					<p>Carregando seu painel…</p>
+				<section className="owner-dashboard" lang="en-US">
+					<p>Loading your dashboard…</p>
 				</section>
 			}
 		>

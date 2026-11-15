@@ -58,7 +58,7 @@ export function EstimateForm() {
 			) {
 				setSent(true);
 				dialog.current.showModal();
-			} else setNotice("Solicitação enviada com sucesso!");
+			} else setNotice("Request sent successfully!");
 		} catch (error) {
 			setNotice(
 				error instanceof Error && error.name !== "TimeoutError"
@@ -213,15 +213,15 @@ export function EstimateForm() {
 				className="request-success-dialog"
 				aria-labelledby="request-success-title"
 				onClose={() => setSent(false)}
-				lang="pt-BR"
+				lang="en-US"
 			>
 				<div className="success-check" aria-hidden="true">
 					✓
 				</div>
 				<h2 id="request-success-title">
-					Solicitação enviada com sucesso!
+					Request sent successfully!
 				</h2>
-				<p>Obrigado! Recebemos as informações do seu pedido.</p>
+				<p>Thank you! We have received your request details.</p>
 				<button
 					className="button"
 					type="button"

@@ -21,7 +21,7 @@ async function api(path: string, method: string, body?: unknown) {
 	if (!response.ok) {
 		if (response.status === 401) window.location.replace("/login");
 		throw new Error(
-			data.error || "Não foi possível concluir. Tente novamente.",
+			data.error || "Unable to complete the action. Please try again.",
 		);
 	}
 	return data;
@@ -91,7 +91,7 @@ export function PushControls() {
 			} catch {
 				if (active)
 					setMessage(
-						"Não foi possível confirmar as notificações. Toque em ativar para tentar novamente.",
+						"Unable to confirm notifications. Tap enable to try again.",
 					);
 			}
 		}
@@ -120,7 +120,7 @@ export function PushControls() {
 		}
 		if (ios && !installed) {
 			setMessage(
-				"No iPhone/iPad, adicione à Tela de Início, abra pelo ícone, entre novamente e toque em ativar.",
+				"On iPhone/iPad, add this site to your Home Screen, open its icon, sign in again and tap enable.",
 			);
 			return;
 		}
@@ -134,7 +134,7 @@ export function PushControls() {
 				!environment.secure
 			)
 				throw new Error(
-					"Use um navegador compatível em HTTPS para ativar notificações.",
+					"Use a supported browser over HTTPS to enable notifications.",
 				);
 			const permission = await Notification.requestPermission();
 			setEnvironment((previous) =>
@@ -142,12 +142,12 @@ export function PushControls() {
 			);
 			if (permission !== "granted")
 				throw new Error(
-					"Permissão não concedida. Você pode habilitar notificações nas configurações do navegador.",
+					"Permission was not granted. You can allow notifications in your browser settings.",
 				);
 			const config = await api("/api/owner/push", "GET");
 			if (!config.configured)
 				throw new Error(
-					"As notificações precisam ser configuradas no servidor.",
+					"Notifications need to be configured on the server.",
 				);
 			const registration = await navigator.serviceWorker.register(
 				"/sw.js",
@@ -163,13 +163,13 @@ export function PushControls() {
 			await api("/api/owner/push", "POST", sub.toJSON());
 			setEnabled(true);
 			setMessage(
-				"Notificações ativadas neste aparelho. Use o teste para conferir o recebimento.",
+				"Notifications enabled on this device. Send a test to check delivery.",
 			);
 		} catch (error) {
 			setMessage(
 				error instanceof Error
 					? error.message
-					: "Não foi possível ativar.",
+					: "Unable to enable notifications.",
 			);
 		} finally {
 			setBusy(false);
@@ -194,14 +194,14 @@ export function PushControls() {
 			setEnabled(false);
 			setMessage(
 				all
-					? "Notificações desativadas em todos os aparelhos."
-					: "Notificações desativadas neste aparelho.",
+					? "Notifications disabled on all devices."
+					: "Notifications disabled on this device.",
 			);
 		} catch (error) {
 			setMessage(
 				error instanceof Error
 					? error.message
-					: "Não foi possível desativar.",
+					: "Unable to disable notifications.",
 			);
 		} finally {
 			setBusy(false);
@@ -213,14 +213,14 @@ export function PushControls() {
 			const registration =
 				await navigator.serviceWorker.getRegistration("/");
 			const sub = await registration?.pushManager.getSubscription();
-			if (!sub) throw new Error("Ative as notificações primeiro.");
+			if (!sub) throw new Error("Enable notifications first.");
 			await api("/api/owner/push/test", "POST", sub.toJSON());
 			setMessage(
-				"Teste aceito pelo serviço de push. Confira a notificação no aparelho.",
+				"Test accepted by the push service. Check for the notification on your device.",
 			);
 		} catch (error) {
 			setMessage(
-				error instanceof Error ? error.message : "O teste falhou.",
+				error instanceof Error ? error.message : "The test failed.",
 			);
 		} finally {
 			setBusy(false);
@@ -234,8 +234,8 @@ export function PushControls() {
 		} else
 			setMessage(
 				ios
-					? "No Safari: Compartilhar → Adicionar à Tela de Início. Depois abra o ícone e entre no painel."
-					: "No menu do navegador, escolha Instalar aplicativo ou Adicionar à tela inicial. Depois abra o ícone e entre no painel.",
+					? "In Safari: Share → Add to Home Screen. Then open the icon and sign in to the dashboard."
+					: "In your browser menu, choose Install app or Add to Home Screen. Then open the icon and sign in to the dashboard.",
 			);
 	}
 	return (
@@ -248,23 +248,23 @@ export function PushControls() {
 					<Smartphone size={23} />
 				</span>
 				<div>
-					<p className="eyebrow">Seu escritório, no bolso</p>
-					<h2 id="notification-title">Receba cada novo pedido.</h2>
+					<p className="eyebrow">Your office in your pocket</p>
+					<h2 id="notification-title">Get every new request.</h2>
 				</div>
 				<span className={`owner-pill ${enabled ? "active" : ""}`}>
 					{blocked
 						? blocked.label
 						: enabled
-							? "Ativado neste aparelho"
+							? "Enabled on this device"
 							: environment
-								? "Configurar aparelho"
-								: "Verificando aparelho…"}
+								? "Set up device"
+								: "Checking device…"}
 				</span>
 			</div>
 			<p>
-				Instale o site e permita as notificações. Os avisos incluem um
-				resumo do pedido; toque para abrir todas as informações no
-				painel privado.
+				Install the site and allow notifications. Alerts include a
+				request summary; tap to view the full details in your private
+				dashboard.
 			</p>
 			{blocked && (
 				<p className="owner-warning" role="status">
@@ -280,7 +280,7 @@ export function PushControls() {
 						disabled={busy}
 					>
 						<Download size={17} />
-						Adicionar à tela inicial
+						Add to Home Screen
 					</button>
 				)}
 				{enabled ? (
@@ -292,7 +292,7 @@ export function PushControls() {
 							disabled={busy}
 						>
 							<Send size={17} />
-							Testar notificação
+							Test notification
 						</button>
 						<button
 							className="owner-text-button"
@@ -301,7 +301,7 @@ export function PushControls() {
 							disabled={busy}
 						>
 							<BellOff size={16} />
-							Desativar neste aparelho
+							Disable on this device
 						</button>
 					</>
 				) : (
@@ -318,30 +318,29 @@ export function PushControls() {
 					>
 						<Bell size={17} />
 						{busy
-							? "Aguarde…"
+							? "Please wait…"
 							: blocked?.kind === "https"
-								? "Disponível após conectar por HTTPS"
-								: "Ativar notificações"}
+								? "Available over HTTPS"
+								: "Enable notifications"}
 					</button>
 				)}
 			</div>
 			{configured === false && (
 				<p className="owner-warning">
-					As chaves de notificações ainda não estão configuradas no
-					servidor.
+					Notification keys have not been configured on the server
+					yet.
 				</p>
 			)}
 
 			<p className="owner-hint">
-				Android: menu do navegador → Instalar aplicativo. iPhone: Safari
-				→ Compartilhar → Adicionar à Tela de Início. Abra o ícone, entre
-				e toque em Ativar notificações. Somente instalar não concede
-				permissão.
+				Android: browser menu → Install app. iPhone: Safari → Share →
+				Add to Home Screen. Open the icon, sign in and tap Enable
+				notifications. Installation alone does not grant permission.
 			</p>
 			<p className="owner-hint">
-				Os detalhes podem aparecer na tela bloqueada, conforme as
-				configurações do seu aparelho. Para interromper avisos num
-				aparelho perdido, use o botão abaixo.
+				Request details may appear on your lock screen, depending on
+				your device settings. To stop alerts on a lost device, use the
+				button below.
 			</p>
 			<button
 				type="button"
@@ -349,7 +348,7 @@ export function PushControls() {
 				disabled={busy}
 				onClick={() => disable(true)}
 			>
-				Desativar notificações em todos os aparelhos
+				Disable notifications on all devices
 			</button>
 			<p role="status" aria-live="polite" className="owner-push-status">
 				{message}

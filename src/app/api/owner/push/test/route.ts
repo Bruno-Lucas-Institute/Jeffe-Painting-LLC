@@ -13,8 +13,8 @@ export async function POST(request: Request) {
 		if (!hasSubscription(sub.endpoint))
 			return json({ error: "Enable this device first." }, 400);
 		await sendPush(sub, {
-			title: "Notificações ativadas",
-			body: "Jef, este aparelho está pronto para receber novos pedidos.",
+			title: "Notifications enabled",
+			body: "This device is ready to receive new requests.",
 			tag: "owner-test",
 			url: "/owner",
 		});

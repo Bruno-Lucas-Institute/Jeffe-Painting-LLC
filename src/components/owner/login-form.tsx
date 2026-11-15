@@ -28,13 +28,13 @@ export function LoginForm() {
 			});
 			const data = await response.json();
 			if (!response.ok)
-				throw new Error(data.error || "Não foi possível entrar.");
+				throw new Error(data.error || "Unable to sign in.");
 			window.location.replace("/owner");
 		} catch (error) {
 			setError(
 				error instanceof Error
 					? error.message
-					: "Conexão interrompida. Tente novamente.",
+					: "Connection interrupted. Please try again.",
 			);
 			setBusy(false);
 		}
@@ -49,18 +49,18 @@ export function LoginForm() {
 			<span className="owner-lock">
 				<LockKeyhole size={25} />
 			</span>
-			<p className="eyebrow">Área do proprietário</p>
+			<p className="eyebrow">Owner area</p>
 			<h1>
-				Seu negócio,
+				Your business,
 				<br />
-				<em>sempre por perto.</em>
+				<em>always within reach.</em>
 			</h1>
 			<p>
-				Entre para acompanhar os pedidos e ativar as notificações neste
-				aparelho.
+				Sign in to manage requests and enable notifications on this
+				device.
 			</p>
 			<div className="field">
-				<label htmlFor="username">Usuário</label>
+				<label htmlFor="username">Username</label>
 				<input
 					id="username"
 					name="username"
@@ -73,7 +73,7 @@ export function LoginForm() {
 				/>
 			</div>
 			<div className="field">
-				<label htmlFor="password">Senha</label>
+				<label htmlFor="password">Password</label>
 				<div className="password-field">
 					<input
 						id="password"
@@ -87,7 +87,7 @@ export function LoginForm() {
 					<button
 						type="button"
 						onClick={() => setShow(!show)}
-						aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+						aria-label={show ? "Hide password" : "Show password"}
 					>
 						{show ? <EyeOff size={19} /> : <Eye size={19} />}
 					</button>
@@ -97,11 +97,11 @@ export function LoginForm() {
 				{busy ? (
 					<>
 						<LoaderCircle size={18} className="spin" />
-						Entrando…
+						Signing in…
 					</>
 				) : (
 					<>
-						Entrar no painel
+						Sign in to dashboard
 						<ArrowRight size={18} />
 					</>
 				)}
@@ -109,9 +109,7 @@ export function LoginForm() {
 			<p role="alert" className="field-error">
 				{error}
 			</p>
-			<small>
-				Clientes podem enviar pedidos pelo formulário sem fazer login.
-			</small>
+			<small>Customers can submit requests without signing in.</small>
 		</form>
 	);
 }

@@ -3,15 +3,15 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { BusinessSettings } from "@/lib/validation/settings";
 const fields = [
-	["businessName", "Nome da empresa"],
-	["shortName", "Nome curto"],
-	["logoName", "Texto do logo"],
-	["logoTagline", "Subtítulo do logo"],
-	["logoUrl", "URL HTTPS da imagem do logo (opcional)"],
-	["phone", "Telefone"],
+	["businessName", "Business name"],
+	["shortName", "Short name"],
+	["logoName", "Logo text"],
+	["logoTagline", "Logo tagline"],
+	["logoUrl", "Logo image HTTPS URL (optional)"],
+	["phone", "Phone"],
 	["email", "E-mail"],
-	["location", "Localização"],
-	["serviceArea", "Região atendida"],
+	["location", "Location"],
+	["serviceArea", "Service area"],
 	["facebook", "Facebook (URL HTTPS)"],
 	["instagram", "Instagram (URL HTTPS)"],
 ] as const;
@@ -45,16 +45,16 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 			}
 			const result = await response.json();
 			if (!response.ok)
-				throw new Error(result.error || "Não foi possível salvar.");
+				throw new Error(result.error || "Unable to save.");
 			setSettings(result.settings);
-			setMessage("Configurações salvas. O site já foi atualizado.");
+			setMessage("Settings saved. Your website has been updated.");
 			router.refresh();
 		} catch (error) {
 			setError(true);
 			setMessage(
 				error instanceof Error
 					? error.message
-					: "Não foi possível salvar. Tente novamente.",
+					: "Unable to save. Please try again.",
 			);
 		} finally {
 			setBusy(false);
@@ -63,18 +63,18 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 	return (
 		<section
 			className="owner-inbox owner-settings"
-			lang="pt-BR"
+			lang="en-US"
 			aria-labelledby="settings-title"
 		>
-			<p className="eyebrow">Seu site</p>
-			<h2 id="settings-title">Configurações do site</h2>
+			<p className="eyebrow">Your website</p>
+			<h2 id="settings-title">Website settings</h2>
 			<p>
-				Altere os dados exibidos no site. Deixe a URL do logo vazia para
-				usar o logo em texto.
+				Update the information shown on your website. Leave the logo URL
+				empty to use a text logo.
 			</p>
 			<form onSubmit={save}>
 				<fieldset disabled={busy} className="settings-grid">
-					<legend className="sr-only">Dados da empresa</legend>
+					<legend className="sr-only">Business information</legend>
 					{fields.map(([key, label]) => (
 						<label key={key} htmlFor={key}>
 							{label}
@@ -128,7 +128,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 						</label>
 					))}
 					<label htmlFor="serviceTowns">
-						Cidades atendidas (separadas por vírgula)
+						Service towns (comma-separated)
 						<input
 							id="serviceTowns"
 							value={towns}
@@ -137,7 +137,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 						/>
 					</label>
 					<label htmlFor="yearsExperience">
-						Anos de experiência
+						Years of experience
 						<input
 							id="yearsExperience"
 							type="number"
@@ -155,13 +155,13 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 					</label>
 				</fieldset>
 				<fieldset disabled={busy} className="settings-hours">
-					<legend>Horário de atendimento</legend>
+					<legend>Business hours</legend>
 					{settings.hours.map((hour, index) => (
 						<div className="settings-hour" key={index}>
 							<label>
-								Dias
+								Days
 								<input
-									aria-label={"Dias " + (index + 1)}
+									aria-label={"Days " + (index + 1)}
 									required
 									maxLength={160}
 									value={hour.days}
@@ -184,9 +184,9 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 								/>
 							</label>
 							<label>
-								Horário
+								Hours
 								<input
-									aria-label={"Horário " + (index + 1)}
+									aria-label={"Hours " + (index + 1)}
 									required
 									maxLength={160}
 									value={hour.hours}
@@ -221,7 +221,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 									})
 								}
 							>
-								Remover
+								Remove
 							</button>
 						</div>
 					))}
@@ -239,7 +239,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 							})
 						}
 					>
-						Adicionar horário
+						Add hours
 					</button>
 				</fieldset>
 				<p
@@ -253,7 +253,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 					type="submit"
 					disabled={busy}
 				>
-					{busy ? "Salvando..." : "Salvar configurações"}
+					{busy ? "Saving..." : "Save settings"}
 				</button>
 			</form>
 		</section>

@@ -20,12 +20,12 @@ export async function POST(request: Request) {
 		native
 			? formFeedback(
 					status === 200
-						? "Solicitação enviada com sucesso!"
-						: "Não foi possível enviar",
+						? "Request sent successfully!"
+						: "Unable to send",
 					status === 200
-						? "Obrigado! Recebemos as informações do seu pedido."
+						? "Thank you! We have received your request details."
 						: body.error ||
-								"Revise os campos do formulário e tente novamente.",
+								"Review the form fields and try again.",
 					status,
 				)
 			: NextResponse.json(body, {

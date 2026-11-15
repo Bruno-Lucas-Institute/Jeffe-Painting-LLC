@@ -15,8 +15,8 @@ async function LoginContent() {
 }
 export default function Login() {
 	return (
-		<section className="owner-login-shell" lang="pt-BR">
-			<Suspense fallback={<p>Carregando acesso seguro…</p>}>
+		<section className="owner-login-shell" lang="en-US">
+			<Suspense fallback={<p>Loading secure sign-in…</p>}>
 				<LoginContent />
 			</Suspense>
 		</section>

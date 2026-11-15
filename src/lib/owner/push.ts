@@ -58,7 +58,7 @@ export async function flushPushJobs() {
 					.filter(Boolean)
 					.join(" · ");
 				await sendPush(JSON.parse(job.subscription), {
-					title: "Novo pedido recebido",
+					title: "New request received",
 					body: Array.from(excerpt).slice(0, 550).join(""),
 					tag: job.id,
 					url: "/owner",

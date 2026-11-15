@@ -6,6 +6,7 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
 		id: "/",
 		name: client.businessName,
 		short_name: client.shortName,
+		lang: "en-US",
 		start_url: "/owner",
 		scope: "/",
 		display: "standalone",

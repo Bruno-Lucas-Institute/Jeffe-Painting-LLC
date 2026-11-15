@@ -56,14 +56,14 @@ export function Dashboard({
 			setData(result);
 			setError("");
 			setLastUpdated(
-				new Date().toLocaleTimeString("pt-BR", {
+				new Date().toLocaleTimeString("en-US", {
 					hour: "2-digit",
 					minute: "2-digit",
 				}),
 			);
 		} catch {
 			setError(
-				"Não foi possível atualizar. Os pedidos abaixo são da última consulta.",
+				"Unable to refresh. The requests below are from the last update.",
 			);
 		}
 	}, []);
@@ -105,7 +105,7 @@ export function Dashboard({
 			if (!response.ok) throw new Error();
 			await refresh(page);
 		} catch {
-			setError("Não foi possível marcar este pedido como lido.");
+			setError("Unable to mark this request as read.");
 		} finally {
 			setBusy(false);
 		}
@@ -134,7 +134,7 @@ export function Dashboard({
 			});
 			window.location.replace("/login");
 		} catch {
-			setError("Não foi possível sair. Tente novamente.");
+			setError("Unable to sign out. Please try again.");
 			setBusy(false);
 		}
 	}
@@ -145,14 +145,14 @@ export function Dashboard({
 		setBusy(false);
 	}
 	return (
-		<section className="container owner-dashboard" lang="pt-BR">
+		<section className="container owner-dashboard" lang="en-US">
 			<div className="owner-dashboard-heading">
 				<div>
-					<p className="eyebrow">Área privada · {site.name}</p>
+					<p className="eyebrow">Private area · {site.name}</p>
 					<h1>
-						Olá, <em>{username}.</em>
+						Hello, <em>{username}.</em>
 					</h1>
-					<p>Todos os pedidos, em um só lugar.</p>
+					<p>All your requests in one place.</p>
 				</div>
 				<button
 					type="button"
@@ -161,15 +161,12 @@ export function Dashboard({
 					disabled={busy}
 				>
 					<LogOut size={17} />
-					Sair deste aparelho
+					Sign out on this device
 				</button>
 			</div>
-			<nav
-				className="owner-action-row"
-				aria-label="Painel do proprietário"
-			>
+			<nav className="owner-action-row" aria-label="Owner dashboard">
 				<Link className="button" href="/owner/settings">
-					Configurações do site
+					Website settings
 				</Link>
 			</nav>
 			<div className="owner-stats">
@@ -177,21 +174,21 @@ export function Dashboard({
 					<Inbox size={22} />
 					<div>
 						<strong>{data.total}</strong>
-						<span>Pedidos recebidos</span>
+						<span>Requests received</span>
 					</div>
 				</article>
 				<article>
 					<Bell size={22} />
 					<div>
 						<strong>{data.unread}</strong>
-						<span>Ainda não lidos</span>
+						<span>Unread</span>
 					</div>
 				</article>
 				<article>
 					<Check size={22} />
 					<div>
 						<strong>{data.total - data.unread}</strong>
-						<span>Já consultados</span>
+						<span>Read</span>
 					</div>
 				</article>
 			</div>
@@ -199,12 +196,12 @@ export function Dashboard({
 			<section className="owner-inbox" aria-labelledby="inbox-title">
 				<div className="owner-inbox-heading">
 					<div>
-						<p className="eyebrow">Caixa de entrada</p>
-						<h2 id="inbox-title">Pedidos dos clientes</h2>
+						<p className="eyebrow">Inbox</p>
+						<h2 id="inbox-title">Customer requests</h2>
 						<p>
-							Atualização automática a cada 30 segundos.
+							Refreshes automatically every 30 seconds.
 							{lastUpdated
-								? ` Última consulta: ${lastUpdated}.`
+								? ` Last updated: ${lastUpdated}.`
 								: ""}
 						</p>
 					</div>
@@ -215,7 +212,7 @@ export function Dashboard({
 						disabled={busy}
 					>
 						<RefreshCw size={16} className={busy ? "spin" : ""} />
-						Atualizar
+						Refresh
 					</button>
 				</div>
 				<p role="status" className="field-error">
@@ -223,9 +220,9 @@ export function Dashboard({
 				</p>
 				{data.pendingNotifications > 0 && (
 					<p className="owner-warning">
-						{data.pendingNotifications} aviso(s) aguardando envio.
-						Os pedidos já estão salvos e podem ser consultados
-						abaixo.
+						{data.pendingNotifications} notification(s) pending
+						delivery. Your requests are already saved and available
+						below.
 					</p>
 				)}
 				{data.items.length === 0 ? (
@@ -233,13 +230,12 @@ export function Dashboard({
 						<Inbox size={36} />
 						<h3>
 							{data.total
-								? "Não há pedidos nesta página."
-								: "Tudo pronto para o primeiro pedido."}
+								? "No requests on this page."
+								: "Ready for your first request."}
 						</h3>
 						<p>
-							Quando alguém enviar o formulário, os detalhes
-							aparecerão aqui. O cliente não precisa criar uma
-							conta.
+							When someone submits the form, their details will
+							appear here. Customers do not need an account.
 						</p>
 					</div>
 				) : (
@@ -254,7 +250,7 @@ export function Dashboard({
 										<span
 											className={`owner-pill ${item.read ? "" : "active"}`}
 										>
-											{item.read ? "Lido" : "Novo pedido"}
+											{item.read ? "Read" : "New request"}
 										</span>
 										<h3>{item.name}</h3>
 										<p>
@@ -264,12 +260,12 @@ export function Dashboard({
 										</p>
 									</div>
 									<time dateTime={item.createdAt}>
-										{new Intl.DateTimeFormat("pt-BR", {
+										{new Intl.DateTimeFormat("en-US", {
 											dateStyle: "medium",
 											timeStyle: "short",
 											timeZone: "America/New_York",
 										}).format(new Date(item.createdAt))}
-										<small>Horário de Nova York</small>
+										<small>New York time</small>
 									</time>
 								</header>
 								<div className="inquiry-contact">
@@ -304,10 +300,10 @@ export function Dashboard({
 									{item.message}
 								</p>
 								{item.budget && (
-									<p>Orçamento informado: {item.budget}</p>
+									<p>Provided budget: {item.budget}</p>
 								)}
 								<div className="inquiry-bottom">
-									<small>Pedido {item.id.slice(0, 8)}</small>
+									<small>Request {item.id.slice(0, 8)}</small>
 									{!item.read && (
 										<button
 											type="button"
@@ -316,7 +312,7 @@ export function Dashboard({
 											disabled={busy}
 										>
 											<Check size={16} />
-											Marcar como lido
+											Mark as read
 										</button>
 									)}
 								</div>
@@ -332,10 +328,10 @@ export function Dashboard({
 						disabled={busy || page === 0}
 					>
 						<ArrowLeft size={16} />
-						Anterior
+						Previous
 					</button>
 					<span>
-						Página {page + 1} de{" "}
+						Page {page + 1} of{" "}
 						{Math.max(1, Math.ceil(data.total / 25))}
 					</span>
 					<button
@@ -344,7 +340,7 @@ export function Dashboard({
 						onClick={() => changePage(page + 1)}
 						disabled={busy || (page + 1) * 25 >= data.total}
 					>
-						Próxima
+						Next
 						<ArrowRight size={16} />
 					</button>
 				</div>

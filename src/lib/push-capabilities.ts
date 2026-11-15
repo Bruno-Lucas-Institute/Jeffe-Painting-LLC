@@ -14,30 +14,30 @@ export function pushBlock(environment: PushEnvironment): PushBlock | null {
 	if (!environment.secure)
 		return {
 			kind: "https",
-			label: "Conexão HTTPS necessária",
+			label: "HTTPS connection required",
 			message:
-				"Este endereço usa HTTP. O celular só permite notificações em um endereço HTTPS confiável. Os pedidos continuam disponíveis no painel, mas instalar este endereço HTTP não ativa os avisos.",
+				"This address uses HTTP. Phone notifications require a trusted HTTPS address. Requests remain available in the dashboard, but installing this HTTP address will not enable alerts.",
 		};
 	if (environment.ios && !environment.installed)
 		return {
 			kind: "install",
-			label: "Adicione à Tela de Início",
+			label: "Add to Home Screen",
 			message:
-				"No iPhone/iPad, abra no Safari, toque em Compartilhar e em Adicionar à Tela de Início. Abra o ícone instalado, entre novamente e ative as notificações. É necessário iOS/iPadOS 16.4 ou mais recente.",
+				"On iPhone/iPad, open in Safari, tap Share and Add to Home Screen. Open the installed icon, sign in again and enable notifications. Requires iOS/iPadOS 16.4 or later.",
 		};
 	if (!environment.apisAvailable)
 		return {
 			kind: "unsupported",
-			label: "Navegador sem suporte",
+			label: "Unsupported browser",
 			message:
-				"Este navegador não oferece as APIs de notificação necessárias. Use um navegador compatível atualizado, como Safari no iPhone ou Chrome no Android.",
+				"This browser does not support the required notification APIs. Use an up-to-date supported browser, such as Safari on iPhone or Chrome on Android.",
 		};
 	if (environment.permission === "denied")
 		return {
 			kind: "denied",
-			label: "Permissão bloqueada",
+			label: "Permission blocked",
 			message:
-				"As notificações foram bloqueadas neste navegador. Permita os avisos nas configurações do site e volte a este painel.",
+				"Notifications are blocked in this browser. Allow notifications in the site settings, then return to this dashboard.",
 		};
 	return null;
 }
