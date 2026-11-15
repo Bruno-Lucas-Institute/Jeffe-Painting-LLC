@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import {
 	Bell,
@@ -163,6 +164,14 @@ export function Dashboard({
 					Sair deste aparelho
 				</button>
 			</div>
+			<nav
+				className="owner-action-row"
+				aria-label="Painel do proprietário"
+			>
+				<Link className="button" href="/owner/settings">
+					Configurações do site
+				</Link>
+			</nav>
 			<div className="owner-stats">
 				<article>
 					<Inbox size={22} />

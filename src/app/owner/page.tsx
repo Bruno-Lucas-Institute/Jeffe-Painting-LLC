@@ -1,5 +1,3 @@
-import { SettingsForm } from "@/components/owner/settings-form";
-import { readSettings } from "@/lib/owner/settings";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -25,9 +23,6 @@ async function OwnerContent() {
 				}}
 				username={process.env.OWNER_USERNAME || ""}
 			/>
-			<div className="container">
-				<SettingsForm initial={readSettings()} />
-			</div>
 		</>
 	);
 }
