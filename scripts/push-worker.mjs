@@ -19,7 +19,6 @@ process.on("SIGTERM", () => {
 process.on("SIGINT", () => {
 	running = false;
 });
-console.log("Notification retry worker running.");
 while (running) {
 	try {
 		const response = await fetch(url, {
@@ -28,7 +27,6 @@ while (running) {
 			signal: AbortSignal.timeout(25000),
 		});
 		if (!response.ok) throw new Error();
-		console.log("Notification queue checked.");
 	} catch {
 		console.error("Notification retry failed; requests remain stored.");
 		if (process.argv.includes("--once")) process.exitCode = 1;

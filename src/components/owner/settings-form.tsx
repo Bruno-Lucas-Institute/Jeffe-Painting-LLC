@@ -6,12 +6,12 @@ const fields = [
 	["businessName", "Nome da empresa"],
 	["shortName", "Nome curto"],
 	["logoName", "Texto do logo"],
-	["logoTagline", "Subt?tulo do logo"],
+	["logoTagline", "Subtítulo do logo"],
 	["logoUrl", "URL HTTPS da imagem do logo (opcional)"],
 	["phone", "Telefone"],
 	["email", "E-mail"],
-	["location", "Localiza??o"],
-	["serviceArea", "Regi?o atendida"],
+	["location", "Localização"],
+	["serviceArea", "Região atendida"],
 	["facebook", "Facebook (URL HTTPS)"],
 	["instagram", "Instagram (URL HTTPS)"],
 ] as const;
@@ -45,16 +45,16 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 			}
 			const result = await response.json();
 			if (!response.ok)
-				throw new Error(result.error || "N?o foi poss?vel salvar.");
+				throw new Error(result.error || "Não foi possível salvar.");
 			setSettings(result.settings);
-			setMessage("Configura??es salvas. O site j? foi atualizado.");
+			setMessage("Configurações salvas. O site já foi atualizado.");
 			router.refresh();
 		} catch (error) {
 			setError(true);
 			setMessage(
 				error instanceof Error
 					? error.message
-					: "N?o foi poss?vel salvar. Tente novamente.",
+					: "Não foi possível salvar. Tente novamente.",
 			);
 		} finally {
 			setBusy(false);
@@ -67,7 +67,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 			aria-labelledby="settings-title"
 		>
 			<p className="eyebrow">Seu site</p>
-			<h2 id="settings-title">Configura??es do site</h2>
+			<h2 id="settings-title">Configurações do site</h2>
 			<p>
 				Altere os dados exibidos no site. Deixe a URL do logo vazia para
 				usar o logo em texto.
@@ -128,7 +128,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 						</label>
 					))}
 					<label htmlFor="serviceTowns">
-						Cidades atendidas (separadas por v?rgula)
+						Cidades atendidas (separadas por vírgula)
 						<input
 							id="serviceTowns"
 							value={towns}
@@ -137,7 +137,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 						/>
 					</label>
 					<label htmlFor="yearsExperience">
-						Anos de experi?ncia
+						Anos de experiência
 						<input
 							id="yearsExperience"
 							type="number"
@@ -155,7 +155,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 					</label>
 				</fieldset>
 				<fieldset disabled={busy} className="settings-hours">
-					<legend>Hor?rio de atendimento</legend>
+					<legend>Horário de atendimento</legend>
 					{settings.hours.map((hour, index) => (
 						<div className="settings-hour" key={index}>
 							<label>
@@ -184,9 +184,9 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 								/>
 							</label>
 							<label>
-								Hor?rio
+								Horário
 								<input
-									aria-label={"Hor?rio " + (index + 1)}
+									aria-label={"Horário " + (index + 1)}
 									required
 									maxLength={160}
 									value={hour.hours}
@@ -239,7 +239,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 							})
 						}
 					>
-						Adicionar hor?rio
+						Adicionar horário
 					</button>
 				</fieldset>
 				<p
@@ -253,7 +253,7 @@ export function SettingsForm({ initial }: { initial: BusinessSettings }) {
 					type="submit"
 					disabled={busy}
 				>
-					{busy ? "Salvando?" : "Salvar configura??es"}
+					{busy ? "Salvando..." : "Salvar configurações"}
 				</button>
 			</form>
 		</section>

@@ -34,6 +34,3 @@ if (!/^PUSH_RETRY_SECRET=.+/m.test(env))
 	set("PUSH_RETRY_SECRET", randomBytes(32).toString("hex"));
 set("QUOTE_MODE", "owner");
 writeFileSync(".env.local", env.trim() + "\n", { mode: 0o600 });
-console.log(
-	"Owner configured. Secrets written only to ignored .env.local. Set the real HTTPS origin and VAPID contact before deployment.",
-);

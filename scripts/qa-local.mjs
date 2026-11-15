@@ -11,7 +11,6 @@ async function check(path, expected, options) {
 		...options,
 	});
 	assert.equal(r.status, expected, path);
-	console.log(path, r.status);
 	return r;
 }
 // Request frontend assets with browser Origin/Referer headers, not just the HTML.
@@ -33,9 +32,6 @@ for (const pagePath of ["/login", "/contact"]) {
 		assert.equal(response.status, 200, `Frontend asset blocked: ${asset}`);
 		assert.match(response.headers.get("content-type") || "", /javascript/);
 	}
-	console.log(
-		`${pagePath}: ${scripts.length} frontend scripts load over LAN`,
-	);
 	const external = await fetch(origin + scripts[0], {
 		headers: { origin: "https://untrusted.example" },
 	});
@@ -115,7 +111,6 @@ const local = await fetch("http://localhost:3000/api/owner/login", {
 	body: JSON.stringify({ username: "Jef", password }),
 });
 assert.equal(local.status, 200);
-console.log("localhost login", local.status);
 const localCookie = local.headers.get("set-cookie").split(";")[0];
 await fetch("http://localhost:3000/api/owner/logout", {
 	method: "POST",
@@ -142,4 +137,3 @@ assert.equal(payload.email, "local-qa@example.com");
 database.prepare("DELETE FROM push_jobs WHERE inquiry_id=?").run(item.id);
 database.prepare("DELETE FROM inquiries WHERE id=?").run(item.id);
 database.close();
-console.log("LAN and localhost flows passed; generated QA request removed.");
