@@ -3,18 +3,14 @@
 import { ActionIcon } from "@/components/action-icon";
 import { BrandLogo } from "@/components/brand-logo";
 import Link from "next/link";
+import { LockKeyhole } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { client } from "@/config/client";
 
 import "./site-header.css";
 
 import { visibleNavigation } from "@/lib/composition";
-const navigation = [
-	...visibleNavigation(client),
-	...(client.features.owner && client.owner.enabled
-		? [{ label: client.content.ownerLogin, href: "/login" }]
-		: []),
-];
+const navigation = visibleNavigation(client);
 export function SiteHeader() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -86,6 +82,16 @@ export function SiteHeader() {
 							{item.label}
 						</Link>
 					))}
+					{client.features.owner && client.owner.enabled && (
+						<Link
+							className="button button-small owner-dashboard-button"
+							href="/owner"
+							onClick={() => setMenuOpen(false)}
+						>
+							<LockKeyhole size={16} aria-hidden="true" />
+							{client.content.ownerLogin}
+						</Link>
+					)}
 					<a className="nav-phone" href={client.phoneHref}>
 						<ActionIcon name="phone" /> Call {client.phone}
 					</a>
